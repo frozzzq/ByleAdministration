@@ -1,5 +1,6 @@
 
-
+USE DB_ByleAdministration;
+ 
 CREATE TABLE tags(
 id_tag INT PRIMARY KEY AUTO_INCREMENT,
 nombre_tag VARCHAR(20)
@@ -47,7 +48,11 @@ fecha_renovacion DATETIME,
 id_membresia INT NOT NULL,
 id_clase INT NULL,
 estado ENUM("activo", "inactivo") NOT NULL,
-id_tag INT NULL
+id_tag INT NULL,
+FOREIGN KEY (id_usuario_web) REFERENCES usuario_web(id_usuario_web),
+FOREIGN KEY (id_membresia) REFERENCES membresias(id_membresia),
+FOREIGN KEY (id_clase) REFERENCES clases(id_clase),
+FOREIGN KEY (id_tag) REFERENCES tags(id_tag)
 );
 
 CREATE TABLE roles(
@@ -62,10 +67,11 @@ correo VARCHAR(50) NOT NULL,
 telefono BIGINT NOT NULL,
 contraseña VARCHAR(60) NULL,
 RFC VARCHAR(13),
-id_rol INT NOT NULL
+id_rol INT NOT NULL,
+FOREIGN KEY (id_rol) REFERENCES roles(id_rol)
 );
 
-CREATE TABLE producto(
+CREATE TABLE productos(
 id_producto INT PRIMARY KEY AUTO_INCREMENT,
 nombre_producto VARCHAR(50) NOT NULL,
 precio DECIMAL NOT NULL,
@@ -80,7 +86,9 @@ id_producto INT NOT NULL,
 cantidad INT NOT NULL,
 precio DECIMAL NOT NULL,
 fecha DATETIME NOT NULL,
-monto_total DECIMAL NOT NULL
+monto_total DECIMAL NOT NULL,
+FOREIGN KEY (id_usuario_web) REFERENCES usuario_web(id_usuario_web),
+FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
 );
 
 CREATE TABLE ventas(
@@ -90,14 +98,17 @@ id_empleado INT NOT NULL,
 fecha DATETIME NOT NULL,
 monto_total DECIMAL NOT NULL,
 cantidad INT NOT NULL,
-tipo_venta ENUM("membresia","clase","producto")
+tipo_venta ENUM("membresia","clase","producto"),
+FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+FOREIGN KEY (id_empleado) REFERENCES empleados(id_empleado)
 );
 
 CREATE TABLE biometria(
 id_biometria INT PRIMARY KEY AUTO_INCREMENT,
 id_usuario INT NOT NULL,
 huella_digital TEXT NOT NULL,
-fecha_registro DATETIME NOT NULL
+fecha_registro DATETIME NOT NULL,
+FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );
 
 CREATE TABLE acceso(
@@ -105,14 +116,16 @@ id_acceso INT PRIMARY KEY AUTO_INCREMENT,
 id_usuario INT NOT NULL,
 fecha_hora_entrada DATETIME,
 fecha_hora_salida DATETIME,
-metodo_verificacion ENUM("sensor biometrico","codigo QR")
+metodo_verificacion ENUM("sensor biometrico","codigo QR"),
+FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );
 
 CREATE TABLE records_personales(
 id_pr INT PRIMARY KEY AUTO_INCREMENT,
 id_usuario INT NOT NULL,
 ejercicio ENUM("PB","PM","SL" ),
-peso_kg DECIMAL NOT NULL
+peso_kg DECIMAL NOT NULL,
+FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );
 
 
