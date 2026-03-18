@@ -1,10 +1,13 @@
-echo "haciendo pull..."
+#!/bin/bash
+
+echo ">>> Haciendo pull..."
 cd /home/frozz/ByleAdministration_repositorio/ByleAdministration
 git pull
 
-echo "reiniciando app..."
+echo ">>> Reiniciando app..."
+runuser -l frozz -c "pm2 restart byle-web"
 
-su -c "pm2 restart byle-web" frozz
-cloudflared tunnel run byle-tunnel
+echo ">>> Iniciando cloudflared..."
+runuser -l frozz -c "cloudflared tunnel run byle-tunnel"
 
-echo "listo!"
+echo ">>> Listo!"
