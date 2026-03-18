@@ -5,6 +5,6 @@ git pull
 echo "reiniciando app..."
 
 su -c "pm2 restart byle-web" frozz
-cloudflared tunnel run --url http://localhost:3000 byle-tunnel
+cloudflared tunnel run byle-tunnel
 
 echo "listo!"
