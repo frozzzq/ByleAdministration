@@ -42,11 +42,9 @@ namespace ByleAdministration.Repositorios
             {
                 conexion.Open();
                 string sql = "SELECT * FROM empleados WHERE correo = @correo";
-
                 using (var cmd = new MySqlCommand(sql, conexion))
                 {
                     cmd.Parameters.AddWithValue("@correo", correo);
-
                     using (var reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
@@ -54,10 +52,14 @@ namespace ByleAdministration.Repositorios
                             return new Empleados
                             {
                                 NombreCompleto = reader["nombre_completo"].ToString(),
-                                Correo = reader["correo"].ToString()
+                                Correo = reader["correo"].ToString(),
+                                ContraseñaHash = reader["contraseña"].ToString(),  // ← faltaba esto
+                                Telefono = reader["telefono"].ToString(),
+                                Rfc = reader["RFC"].ToString(),
+                                IdRol = Convert.ToInt32(reader["id_rol"])
                             };
                         }
-                        return null; // no existe
+                        return null;
                     }
                 }
             }

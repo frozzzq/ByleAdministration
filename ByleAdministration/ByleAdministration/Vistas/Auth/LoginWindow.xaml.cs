@@ -30,9 +30,9 @@ namespace ByleAdministration.Vistas.Auth
 
             if (exitoso)
             {
-                MessageBox.Show("Bienvenido.", "Login correcto",
-                                MessageBoxButton.OK, MessageBoxImage.Information);
-                // aquí abrirás el Dashboard cuando esté listo
+                MainWindow main = new MainWindow();
+                main.Show();
+                this.Close();  // ← cierra el login
             }
             else
             {
