@@ -117,6 +117,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Repositorios\RepositorioEmpleado.cs" />
+    <Compile Include="Servicios\ServicioEmpleado.cs" />
     <Compile Include="Soportes\SoporteDatabase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
