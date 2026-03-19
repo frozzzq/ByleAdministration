@@ -5,8 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ByleAdministration"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="ByleAdministration — Login" Height="350" Width="420"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Título -->
+        <TextBlock Grid.Row="0"
+                   Text="ByleAdministration"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,24"/>
+
+        <!-- Usuario -->
+        <TextBlock Grid.Row="1" Text="Usuario" Margin="0,0,0,4"/>
+        <TextBox x:Name="TBUsuario"
+                 Grid.Row="2"
+                 Height="32"
+                 Padding="6,4"
+                 Margin="0,0,0,14"/>
+
+        <!-- Contraseña -->
+        <TextBlock Grid.Row="3" Text="Contraseña" Margin="0,0,0,4"/>
+        <PasswordBox x:Name="PWBContraseña"
+                     Grid.Row="4"
+                     Height="32"
+                     Padding="6,4"
+                     Margin="0,0,0,24"/>
+
+        <!-- Botón -->
+        <Button Grid.Row="5"
+                x:Name="Biniciar"
+                Content="Ingresar"
+                Height="36"
+                Click="BtnIngresar_Click"/>
     </Grid>
 </Window>
