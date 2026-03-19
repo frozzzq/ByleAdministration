@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="primaryBackColor1">#FFF5F0</Color>
+    <Color x:Key="primaryBackColor2">#FFF0E8</Color>
+    <Color x:Key="secondaryBackColor1">#FFE8DC</Color>
+    <Color x:Key="secondaryBackColor2">#FFD5C5</Color>
+
+    <Color x:Key="winBorderColor1">#F5956B</Color>
+    <Color x:Key="winBorderColor2">#FFD5C5</Color>
+    <Color x:Key="winBorderColor3">#FFF5F0</Color>
+
+    <Color x:Key="panelActiveColor">#FFDDD0</Color>
+    <Color x:Key="panelOverColor">#FFE8DF</Color>
+
+    <Color x:Key="plainTextColor3">#B0A0A0</Color>
+    <Color x:Key="titleColor2">#2D2D3D</Color>
+    <Color x:Key="titleColor3">#2D2D3D</Color>
+
+    <Color x:Key="color1">#F5956B</Color>
+    <Color x:Key="color2">#F5956B</Color>
+    <Color x:Key="color3">#F5956B</Color>
+    <Color x:Key="color4">#F5956B</Color>
+    <Color x:Key="color5">#F5956B</Color>
+    <Color x:Key="color6">#F5956B</Color>
+    <Color x:Key="color7">#F5956B</Color>
+    <Color x:Key="color8">#F5956B</Color>
+
+    <SolidColorBrush x:Key="BrushBgPrimary"      Color="#FFF5F0"/>
+    <SolidColorBrush x:Key="BrushBgSidebar"      Color="#FFE8DC"/>
+    <SolidColorBrush x:Key="BrushBgCard"         Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="BrushBgCardHover"    Color="#FFF0E8"/>
+    <SolidColorBrush x:Key="BrushBgInput"        Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="BrushAccent"         Color="#F5956B"/>
+    <SolidColorBrush x:Key="BrushAccentHover"    Color="#F7A882"/>
+    <SolidColorBrush x:Key="BrushAccentMuted"    Color="#FFDDD0"/>
+    <SolidColorBrush x:Key="BrushTextPrimary"    Color="#2D2D3D"/>
+    <SolidColorBrush x:Key="BrushTextSecondary"  Color="#8888A8"/>
+    <SolidColorBrush x:Key="BrushTextMuted"      Color="#C0C0D8"/>
+    <SolidColorBrush x:Key="BrushBorder"         Color="#FFD5C5"/>
+    <SolidColorBrush x:Key="BrushNavSelected"    Color="#FFDDD0"/>
+    <SolidColorBrush x:Key="BrushNavHover"       Color="#FFE8DF"/>
+    <SolidColorBrush x:Key="BrushSuccess"        Color="#5CB85C"/>
+    <SolidColorBrush x:Key="BrushError"          Color="#D9534F"/>
+    <SolidColorBrush x:Key="BrushWarning"        Color="#F0AD4E"/>
+</ResourceDictionary>
