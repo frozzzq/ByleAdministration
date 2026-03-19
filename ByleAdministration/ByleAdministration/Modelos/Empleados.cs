@@ -10,7 +10,7 @@ namespace ByleAdministration.Modelos
     {
         public string NombreCompleto { get; set; }
         public string Correo { get; set; }
-        public int Telefono { get; set; }
+        public string Telefono { get; set; }
         public string ContraseñaHash { get; set; }
         public string Rfc { get; set; }
         public int IdRol { get; set; }

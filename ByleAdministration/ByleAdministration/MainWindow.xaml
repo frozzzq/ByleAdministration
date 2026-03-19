@@ -48,6 +48,6 @@
                 x:Name="Biniciar"
                 Content="Ingresar"
                 Height="36"
-                Click="BtnIngresar_Click"/>
+               />
     </Grid>
 </Window>

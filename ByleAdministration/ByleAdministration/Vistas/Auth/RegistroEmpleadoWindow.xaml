@@ -1,0 +1,91 @@
+﻿<Window x:Class="ByleAdministration.Vistas.Auth.RegistroEmpleadoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ByleAdministration.Vistas.Auth"
+        mc:Ignorable="d"
+        Title="Registrar Empleado"
+        Height="660" Width="420"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="{StaticResource BrushOscuro}">
+
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Nuevo Empleado"
+                   FontSize="20" FontWeight="Bold"
+                   Foreground="{StaticResource BrushNaranja}"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,24"/>
+
+        <!-- Nombre -->
+        <TextBlock Grid.Row="1" Text="Nombre completo"
+                   Foreground="{StaticResource BrushTextoClaro}" Margin="0,0,0,4"/>
+        <TextBox x:Name="TxtNombre" Grid.Row="2"
+                 Height="34" Padding="8,6" Margin="0,0,0,12"/>
+
+        <!-- Correo -->
+        <TextBlock Grid.Row="3" Text="Correo"
+                   Foreground="{StaticResource BrushTextoClaro}" Margin="0,0,0,4"/>
+        <TextBox x:Name="TxtCorreo" Grid.Row="4"
+                 Height="34" Padding="8,6" Margin="0,0,0,12"/>
+
+        <!-- Teléfono -->
+        <TextBlock Grid.Row="5" Text="Teléfono"
+                   Foreground="{StaticResource BrushTextoClaro}" Margin="0,0,0,4"/>
+        <TextBox x:Name="TxtTelefono" Grid.Row="6"
+                 Height="34" Padding="8,6" Margin="0,0,0,12"/>
+
+        <!-- RFC -->
+        <TextBlock Grid.Row="7" Text="RFC"
+                   Foreground="{StaticResource BrushTextoClaro}" Margin="0,0,0,4"/>
+        <TextBox x:Name="TxtRfc" Grid.Row="8"
+                 Height="34" Padding="8,6" Margin="0,0,0,12"/>
+
+        <!-- Rol -->
+        <TextBlock Grid.Row="9" Text="Rol"
+                   Foreground="{StaticResource BrushTextoClaro}" Margin="0,0,0,4"/>
+        <ComboBox
+            x:Name="CmbRol" Grid.Row="10"
+            Height="34" Margin="0,0,0,12"
+            ItemsSource="{Binding Roles}"
+            SelectedItem="{Binding RolSeleccionado}"
+            DisplayMemberPath="NombreRol"   
+            SelectedValuePath="IdRol" /> 
+
+        <!-- Contraseña -->
+        <TextBlock Grid.Row="11" Text="Contraseña"
+                   Foreground="{StaticResource BrushTextoClaro}" Margin="0,0,0,4"/>
+        <PasswordBox x:Name="PbxContrasena" Grid.Row="12"
+                     Height="34" Padding="8,6" Margin="0,0,0,24"/>
+
+        <!-- Botón -->
+        <Button Grid.Row="13"
+                x:Name="BtnRegistrar"
+                Content="REGISTRAR"
+                Height="38"
+                Background="{StaticResource BrushNaranja}"
+                Foreground="White"
+                FontWeight="Bold"
+                BorderThickness="0"
+                Click="BtnRegistrar_Click"/>
+    </Grid>
+</Window>

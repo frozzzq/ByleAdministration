@@ -22,5 +22,14 @@ namespace ByleAdministration.Servicios
             }
             return _repositorio.Insertar(empleado);
         }
+   
+        public bool Login(string correo, string contrasena)
+        {
+            Empleados empleado = _repositorio.ObtenerPorCorreo(correo);
+
+            if (empleado == null) return false;
+
+            return empleado.ContraseñaHash == contrasena;
+        }
     }
 }

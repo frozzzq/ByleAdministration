@@ -21,7 +21,7 @@ namespace ByleAdministration.Repositorios
                 string sql = @"INSERT INTO empleados 
                (nombre_completo, correo, telefono, contraseña, RFC, id_rol) 
                VALUES 
-               (@nombre, @correo, @telefono, @contrasena, @rfc, @idRol)";
+               (@nombre, @correo, @telefono, @contrasena, @rfc, @IdRol)";
 
                 using (var cmd = new MySqlCommand(sql, conexion)) 
                 {
@@ -30,7 +30,7 @@ namespace ByleAdministration.Repositorios
                     cmd.Parameters.AddWithValue("@telefono", empleados.Telefono);
                     cmd.Parameters.AddWithValue("@contrasena", empleados.ContraseñaHash);
                     cmd.Parameters.AddWithValue("@rfc", empleados.Rfc);
-                    cmd.Parameters.AddWithValue("@idRol", empleados.IdRol);
+                    cmd.Parameters.AddWithValue("@IdRol", empleados.IdRol);
                     int filasAfectadas = cmd.ExecuteNonQuery();
                     return filasAfectadas > 0;
                 }
@@ -54,8 +54,7 @@ namespace ByleAdministration.Repositorios
                             return new Empleados
                             {
                                 NombreCompleto = reader["nombre_completo"].ToString(),
-                                Correo = reader["correo"].ToString(),
-                                IdRol = (int)reader["id_rol"]
+                                Correo = reader["correo"].ToString()
                             };
                         }
                         return null; // no existe
