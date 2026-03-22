@@ -29,9 +29,15 @@ namespace ByleAdministration.Vistas.Auth
 
             if (exitoso)
             {
+<<<<<<< HEAD
                 MainWindow main = new MainWindow();
                 main.Show();
                 this.Close();
+=======
+                MainWindow dashboard = new MainWindow();
+                dashboard.Show();
+                this.Close();  
+>>>>>>> b06ef71253c07dea675ab2a00ddfcf1bd2eb3839
             }
             else
             {

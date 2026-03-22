@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><%- include('../partials/head', { pageTitle: 'Tienda' }) %></head>
+<body>
+  <%- include('../partials/navbar') %>
+  <div class="container">
+    <section class="page-section">
+      <div class="section-header">
+        <div class="section-label">Tienda online</div>
+        <h1 class="text-h1">Productos del gym</h1>
+        <p class="section-desc">Compra online y recoge en sucursal</p>
+      </div>
+
+      <!-- Categorías -->
+      <div class="ranking-tabs mb-xl">
+        <button class="ranking-tab active">Todos</button>
+        <button class="ranking-tab">Suplementos</button>
+        <button class="ranking-tab">Accesorios</button>
+        <button class="ranking-tab">Bebidas</button>
+      </div>
+
+      <!-- TODO: SELECT * FROM productos WHERE stock > 0 ORDER BY nombre_producto -->
+      <div class="products-grid">
+
+        <!-- Producto 1: Proteína -->
+        <div class="product-card">
+          <div class="product-img">🥤</div>
+          <div class="product-info">
+            <div class="product-name">Whey Protein 1kg</div>
+            <div class="product-desc">Proteína de suero de leche · Sabor chocolate</div>
+            <div class="flex justify-between items-center mt-sm">
+              <div class="product-price">$650</div>
+              <span class="badge badge-success">En stock</span>
+            </div>
+            <button class="btn btn-primary btn-sm btn-block mt-md" onclick="alert('Producto agregado. Recoge en sucursal.')">Comprar</button>
+          </div>
+        </div>
+
+        <!-- Producto 2: Pre-entreno -->
+        <div class="product-card">
+          <div class="product-img">⚡</div>
+          <div class="product-info">
+            <div class="product-name">Pre-entreno C4</div>
+            <div class="product-desc">30 servicios · Sabor sandía</div>
+            <div class="flex justify-between items-center mt-sm">
+              <div class="product-price">$450</div>
+              <span class="badge badge-success">En stock</span>
+            </div>
+            <button class="btn btn-primary btn-sm btn-block mt-md" onclick="alert('Producto agregado. Recoge en sucursal.')">Comprar</button>
+          </div>
+        </div>
+
+        <!-- Producto 3: Guantes -->
+        <div class="product-card">
+          <div class="product-img">🧤</div>
+          <div class="product-info">
+            <div class="product-name">Guantes de entrenamiento</div>
+            <div class="product-desc">Talla M/L · Con muñequera</div>
+            <div class="flex justify-between items-center mt-sm">
+              <div class="product-price">$280</div>
+              <span class="badge badge-warning">3 restantes</span>
+            </div>
+            <button class="btn btn-primary btn-sm btn-block mt-md" onclick="alert('Producto agregado. Recoge en sucursal.')">Comprar</button>
+          </div>
+        </div>
+
+        <!-- Producto 4: Agua -->
+        <div class="product-card">
+          <div class="product-img">💧</div>
+          <div class="product-info">
+            <div class="product-name">Agua deportiva 1L</div>
+            <div class="product-desc">Hidratación con electrolitos</div>
+            <div class="flex justify-between items-center mt-sm">
+              <div class="product-price">$35</div>
+              <span class="badge badge-success">En stock</span>
+            </div>
+            <button class="btn btn-primary btn-sm btn-block mt-md" onclick="alert('Producto agregado. Recoge en sucursal.')">Comprar</button>
+          </div>
+        </div>
+
+        <!-- Producto 5: Shaker -->
+        <div class="product-card">
+          <div class="product-img">🍶</div>
+          <div class="product-info">
+            <div class="product-name">Shaker Byle 700ml</div>
+            <div class="product-desc">Con mezclador · Logo Byle</div>
+            <div class="flex justify-between items-center mt-sm">
+              <div class="product-price">$150</div>
+              <span class="badge badge-success">En stock</span>
+            </div>
+            <button class="btn btn-primary btn-sm btn-block mt-md" onclick="alert('Producto agregado. Recoge en sucursal.')">Comprar</button>
+          </div>
+        </div>
+
+        <!-- Producto 6: Chicles -->
+        <div class="product-card">
+          <div class="product-img">🍬</div>
+          <div class="product-info">
+            <div class="product-name">Chicles proteicos</div>
+            <div class="product-desc">10 piezas · Sabor menta</div>
+            <div class="flex justify-between items-center mt-sm">
+              <div class="product-price">$45</div>
+              <span class="badge badge-error">Agotado</span>
+            </div>
+            <button class="btn btn-ghost btn-sm btn-block mt-md" disabled>Sin stock</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card mt-xl text-center">
+        <p class="text-body">🏪 Los productos se pagan y recogen en la sucursal. Tu pedido queda reservado por 24 horas.</p>
+      </div>
+
+    </section>
+  </div>
+  <%- include('../partials/footer') %>
+</body>
+</html>

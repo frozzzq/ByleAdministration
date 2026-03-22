@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><%- include('../partials/head', { pageTitle: 'Inicio' }) %></head>
+<body>
+  <%- include('../partials/navbar') %>
+
+  <!-- HERO -->
+  <section class="hero">
+    <img src="/img/logo.svg" alt="Byle" class="hero-logo">
+    <h1 class="hero-title">BY<span>LE</span> GYM</h1>
+    <p class="hero-sub">Tu centro deportivo en Los Mochis, Sinaloa</p>
+    <div class="hero-actions">
+      <a href="/hazte-socio" class="btn btn-primary btn-lg">Hazte socio hoy</a>
+      <a href="/info?s=general" class="btn btn-secondary btn-lg" style="border-color:rgba(255,255,255,0.3);color:#fff">Conoce el gym</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-value">350+</div><div class="hero-stat-label">Socios activos</div></div>
+      <div class="hero-stat"><div class="hero-stat-value">6</div><div class="hero-stat-label">Clases grupales</div></div>
+      <div class="hero-stat"><div class="hero-stat-value">5am</div><div class="hero-stat-label">Abrimos temprano</div></div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- SECCIONES RÁPIDAS -->
+    <section class="page-section">
+      <div class="section-header text-center">
+        <div class="section-label">¿Qué encontrarás?</div>
+        <h2 class="text-h1">Todo en un solo lugar</h2>
+      </div>
+      <div class="features-grid">
+        <a href="/info?s=general" class="feature-card" style="text-decoration:none;color:inherit">
+          <div class="feature-icon">🏋️</div>
+          <h3>Instalaciones</h3>
+          <p>Conoce nuestras áreas, equipo y todo lo que ofrecemos para tu entrenamiento.</p>
+        </a>
+        <a href="/info?s=planes" class="feature-card" style="text-decoration:none;color:inherit">
+          <div class="feature-icon">💎</div>
+          <h3>Planes y membresías</h3>
+          <p>Encuentra el plan perfecto para tus objetivos y presupuesto.</p>
+        </a>
+        <a href="/tienda" class="feature-card" style="text-decoration:none;color:inherit">
+          <div class="feature-icon">🛒</div>
+          <h3>Tienda online</h3>
+          <p>Compra suplementos, accesorios y más. Recoge en sucursal.</p>
+        </a>
+        <a href="/competencias" class="feature-card" style="text-decoration:none;color:inherit">
+          <div class="feature-icon">🏆</div>
+          <h3>Competencias</h3>
+          <p>Ranking de constancia y records personales. ¿Quién es más dedicado?</p>
+        </a>
+        <a href="/info?s=horarios" class="feature-card" style="text-decoration:none;color:inherit">
+          <div class="feature-icon">🕐</div>
+          <h3>Horarios y clases</h3>
+          <p>Consulta horarios de apertura y clases grupales disponibles.</p>
+        </a>
+        <a href="/hazte-socio" class="feature-card" style="text-decoration:none;color:inherit">
+          <div class="feature-icon">⚡</div>
+          <h3>Hazte socio</h3>
+          <p>Pre-regístrate online y ahorra tiempo. Solo paga en sucursal.</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- PLANES PREVIEW -->
+    <section class="page-section">
+      <div class="section-header text-center">
+        <div class="section-label">Membresías</div>
+        <h2 class="text-h1">Elige tu plan</h2>
+        <p class="section-desc">Todos incluyen acceso completo al área de pesas y cardio</p>
+      </div>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-name">Básico</div>
+          <div class="plan-price">$499 <span>/mes</span></div>
+          <div class="plan-duration">30 días</div>
+          <ul class="plan-features">
+            <li>Acceso a pesas y cardio</li>
+            <li>Horario completo</li>
+            <li>Casillero asignado</li>
+          </ul>
+          <a href="/hazte-socio" class="btn btn-secondary btn-block">Elegir plan</a>
+        </div>
+        <div class="plan-card popular">
+          <div class="plan-name">Premium Plus</div>
+          <div class="plan-price">$899 <span>/mes</span></div>
+          <div class="plan-duration">30 días</div>
+          <ul class="plan-features">
+            <li>Todo lo del Básico</li>
+            <li>Clases grupales incluidas</li>
+            <li>Seguimiento de progreso</li>
+            <li>Acceso a competencias</li>
+          </ul>
+          <a href="/hazte-socio" class="btn btn-primary btn-block">Elegir plan</a>
+        </div>
+        <div class="plan-card">
+          <div class="plan-name">Trimestral</div>
+          <div class="plan-price">$2,299 <span>/3 meses</span></div>
+          <div class="plan-duration">90 días · Ahorra $398</div>
+          <ul class="plan-features">
+            <li>Todo lo del Premium Plus</li>
+            <li>Descuento por trimestre</li>
+            <li>Medición corporal mensual</li>
+          </ul>
+          <a href="/hazte-socio" class="btn btn-secondary btn-block">Elegir plan</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="page-section text-center" style="padding-bottom:2rem">
+      <div class="section-label">¿Listo para empezar?</div>
+      <h2 class="text-h1 mb-md">Empieza tu transformación hoy</h2>
+      <p class="text-body mb-xl">Pre-regístrate online y solo ve a pagar a la sucursal. Sin filas, sin esperas.</p>
+      <a href="/hazte-socio" class="btn btn-primary btn-lg">Hazte socio ahora</a>
+    </section>
+
+  </div>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><%- include('../partials/head', { pageTitle: 'Clases' }) %></head>
+<body>
+  <%- include('../partials/navbar') %>
+  <div class="container">
+    <section class="page-section">
+      <div class="ranking-tabs mb-xl">
+        <a href="/dashboard" class="ranking-tab">Dashboard</a>
+        <a href="/mi-progreso" class="ranking-tab">Progreso</a>
+        <a href="/clases" class="ranking-tab active">Clases</a>
+        <a href="/pagos" class="ranking-tab">Pagos</a>
+        <a href="/acceso-qr" class="ranking-tab">QR</a>
+      </div>
+      <div class="section-header"><h1 class="text-h1">Clases grupales</h1><p class="section-desc">Inscríbete a las clases disponibles</p></div>
+
+      <!-- TODO: SELECT c.*, (c.cupos - COUNT(ic.id)) as disponibles FROM clases c LEFT JOIN inscripciones_clase ic ON ... -->
+      <div class="section-label">Hoy — Martes</div>
+      <div class="card">
+        <div class="schedule-item"><div class="schedule-time"><div class="hour">7:00</div><div class="period">AM</div></div><div class="schedule-info"><div class="schedule-name">Crossfit</div><div class="schedule-meta">Coach Roberto · 45 min</div></div><div class="schedule-spots"><span class="badge badge-warning">3 cupos</span></div></div>
+        <div class="schedule-item"><div class="schedule-time"><div class="hour">9:00</div><div class="period">AM</div></div><div class="schedule-info"><div class="schedule-name">Yoga</div><div class="schedule-meta">Coach Laura · 60 min</div></div><div class="schedule-spots"><span class="badge badge-success">8 cupos</span></div></div>
+        <div class="schedule-item"><div class="schedule-time"><div class="hour">6:00</div><div class="period">PM</div></div><div class="schedule-info"><div class="schedule-name">Spinning</div><div class="schedule-meta">Coach Diana · 50 min</div></div><div class="schedule-spots"><span class="badge badge-accent">Inscrito</span></div></div>
+        <div class="schedule-item"><div class="schedule-time"><div class="hour">7:30</div><div class="period">PM</div></div><div class="schedule-info"><div class="schedule-name">Box</div><div class="schedule-meta">Coach Martín · 60 min</div></div><div class="schedule-spots"><span class="badge badge-error">Lleno</span></div></div>
+      </div>
+    </section>
+  </div>
+  <%- include('../partials/footer') %>
+</body>
+</html>

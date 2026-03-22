@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><%- include('../partials/head', { pageTitle: 'Mi Progreso' }) %></head>
+<body>
+  <%- include('../partials/navbar') %>
+  <div class="container">
+    <section class="page-section">
+      <div class="ranking-tabs mb-xl">
+        <a href="/dashboard" class="ranking-tab">Dashboard</a>
+        <a href="/mi-progreso" class="ranking-tab active">Progreso</a>
+        <a href="/clases" class="ranking-tab">Clases</a>
+        <a href="/pagos" class="ranking-tab">Pagos</a>
+        <a href="/acceso-qr" class="ranking-tab">QR</a>
+      </div>
+      <div class="section-header"><h1 class="text-h1">Mi progreso</h1><p class="section-desc">Mediciones y records personales</p></div>
+
+      <div class="section-label">Última medición — 10 Mar 2026</div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-value">75 kg</div><div class="stat-label">Peso</div></div>
+        <div class="stat-card"><div class="stat-value">18%</div><div class="stat-label">Grasa</div></div>
+        <div class="stat-card"><div class="stat-value">95 cm</div><div class="stat-label">Cintura</div></div>
+        <div class="stat-card"><div class="stat-value">38 cm</div><div class="stat-label">Brazo</div></div>
+      </div>
+
+      <div class="section-label mt-lg">Gráfica de peso</div>
+      <div class="card text-center" style="padding:2rem"><p class="text-small">📈 Gráfica con datos reales próximamente</p></div>
+
+      <!-- TODO: SELECT * FROM records_personales WHERE id_usuario = ? ORDER BY peso_kg DESC -->
+      <div class="section-label mt-lg">Records personales</div>
+      <div class="card">
+        <div class="list-item"><div class="list-content"><div class="list-title">Press de banca (PB)</div><div class="list-subtitle">5 Mar 2026</div></div><div class="list-right"><div class="text-h2" style="color:var(--accent)">85 kg</div></div></div>
+        <div class="list-item"><div class="list-content"><div class="list-title">Peso muerto (PM)</div><div class="list-subtitle">28 Feb 2026</div></div><div class="list-right"><div class="text-h2" style="color:var(--accent)">140 kg</div></div></div>
+        <div class="list-item"><div class="list-content"><div class="list-title">Sentadilla (SL)</div><div class="list-subtitle">1 Mar 2026</div></div><div class="list-right"><div class="text-h2" style="color:var(--accent)">120 kg</div></div></div>
+      </div>
+    </section>
+  </div>
+  <%- include('../partials/footer') %>
+</body>
+</html>

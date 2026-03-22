@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><%- include('../partials/head', { pageTitle: 'Competencias' }) %></head>
+<body>
+  <%- include('../partials/navbar') %>
+  <div class="container">
+    <section class="page-section">
+      <div class="section-header">
+        <div class="section-label">Competencias Byle</div>
+        <h1 class="text-h1">Ranking de constancia</h1>
+        <p class="section-desc">¿Quién es más dedicado? Inscríbete y compite por ser el más constante del gym</p>
+      </div>
+
+      <!-- Premios -->
+      <div class="card card-highlight mb-xl">
+        <div class="flex items-center gap-md">
+          <div style="font-size:2rem">🎁</div>
+          <div>
+            <div class="text-h3">Premios mensuales</div>
+            <p class="text-small mt-xs">Los top 3 de cada categoría reciben: 1° Mes gratis + shaker · 2° 50% descuento · 3° Producto de la tienda</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categorías -->
+      <div class="ranking-tabs">
+        <button class="ranking-tab active" onclick="showCategory(this, 'cat-4')">4 días/semana</button>
+        <button class="ranking-tab" onclick="showCategory(this, 'cat-5')">5 días/semana</button>
+        <button class="ranking-tab" onclick="showCategory(this, 'cat-6')">6 días/semana</button>
+      </div>
+
+      <!-- TODO: SELECT u.nombre_completo, COUNT(a.id_acceso) as racha
+                 FROM usuarios u
+                 JOIN acceso a ON u.id_usuario = a.id_usuario
+                 WHERE ... (lógica de racha por categoría)
+                 GROUP BY u.id_usuario
+                 ORDER BY racha DESC -->
+
+      <!-- Ranking Cat 4 -->
+      <div class="card" id="cat-4">
+        <div class="ranking-item">
+          <div class="ranking-pos gold">1°</div>
+          <div class="ranking-name">Ana Lucía Pérez 🏆</div>
+          <div class="ranking-streak">🔥 47 días</div>
+        </div>
+        <div class="ranking-item">
+          <div class="ranking-pos silver">2°</div>
+          <div class="ranking-name">Roberto Valdez 🥈</div>
+          <div class="ranking-streak">🔥 42 días</div>
+        </div>
+        <div class="ranking-item">
+          <div class="ranking-pos bronze">3°</div>
+          <div class="ranking-name">Diana Soto 🥉</div>
+          <div class="ranking-streak">🔥 38 días</div>
+        </div>
+        <div class="ranking-item">
+          <div class="ranking-pos normal">4°</div>
+          <div class="ranking-name">Carlos Mendoza</div>
+          <div class="ranking-streak">🔥 31 días</div>
+        </div>
+        <div class="ranking-item">
+          <div class="ranking-pos normal">5°</div>
+          <div class="ranking-name">Fernanda López</div>
+          <div class="ranking-streak">🔥 28 días</div>
+        </div>
+        <div class="ranking-item">
+          <div class="ranking-pos normal">6°</div>
+          <div class="ranking-name">Miguel Hernández</div>
+          <div class="ranking-streak">🔥 24 días</div>
+        </div>
+        <div class="ranking-item">
+          <div class="ranking-pos normal">7°</div>
+          <div class="ranking-name">Laura Ríos</div>
+          <div class="ranking-streak">🔥 19 días</div>
+        </div>
+        <div class="ranking-item">
+          <div class="ranking-pos normal">8°</div>
+          <div class="ranking-name">Josué Vega</div>
+          <div class="ranking-streak">🔥 15 días</div>
+        </div>
+      </div>
+
+      <!-- Ranking Cat 5 -->
+      <div class="card hidden" id="cat-5">
+        <div class="ranking-item"><div class="ranking-pos gold">1°</div><div class="ranking-name">Marco Ávila 🏆</div><div class="ranking-streak">🔥 35 días</div></div>
+        <div class="ranking-item"><div class="ranking-pos silver">2°</div><div class="ranking-name">Paola Ruiz 🥈</div><div class="ranking-streak">🔥 30 días</div></div>
+        <div class="ranking-item"><div class="ranking-pos bronze">3°</div><div class="ranking-name">Andrés Navarro 🥉</div><div class="ranking-streak">🔥 26 días</div></div>
+        <div class="ranking-item"><div class="ranking-pos normal">4°</div><div class="ranking-name">Sofía Duarte</div><div class="ranking-streak">🔥 22 días</div></div>
+        <div class="ranking-item"><div class="ranking-pos normal">5°</div><div class="ranking-name">Diego Mora</div><div class="ranking-streak">🔥 18 días</div></div>
+      </div>
+
+      <!-- Ranking Cat 6 -->
+      <div class="card hidden" id="cat-6">
+        <div class="ranking-item"><div class="ranking-pos gold">1°</div><div class="ranking-name">Valentina Cruz 🏆</div><div class="ranking-streak">🔥 28 días</div></div>
+        <div class="ranking-item"><div class="ranking-pos silver">2°</div><div class="ranking-name">Emiliano Torres 🥈</div><div class="ranking-streak">🔥 21 días</div></div>
+        <div class="ranking-item"><div class="ranking-pos bronze">3°</div><div class="ranking-name">Regina Castro 🥉</div><div class="ranking-streak">🔥 17 días</div></div>
+      </div>
+
+      <!-- CTA Inscripción -->
+      <div class="card text-center mt-xl">
+        <h3 class="text-h3 mb-sm">¿Quieres competir?</h3>
+        <p class="text-body mb-md">Inscríbete a la competencia de constancia y demuestra tu dedicación. Solo socios con membresía activa pueden participar.</p>
+        <button class="btn btn-primary" onclick="alert('Inscripción próximamente. Necesitas ser socio activo.')">Inscribirme a la competencia</button>
+      </div>
+
+      <!-- Info reglas -->
+      <div class="card mt-lg">
+        <h3 class="text-h3 mb-sm">📋 Reglas</h3>
+        <p class="text-small">• Elige tu categoría según cuántos días puedes asistir por semana (4, 5 o 6).</p>
+        <p class="text-small">• Tu asistencia se cuenta automáticamente con tu acceso biométrico en la sucursal.</p>
+        <p class="text-small">• Si faltas un día de tu categoría, tu racha se reinicia a cero.</p>
+        <p class="text-small">• Los premios se entregan el primer lunes de cada mes a los top 3 de cada categoría.</p>
+      </div>
+
+    </section>
+  </div>
+  <%- include('../partials/footer') %>
+</body>
+</html>

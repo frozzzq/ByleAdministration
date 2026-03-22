@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><%- include('../partials/head', { pageTitle: 'Mis Pagos' }) %></head>
+<body>
+  <%- include('../partials/navbar') %>
+  <div class="container">
+    <section class="page-section">
+      <div class="ranking-tabs mb-xl">
+        <a href="/dashboard" class="ranking-tab">Dashboard</a>
+        <a href="/mi-progreso" class="ranking-tab">Progreso</a>
+        <a href="/clases" class="ranking-tab">Clases</a>
+        <a href="/pagos" class="ranking-tab active">Pagos</a>
+        <a href="/acceso-qr" class="ranking-tab">QR</a>
+      </div>
+      <div class="section-header"><h1 class="text-h1">Historial de pagos</h1></div>
+
+      <div class="stats-grid" style="grid-template-columns:1fr 1fr">
+        <div class="stat-card"><div class="stat-value" style="color:var(--accent)">$899</div><div class="stat-label">Último pago</div></div>
+        <div class="stat-card"><div class="stat-value" style="color:var(--success)">Al día</div><div class="stat-label">Estado</div></div>
+      </div>
+
+      <!-- TODO: SELECT v.*, e.nombre_completo as empleado FROM ventas v JOIN empleados e ON v.id_empleado = e.id_empleado WHERE v.id_usuario = ? ORDER BY v.fecha DESC -->
+      <div class="section-label mt-lg">Movimientos</div>
+      <div class="card">
+        <div class="list-item"><div class="list-icon">💳</div><div class="list-content"><div class="list-title">Membresía Premium Plus</div><div class="list-subtitle">15 Mar 2026 · Renovación</div></div><div class="list-right"><div class="text-h3">$899</div><div class="text-caption text-success">Pagado</div></div></div>
+        <div class="list-item"><div class="list-icon">👥</div><div class="list-content"><div class="list-title">Inscripción Spinning</div><div class="list-subtitle">12 Mar 2026 · Clase</div></div><div class="list-right"><div class="text-h3">$150</div><div class="text-caption text-success">Pagado</div></div></div>
+        <div class="list-item"><div class="list-icon">🛒</div><div class="list-content"><div class="list-title">Proteína Whey 1kg</div><div class="list-subtitle">8 Mar 2026 · Producto</div></div><div class="list-right"><div class="text-h3">$650</div><div class="text-caption text-success">Pagado</div></div></div>
+        <div class="list-item"><div class="list-icon">💳</div><div class="list-content"><div class="list-title">Membresía Premium Plus</div><div class="list-subtitle">15 Feb 2026 · Renovación</div></div><div class="list-right"><div class="text-h3">$899</div><div class="text-caption text-success">Pagado</div></div></div>
+      </div>
+    </section>
+  </div>
+  <%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><%- include('../partials/head', { pageTitle: 'Hazte socio' }) %></head>
+<body>
+  <%- include('../partials/navbar') %>
+  <div class="container">
+    <section class="page-section">
+      <div class="section-header text-center">
+        <div class="section-label">Pre-registro</div>
+        <h1 class="text-h1">Conviértete en socio</h1>
+        <p class="section-desc">Llena tus datos y ve a la sucursal a completar tu inscripción. Tienes 1 hora para ir a pagar.</p>
+      </div>
+
+      <div class="max-w-sm mx-auto">
+
+        <!-- Countdown (se muestra después de enviar) -->
+        <div class="countdown-box hidden" id="countdownBox">
+          <div class="text-caption mb-xs">Tiempo restante para ir a la sucursal</div>
+          <div class="countdown-value" id="countdownValue">59:59</div>
+          <div class="countdown-label">Si el tiempo se agota, tu pre-registro se cancelará automáticamente</div>
+        </div>
+
+        <!-- TODO: POST /api/pre-registro → INSERT INTO usuarios (con estado='pendiente', fecha_expiracion=NOW()+1hr)
+             Evento programado o trigger en MariaDB:
+             CREATE EVENT limpiar_preregistros ON SCHEDULE EVERY 5 MINUTE
+             DO DELETE FROM usuarios WHERE estado='pendiente' AND fecha_expiracion < NOW(); -->
+
+        <form id="preRegistroForm" onsubmit="enviarPreRegistro(event)">
+
+          <div class="card mb-lg">
+            <h3 class="text-h3 mb-md">Datos personales</h3>
+            <div class="form-group">
+              <label class="form-label">Nombre completo</label>
+              <input type="text" class="form-input" placeholder="Tu nombre completo" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Edad</label>
+                <input type="number" class="form-input" placeholder="25" min="15" max="80" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Ciudad</label>
+                <input type="text" class="form-input" placeholder="Los Mochis" value="Los Mochis">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Correo electrónico</label>
+              <input type="email" class="form-input" placeholder="tu@correo.com" required>
+              <p class="form-hint">Este correo será tu usuario para el portal web</p>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Teléfono</label>
+                <input type="tel" class="form-input" placeholder="6681234567" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Teléfono de emergencia</label>
+                <input type="tel" class="form-input" placeholder="6687654321" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mb-lg">
+            <h3 class="text-h3 mb-md">Selecciona tu plan</h3>
+            <!-- TODO: SELECT * FROM membresias WHERE estado = 'activa' -->
+            <label class="card" style="display:flex;gap:.75rem;cursor:pointer;padding:1rem;margin-bottom:.5rem">
+              <input type="radio" name="plan" value="1" required style="accent-color:var(--accent);margin-top:2px">
+              <div><div class="text-h3">Básico — $499/mes</div><div class="text-small">Pesas, cardio, horario completo</div></div>
+            </label>
+            <label class="card" style="display:flex;gap:.75rem;cursor:pointer;padding:1rem;margin-bottom:.5rem;border-color:var(--accent)">
+              <input type="radio" name="plan" value="2" style="accent-color:var(--accent);margin-top:2px">
+              <div><div class="text-h3">Premium Plus — $899/mes</div><div class="text-small">Todo + clases + progreso + competencias</div></div>
+            </label>
+            <label class="card" style="display:flex;gap:.75rem;cursor:pointer;padding:1rem">
+              <input type="radio" name="plan" value="3" style="accent-color:var(--accent);margin-top:2px">
+              <div><div class="text-h3">Trimestral — $2,299/3 meses</div><div class="text-small">Todo Premium + ahorro</div></div>
+            </label>
+          </div>
+
+          <div class="alert-banner alert-warning">
+            ⏰ Al enviar, tendrás <strong>1 hora</strong> para ir a la sucursal a pagar y registrar tu huella digital.
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="btnEnviar">Enviar pre-registro</button>
+
+        </form>
+
+      </div>
+    </section>
+  </div>
+  <%- include('../partials/footer') %>
+  <script>
+    function enviarPreRegistro(e) {
+      e.preventDefault();
+      document.getElementById('preRegistroForm').querySelectorAll('input').forEach(i => i.disabled = true);
+      document.getElementById('btnEnviar').disabled = true;
+      document.getElementById('btnEnviar').textContent = 'Pre-registro enviado ✓';
+      document.getElementById('countdownBox').classList.remove('hidden');
+      let total = 3600;
+      const timer = setInterval(() => {
+        total--;
+        if (total <= 0) { clearInterval(timer); alert('Tu pre-registro ha expirado. Intenta de nuevo.'); location.reload(); return; }
+        const m = Math.floor(total / 60), s = total % 60;
+        document.getElementById('countdownValue').textContent = m + ':' + String(s).padStart(2,'0');
+      }, 1000);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

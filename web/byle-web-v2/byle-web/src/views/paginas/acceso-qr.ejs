@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><%- include('../partials/head', { pageTitle: 'Acceso QR' }) %></head>
+<body>
+  <%- include('../partials/navbar') %>
+  <div class="container">
+    <section class="page-section">
+      <div class="ranking-tabs mb-xl">
+        <a href="/dashboard" class="ranking-tab">Dashboard</a>
+        <a href="/mi-progreso" class="ranking-tab">Progreso</a>
+        <a href="/clases" class="ranking-tab">Clases</a>
+        <a href="/pagos" class="ranking-tab">Pagos</a>
+        <a href="/acceso-qr" class="ranking-tab active">QR</a>
+      </div>
+
+      <div class="qr-wrapper">
+        <h1 class="text-h2 mb-md">Tu código de acceso</h1>
+        <div class="qr-box">
+          <svg width="180" height="180" viewBox="0 0 180 180">
+            <rect width="180" height="180" fill="#fff" rx="4"/>
+            <rect x="12" y="12" width="48" height="48" fill="#0D0D1B" rx="4"/><rect x="20" y="20" width="32" height="32" fill="#fff" rx="2"/><rect x="28" y="28" width="16" height="16" fill="#0D0D1B" rx="1"/>
+            <rect x="120" y="12" width="48" height="48" fill="#0D0D1B" rx="4"/><rect x="128" y="20" width="32" height="32" fill="#fff" rx="2"/><rect x="136" y="28" width="16" height="16" fill="#0D0D1B" rx="1"/>
+            <rect x="12" y="120" width="48" height="48" fill="#0D0D1B" rx="4"/><rect x="20" y="128" width="32" height="32" fill="#fff" rx="2"/><rect x="28" y="136" width="16" height="16" fill="#0D0D1B" rx="1"/>
+            <rect x="72" y="72" width="12" height="12" fill="#0D0D1B"/><rect x="96" y="72" width="12" height="12" fill="#0D0D1B"/><rect x="72" y="96" width="12" height="12" fill="#0D0D1B"/><rect x="84" y="84" width="12" height="12" fill="#F26419"/>
+            <rect x="120" y="84" width="12" height="12" fill="#0D0D1B"/><rect x="72" y="108" width="12" height="12" fill="#0D0D1B"/><rect x="84" y="72" width="12" height="12" fill="#0D0D1B"/><rect x="96" y="96" width="12" height="12" fill="#0D0D1B"/>
+          </svg>
+        </div>
+        <div class="text-h3">Carlos Mendoza</div>
+        <div class="text-small mt-xs">ID: BYL-20260115-0042</div>
+        <div class="badge badge-success mt-md">Membresía activa</div>
+        <p class="text-caption mt-lg" id="qrTimer">Se actualiza en: <strong>4:58</strong></p>
+      </div>
+      <div class="card text-center max-w-sm mx-auto">
+        <p class="text-small">Este QR es dinámico y cambia cada 5 minutos. Muéstralo en recepción para registrar tu entrada.</p>
+      </div>
+    </section>
+  </div>
+  <%- include('../partials/footer') %>
+</body>
+</html>
