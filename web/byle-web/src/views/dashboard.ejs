@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('partials/head', { pageTitle: 'Mi Dashboard' }) %>
+</head>
+<body>
+  <div class="page-wrapper">
+    <%- include('partials/navbar') %>
+
+    <main class="page-content">
+
+      <!-- Saludo -->
+      <div class="page-header">
+        <p class="text-body">Bienvenido de vuelta</p>
+        <h1 class="text-h1">Carlos Mendoza</h1>
+      </div>
+
+      <!-- Tarjeta de membresía -->
+      <div class="membership-card">
+        <div class="label">Membresía activa</div>
+        <div class="plan">Premium Plus</div>
+        <div class="status">
+          <span class="status-dot"></span>
+          <span class="text-body" style="color:var(--success)">Activa</span>
+        </div>
+        <div class="dates">
+          <div>
+            <div class="text-caption">Desde</div>
+            <div class="text-h3">15 Ene 2026</div>
+          </div>
+          <div>
+            <div class="text-caption">Vence</div>
+            <div class="text-h3">15 Feb 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estadísticas rápidas -->
+      <div class="section-title">Este mes</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">18</div>
+          <div class="stat-label">Asistencias</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">4</div>
+          <div class="stat-label">Clases</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--success)">75<span style="font-size:0.875rem">kg</span></div>
+          <div class="stat-label">Peso actual</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--accent)">120<span style="font-size:0.875rem">kg</span></div>
+          <div class="stat-label">PR Sentadilla</div>
+        </div>
+      </div>
+
+      <!-- Próxima clase -->
+      <div class="section-title">Próxima clase</div>
+      <div class="card card-accent">
+        <div class="flex justify-between items-center">
+          <div>
+            <div class="text-h3">Spinning</div>
+            <div class="text-body">Hoy — 6:00 PM · Coach Diana</div>
+          </div>
+          <span class="badge badge-accent">Inscrito</span>
+        </div>
+      </div>
+
+    </main>
+
+    <%- include('partials/bottomNav') %>
+  </div>
+  <%- include('partials/footer') %>
+</body>
+</html>

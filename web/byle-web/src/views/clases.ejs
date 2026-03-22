@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('partials/head', { pageTitle: 'Clases Grupales' }) %>
+</head>
+<body>
+  <div class="page-wrapper">
+    <%- include('partials/navbar') %>
+
+    <main class="page-content">
+
+      <div class="page-header">
+        <h1 class="text-h1">Clases grupales</h1>
+        <p class="text-body">Horarios e inscripción</p>
+      </div>
+
+      <!-- Filtro de días -->
+      <div class="flex gap-sm mb-lg" style="overflow-x:auto; padding-bottom:0.5rem">
+        <button class="btn btn-ghost btn-sm">Todos</button>
+        <button class="btn btn-primary btn-sm">Hoy</button>
+        <button class="btn btn-ghost btn-sm">Mañana</button>
+        <button class="btn btn-ghost btn-sm">Semana</button>
+      </div>
+
+      <!-- Lista de clases -->
+      <div class="section-title">Hoy — Martes</div>
+      <div class="card">
+
+        <div class="schedule-item">
+          <div class="schedule-time">
+            <div class="hour">7:00</div>
+            <div class="period">AM</div>
+          </div>
+          <div class="schedule-info">
+            <div class="schedule-name">Crossfit</div>
+            <div class="schedule-meta">Coach Roberto · 45 min</div>
+          </div>
+          <div class="schedule-spots">
+            <span class="badge badge-warning">3 cupos</span>
+          </div>
+        </div>
+
+        <div class="schedule-item">
+          <div class="schedule-time">
+            <div class="hour">9:00</div>
+            <div class="period">AM</div>
+          </div>
+          <div class="schedule-info">
+            <div class="schedule-name">Yoga</div>
+            <div class="schedule-meta">Coach Laura · 60 min</div>
+          </div>
+          <div class="schedule-spots">
+            <span class="badge badge-success">8 cupos</span>
+          </div>
+        </div>
+
+        <div class="schedule-item">
+          <div class="schedule-time">
+            <div class="hour">6:00</div>
+            <div class="period">PM</div>
+          </div>
+          <div class="schedule-info">
+            <div class="schedule-name">Spinning</div>
+            <div class="schedule-meta">Coach Diana · 50 min</div>
+          </div>
+          <div class="schedule-spots">
+            <span class="badge badge-accent">Inscrito</span>
+          </div>
+        </div>
+
+        <div class="schedule-item">
+          <div class="schedule-time">
+            <div class="hour">7:30</div>
+            <div class="period">PM</div>
+          </div>
+          <div class="schedule-info">
+            <div class="schedule-name">Box</div>
+            <div class="schedule-meta">Coach Martín · 60 min</div>
+          </div>
+          <div class="schedule-spots">
+            <span class="badge badge-error">Lleno</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Mis inscripciones -->
+      <div class="section-title">Mis inscripciones activas</div>
+      <div class="card card-accent">
+        <div class="flex justify-between items-center">
+          <div>
+            <div class="text-h3">Spinning</div>
+            <div class="text-body">Hoy 6:00 PM · Coach Diana</div>
+          </div>
+          <button class="btn btn-secondary btn-sm">Cancelar</button>
+        </div>
+      </div>
+
+    </main>
+
+    <%- include('partials/bottomNav') %>
+  </div>
+  <%- include('partials/footer') %>
+</body>
+</html>

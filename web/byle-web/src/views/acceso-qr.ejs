@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('partials/head', { pageTitle: 'Acceso QR' }) %>
+</head>
+<body>
+  <div class="page-wrapper">
+    <%- include('partials/navbar') %>
+
+    <main class="page-content">
+
+      <div class="page-header text-center">
+        <h1 class="text-h1">Tu código de acceso</h1>
+        <p class="text-body">Muestra este QR en la recepción</p>
+      </div>
+
+      <!-- QR Code -->
+      <div class="qr-wrapper">
+        <div class="qr-box" id="qrCode">
+          <!-- Placeholder — se reemplaza con QR real -->
+          <svg width="180" height="180" viewBox="0 0 180 180">
+            <rect x="0" y="0" width="180" height="180" fill="#fff" rx="4"/>
+            <!-- Esquina superior izquierda -->
+            <rect x="12" y="12" width="48" height="48" fill="#0D0D1B" rx="4"/>
+            <rect x="20" y="20" width="32" height="32" fill="#fff" rx="2"/>
+            <rect x="28" y="28" width="16" height="16" fill="#0D0D1B" rx="1"/>
+            <!-- Esquina superior derecha -->
+            <rect x="120" y="12" width="48" height="48" fill="#0D0D1B" rx="4"/>
+            <rect x="128" y="20" width="32" height="32" fill="#fff" rx="2"/>
+            <rect x="136" y="28" width="16" height="16" fill="#0D0D1B" rx="1"/>
+            <!-- Esquina inferior izquierda -->
+            <rect x="12" y="120" width="48" height="48" fill="#0D0D1B" rx="4"/>
+            <rect x="20" y="128" width="32" height="32" fill="#fff" rx="2"/>
+            <rect x="28" y="136" width="16" height="16" fill="#0D0D1B" rx="1"/>
+            <!-- Patrón central (decorativo) -->
+            <rect x="72" y="72" width="12" height="12" fill="#0D0D1B"/>
+            <rect x="96" y="72" width="12" height="12" fill="#0D0D1B"/>
+            <rect x="72" y="96" width="12" height="12" fill="#0D0D1B"/>
+            <rect x="84" y="84" width="12" height="12" fill="#F26419"/>
+            <rect x="120" y="84" width="12" height="12" fill="#0D0D1B"/>
+            <rect x="72" y="108" width="12" height="12" fill="#0D0D1B"/>
+            <rect x="84" y="72" width="12" height="12" fill="#0D0D1B"/>
+            <rect x="96" y="96" width="12" height="12" fill="#0D0D1B"/>
+          </svg>
+        </div>
+
+        <div class="text-h3">Carlos Mendoza</div>
+        <div class="text-body mt-sm">ID: BYL-20260115-0042</div>
+
+        <div class="badge badge-success mt-md">
+          <span class="status-dot" style="width:6px;height:6px;margin-right:0.35rem"></span>
+          Membresía activa
+        </div>
+
+        <p class="text-caption mt-lg" id="qrTimer">
+          Se actualiza en: <strong>4:58</strong>
+        </p>
+      </div>
+
+      <!-- Nota informativa -->
+      <div class="card" style="text-align:center">
+        <p class="text-body">
+          Este código QR es dinámico y cambia cada 5 minutos por seguridad.
+          El personal de recepción lo escaneará para registrar tu entrada.
+        </p>
+      </div>
+
+    </main>
+
+    <%- include('partials/bottomNav') %>
+  </div>
+  <%- include('partials/footer') %>
+</body>
+</html>

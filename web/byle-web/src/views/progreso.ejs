@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('partials/head', { pageTitle: 'Mi Progreso' }) %>
+</head>
+<body>
+  <div class="page-wrapper">
+    <%- include('partials/navbar') %>
+
+    <main class="page-content">
+
+      <div class="page-header">
+        <h1 class="text-h1">Mi progreso</h1>
+        <p class="text-body">Mediciones y records personales</p>
+      </div>
+
+      <!-- Última medición -->
+      <div class="section-title">Última medición — 10 Mar 2026</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">75<span style="font-size:0.75rem"> kg</span></div>
+          <div class="stat-label">Peso</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">18<span style="font-size:0.75rem"> %</span></div>
+          <div class="stat-label">Grasa corporal</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">95<span style="font-size:0.75rem"> cm</span></div>
+          <div class="stat-label">Cintura</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">38<span style="font-size:0.75rem"> cm</span></div>
+          <div class="stat-label">Brazo</div>
+        </div>
+      </div>
+
+      <!-- Gráfica placeholder -->
+      <div class="section-title">Evolución de peso</div>
+      <div class="card" style="height:200px; display:flex; align-items:center; justify-content:center;">
+        <div class="empty-state" style="padding:1rem">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <p>Gráfica de peso (últimos 3 meses)</p>
+          <p class="text-caption mt-sm">Se conectará con datos reales de la BD</p>
+        </div>
+      </div>
+
+      <!-- Records personales -->
+      <div class="section-title">Records personales</div>
+      <div class="card">
+        <div class="list-item" style="border-bottom:1px solid var(--border)">
+          <div class="list-content">
+            <div class="list-title">Press de banca (PB)</div>
+            <div class="list-subtitle">Actualizado: 5 Mar 2026</div>
+          </div>
+          <div class="list-right">
+            <div class="text-h2" style="color:var(--accent)">85 kg</div>
+          </div>
+        </div>
+
+        <div class="list-item" style="border-bottom:1px solid var(--border)">
+          <div class="list-content">
+            <div class="list-title">Peso muerto (PM)</div>
+            <div class="list-subtitle">Actualizado: 28 Feb 2026</div>
+          </div>
+          <div class="list-right">
+            <div class="text-h2" style="color:var(--accent)">140 kg</div>
+          </div>
+        </div>
+
+        <div class="list-item">
+          <div class="list-content">
+            <div class="list-title">Sentadilla (SL)</div>
+            <div class="list-subtitle">Actualizado: 1 Mar 2026</div>
+          </div>
+          <div class="list-right">
+            <div class="text-h2" style="color:var(--accent)">120 kg</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <%- include('partials/bottomNav') %>
+  </div>
+  <%- include('partials/footer') %>
+</body>
+</html>

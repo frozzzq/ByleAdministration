@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('partials/head', { pageTitle: 'Mi Rutina' }) %>
+</head>
+<body>
+  <div class="page-wrapper">
+    <%- include('partials/navbar') %>
+
+    <main class="page-content">
+
+      <div class="page-header">
+        <h1 class="text-h1">Mi rutina</h1>
+        <p class="text-body">Martes — Pecho y tríceps</p>
+      </div>
+
+      <!-- Selector de día -->
+      <div class="flex gap-sm mb-lg" style="overflow-x:auto; padding-bottom:0.5rem">
+        <button class="btn btn-ghost btn-sm">Lun</button>
+        <button class="btn btn-primary btn-sm">Mar</button>
+        <button class="btn btn-ghost btn-sm">Mié</button>
+        <button class="btn btn-ghost btn-sm">Jue</button>
+        <button class="btn btn-ghost btn-sm">Vie</button>
+        <button class="btn btn-ghost btn-sm">Sáb</button>
+      </div>
+
+      <!-- Ejercicios del día -->
+      <div class="section-title">Ejercicios</div>
+
+      <div class="card">
+        <div class="list-item" style="border-bottom:1px solid var(--border)">
+          <div class="list-icon">
+            <svg viewBox="0 0 24 24"><path d="M6.5 6.5h11M6.5 12h11M6.5 17.5h7"/><circle cx="3.5" cy="6.5" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="17.5" r="1"/></svg>
+          </div>
+          <div class="list-content">
+            <div class="list-title">Press de banca plano</div>
+            <div class="list-subtitle">4 series × 10 reps</div>
+          </div>
+          <div class="list-right">
+            <div class="text-h3">60 kg</div>
+          </div>
+        </div>
+
+        <div class="list-item" style="border-bottom:1px solid var(--border)">
+          <div class="list-icon">
+            <svg viewBox="0 0 24 24"><path d="M6.5 6.5h11M6.5 12h11M6.5 17.5h7"/><circle cx="3.5" cy="6.5" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="17.5" r="1"/></svg>
+          </div>
+          <div class="list-content">
+            <div class="list-title">Press inclinado con mancuernas</div>
+            <div class="list-subtitle">3 series × 12 reps</div>
+          </div>
+          <div class="list-right">
+            <div class="text-h3">20 kg</div>
+          </div>
+        </div>
+
+        <div class="list-item" style="border-bottom:1px solid var(--border)">
+          <div class="list-icon">
+            <svg viewBox="0 0 24 24"><path d="M6.5 6.5h11M6.5 12h11M6.5 17.5h7"/><circle cx="3.5" cy="6.5" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="17.5" r="1"/></svg>
+          </div>
+          <div class="list-content">
+            <div class="list-title">Aperturas en polea</div>
+            <div class="list-subtitle">3 series × 15 reps</div>
+          </div>
+          <div class="list-right">
+            <div class="text-h3">12 kg</div>
+          </div>
+        </div>
+
+        <div class="list-item" style="border-bottom:1px solid var(--border)">
+          <div class="list-icon">
+            <svg viewBox="0 0 24 24"><path d="M6.5 6.5h11M6.5 12h11M6.5 17.5h7"/><circle cx="3.5" cy="6.5" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="17.5" r="1"/></svg>
+          </div>
+          <div class="list-content">
+            <div class="list-title">Fondos en paralelas</div>
+            <div class="list-subtitle">3 series × 12 reps</div>
+          </div>
+          <div class="list-right">
+            <div class="text-h3">Peso</div>
+          </div>
+        </div>
+
+        <div class="list-item">
+          <div class="list-icon">
+            <svg viewBox="0 0 24 24"><path d="M6.5 6.5h11M6.5 12h11M6.5 17.5h7"/><circle cx="3.5" cy="6.5" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="17.5" r="1"/></svg>
+          </div>
+          <div class="list-content">
+            <div class="list-title">Extensión de tríceps en polea</div>
+            <div class="list-subtitle">4 series × 12 reps</div>
+          </div>
+          <div class="list-right">
+            <div class="text-h3">18 kg</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <%- include('partials/bottomNav') %>
+  </div>
+  <%- include('partials/footer') %>
+</body>
+</html>
