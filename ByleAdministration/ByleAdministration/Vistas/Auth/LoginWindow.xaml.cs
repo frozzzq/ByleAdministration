@@ -1,7 +1,6 @@
 ﻿using ByleAdministration.Servicios;
 using ByleAdministration.Vistas.Auth;
 using System.Windows;
-using System.Windows.Navigation;
 
 namespace ByleAdministration.Vistas.Auth
 {
@@ -32,7 +31,7 @@ namespace ByleAdministration.Vistas.Auth
             {
                 MainWindow main = new MainWindow();
                 main.Show();
-                this.Close();  // ← cierra el login
+                this.Close();
             }
             else
             {
@@ -46,5 +45,8 @@ namespace ByleAdministration.Vistas.Auth
             RegistroEmpleadoWindow registro = new RegistroEmpleadoWindow();
             registro.ShowDialog();
         }
+
+        private void BtnCerrar_Click(object sender, RoutedEventArgs e)
+            => Application.Current.Shutdown();
     }
 }

@@ -53,7 +53,8 @@ namespace ByleAdministration.Vistas.Auth
                                 MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
+        private void BtnCerrar_Click(object sender, RoutedEventArgs e)
+            => this.Close();
         private void CmbRol_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
         }

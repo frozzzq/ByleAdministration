@@ -128,11 +128,35 @@
     <Compile Include="Servicios\ServicioEmpleado.cs" />
     <Compile Include="Soportes\SoporteDatabase.cs" />
     <Compile Include="Soportes\VistaModeloBase.cs" />
+    <Compile Include="Vistas\Acceso\AccesoView.xaml.cs">
+      <DependentUpon>AccesoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Auth\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Auth\RegistroEmpleadoWindow.xaml.cs">
       <DependentUpon>RegistroEmpleadoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Clases\ClasesView.xaml.cs">
+      <DependentUpon>ClasesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Clientes\ClientesView.xaml.cs">
+      <DependentUpon>ClientesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Dashboard\DashboardView.xaml.cs">
+      <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Membresias\MembresiasView.xaml.cs">
+      <DependentUpon>MembresiasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Reportes\ReportesView.xaml.cs">
+      <DependentUpon>ReportesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Sistema\SistemaView.xaml.cs">
+      <DependentUpon>SistemaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Ventas\VentasView.xaml.cs">
+      <DependentUpon>VentasView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -162,11 +186,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Vistas\Acceso\AccesoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vistas\Auth\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vistas\Auth\RegistroEmpleadoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vistas\Clases\ClasesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vistas\Clientes\ClientesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vistas\Dashboard\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vistas\Membresias\MembresiasView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vistas\Reportes\ReportesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vistas\Sistema\SistemaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vistas\Ventas\VentasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -199,5 +255,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
