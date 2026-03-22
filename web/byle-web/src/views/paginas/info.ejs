@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><%- include('../partials/head', { pageTitle: 'Información' }) %></head>
+<body>
+  <%- include('../partials/navbar') %>
+  <div class="container">
+
+    <!-- Tabs de sección -->
+    <div class="page-section" style="padding-bottom:0">
+      <div class="ranking-tabs">
+        <a href="/info?s=general" class="ranking-tab <%= seccion === 'general' ? 'active' : '' %>">General</a>
+        <a href="/info?s=planes" class="ranking-tab <%= seccion === 'planes' ? 'active' : '' %>">Planes</a>
+        <a href="/info?s=horarios" class="ranking-tab <%= seccion === 'horarios' ? 'active' : '' %>">Horarios</a>
+        <a href="/info?s=instalaciones" class="ranking-tab <%= seccion === 'instalaciones' ? 'active' : '' %>">Instalaciones</a>
+      </div>
+    </div>
+
+    <% if (seccion === 'general') { %>
+    <section class="page-section">
+      <h1 class="text-h1 mb-md">Byle Gym</h1>
+      <p class="text-body mb-lg">Somos un gimnasio ubicado en Los Mochis, Sinaloa, comprometido con tu transformación física. Contamos con equipo de primera, clases grupales y un ambiente motivador para que logres tus objetivos.</p>
+      <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat-card"><div class="stat-value" style="color:var(--accent)">350+</div><div class="stat-label">Socios</div></div>
+        <div class="stat-card"><div class="stat-value" style="color:var(--accent)">6</div><div class="stat-label">Clases grupales</div></div>
+        <div class="stat-card"><div class="stat-value" style="color:var(--accent)">2024</div><div class="stat-label">Desde</div></div>
+      </div>
+      <div class="card mt-lg">
+        <h3 class="text-h3 mb-sm">Contacto y ubicación</h3>
+        <div class="list-item"><div class="list-icon">📍</div><div class="list-content"><div class="list-title">Los Mochis, Sinaloa</div><div class="list-subtitle">Col. Centro — Calle Ejemplo #123</div></div></div>
+        <div class="list-item"><div class="list-icon">📞</div><div class="list-content"><div class="list-title">(668) 123-4567</div><div class="list-subtitle">Lun–Sáb: 6am – 10pm</div></div></div>
+        <div class="list-item"><div class="list-icon">📧</div><div class="list-content"><div class="list-title">contacto@bylegym.com</div></div></div>
+      </div>
+      <div class="card mt-md">
+        <h3 class="text-h3 mb-sm">Redes sociales</h3>
+        <div class="flex gap-md">
+          <a href="#" class="btn btn-secondary btn-sm">Facebook</a>
+          <a href="#" class="btn btn-secondary btn-sm">Instagram</a>
+          <a href="#" class="btn btn-secondary btn-sm">TikTok</a>
+        </div>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (seccion === 'planes') { %>
+    <section class="page-section">
+      <div class="section-header"><h1 class="text-h1">Planes y membresías</h1><p class="section-desc">Elige el que mejor se adapte a ti</p></div>
+      <!-- TODO: SELECT * FROM membresias WHERE estado = 'activa' -->
+      <div class="plans-grid">
+        <div class="plan-card"><div class="plan-name">Básico</div><div class="plan-price">$499 <span>/mes</span></div><div class="plan-duration">30 días</div><ul class="plan-features"><li>Área de pesas y cardio</li><li>Horario completo</li><li>Casillero asignado</li></ul><a href="/hazte-socio" class="btn btn-secondary btn-block">Elegir plan</a></div>
+        <div class="plan-card popular"><div class="plan-name">Premium Plus</div><div class="plan-price">$899 <span>/mes</span></div><div class="plan-duration">30 días</div><ul class="plan-features"><li>Todo lo del Básico</li><li>Clases grupales incluidas</li><li>Seguimiento de progreso</li><li>Competencias</li></ul><a href="/hazte-socio" class="btn btn-primary btn-block">Elegir plan</a></div>
+        <div class="plan-card"><div class="plan-name">Trimestral</div><div class="plan-price">$2,299 <span>/3 meses</span></div><div class="plan-duration">90 días</div><ul class="plan-features"><li>Todo lo del Premium Plus</li><li>Ahorra $398</li><li>Medición mensual</li></ul><a href="/hazte-socio" class="btn btn-secondary btn-block">Elegir plan</a></div>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (seccion === 'horarios') { %>
+    <section class="page-section">
+      <div class="section-header"><h1 class="text-h1">Horarios</h1></div>
+      <div class="card mb-lg">
+        <h3 class="text-h3 mb-md">Horario del gimnasio</h3>
+        <div class="list-item"><div class="list-content"><div class="list-title">Lunes a Viernes</div></div><div class="list-right"><strong>6:00 AM – 10:00 PM</strong></div></div>
+        <div class="list-item"><div class="list-content"><div class="list-title">Sábado</div></div><div class="list-right"><strong>7:00 AM – 2:00 PM</strong></div></div>
+        <div class="list-item"><div class="list-content"><div class="list-title">Domingo</div></div><div class="list-right"><span class="badge badge-error">Cerrado</span></div></div>
+      </div>
+      <h3 class="text-h2 mb-md">Clases grupales</h3>
+      <!-- TODO: SELECT * FROM clases -->
+      <div class="card">
+        <div class="schedule-item"><div class="schedule-time"><div class="hour">7:00</div><div class="period">AM</div></div><div class="schedule-info"><div class="schedule-name">Crossfit</div><div class="schedule-meta">Coach Roberto · 45 min · Lun/Mié/Vie</div></div></div>
+        <div class="schedule-item"><div class="schedule-time"><div class="hour">9:00</div><div class="period">AM</div></div><div class="schedule-info"><div class="schedule-name">Yoga</div><div class="schedule-meta">Coach Laura · 60 min · Mar/Jue</div></div></div>
+        <div class="schedule-item"><div class="schedule-time"><div class="hour">6:00</div><div class="period">PM</div></div><div class="schedule-info"><div class="schedule-name">Spinning</div><div class="schedule-meta">Coach Diana · 50 min · Lun/Mié/Vie</div></div></div>
+        <div class="schedule-item"><div class="schedule-time"><div class="hour">7:30</div><div class="period">PM</div></div><div class="schedule-info"><div class="schedule-name">Box</div><div class="schedule-meta">Coach Martín · 60 min · Mar/Jue/Sáb</div></div></div>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (seccion === 'instalaciones') { %>
+    <section class="page-section">
+      <div class="section-header"><h1 class="text-h1">Nuestras instalaciones</h1><p class="section-desc">Conoce lo que te espera</p></div>
+      <!-- TODO: fotos reales del gym -->
+      <div class="gallery-grid">
+        <div class="gallery-placeholder">📷 Área de pesas</div>
+        <div class="gallery-placeholder">📷 Cardio</div>
+        <div class="gallery-placeholder">📷 Salón de clases</div>
+        <div class="gallery-placeholder">📷 Recepción</div>
+        <div class="gallery-placeholder">📷 Vestidores</div>
+        <div class="gallery-placeholder">📷 Fachada</div>
+      </div>
+    </section>
+    <% } %>
+
+  </div>
+  <%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><%- include('../partials/head', { pageTitle: 'Mi Portal' }) %></head>
+<body>
+  <%- include('../partials/navbar') %>
+  <div class="container">
+    <section class="page-section">
+
+      <!-- Nav portal socios -->
+      <div class="ranking-tabs mb-xl">
+        <a href="/dashboard" class="ranking-tab active">Dashboard</a>
+        <a href="/mi-progreso" class="ranking-tab">Progreso</a>
+        <a href="/clases" class="ranking-tab">Clases</a>
+        <a href="/pagos" class="ranking-tab">Pagos</a>
+        <a href="/acceso-qr" class="ranking-tab">QR</a>
+      </div>
+
+      <!-- Alerta membresía por vencer (mock: 3 días) -->
+      <div class="alert-banner alert-warning">⚠️ Tu membresía vence en <strong>3 días</strong>. <a href="/info?s=planes">Renueva aquí</a></div>
+
+      <div class="page-header" style="padding-top:0">
+        <p class="text-small">Bienvenido de vuelta</p>
+        <h1 class="text-h1">Carlos Mendoza</h1>
+      </div>
+
+      <!-- TODO: SELECT u.*, m.nombre_membresia, m.precio, m.duracion_dias
+                 FROM usuarios u JOIN membresias m ON u.id_membresia = m.id_membresia
+                 WHERE u.id_usuario = ? -->
+      <div class="membership-card mb-lg">
+        <div class="label">Membresía activa</div>
+        <div class="plan">Premium Plus</div>
+        <div class="status"><span class="status-dot"></span><span style="color:#2ECC71;font-size:.8rem">Activa</span></div>
+        <div class="dates">
+          <div><div class="text-caption" style="color:rgba(240,240,245,0.5)">Desde</div><div class="text-h3" style="color:#F0F0F5">15 Feb 2026</div></div>
+          <div><div class="text-caption" style="color:rgba(240,240,245,0.5)">Vence</div><div class="text-h3" style="color:#F0F0F5">15 Mar 2026</div></div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-value">18</div><div class="stat-label">Asistencias</div></div>
+        <div class="stat-card"><div class="stat-value">4</div><div class="stat-label">Clases</div></div>
+        <div class="stat-card"><div class="stat-value" style="color:var(--success)">75 kg</div><div class="stat-label">Peso</div></div>
+        <div class="stat-card"><div class="stat-value" style="color:var(--accent)">31</div><div class="stat-label">Racha 🔥</div></div>
+      </div>
+
+      <div class="section-label mt-lg">Próxima clase</div>
+      <div class="card card-accent">
+        <div class="flex justify-between items-center">
+          <div><div class="text-h3">Spinning</div><div class="text-small">Hoy — 6:00 PM · Coach Diana</div></div>
+          <span class="badge badge-accent">Inscrito</span>
+        </div>
+      </div>
+
+    </section>
+  </div>
+  <%- include('../partials/footer') %>
+</body>
+</html>

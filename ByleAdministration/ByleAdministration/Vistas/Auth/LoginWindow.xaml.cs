@@ -30,9 +30,9 @@ namespace ByleAdministration.Vistas.Auth
 
             if (exitoso)
             {
-                MainWindow main = new MainWindow();
-                main.Show();
-                this.Close();  // ← cierra el login
+                MainWindow dashboard = new MainWindow();
+                dashboard.Show();
+                this.Close();  
             }
             else
             {

@@ -1,9 +1,57 @@
-<nav class="navbar">
-  <a href="/dashboard" class="navbar-brand">
-    <div>
-      <div class="navbar-logo">BY<span>LE</span></div>
-      <div class="navbar-sub">Portal cliente</div>
+<!-- ══ NAVBAR ══ -->
+<header class="navbar">
+  <div class="navbar-inner">
+
+    <a href="/" class="navbar-brand">
+      <img src="/img/logo.svg" alt="Byle">
+      <div class="navbar-brand-text">
+        <div class="navbar-title">BY<span>LE</span></div>
+        <div class="navbar-sub">Gym management</div>
+      </div>
+    </a>
+
+    <!-- Links (desktop) -->
+    <nav class="navbar-links">
+      <a href="/info?s=general" class="<%= typeof nav !== 'undefined' && nav === 'info' ? 'active' : '' %>">Info</a>
+      <a href="/tienda" class="<%= typeof nav !== 'undefined' && nav === 'tienda' ? 'active' : '' %>">Tienda</a>
+      <a href="/competencias" class="<%= typeof nav !== 'undefined' && nav === 'competencias' ? 'active' : '' %>">Competencias</a>
+      <!-- Solo socios -->
+      <a href="/dashboard" class="<%= typeof nav !== 'undefined' && nav === 'dashboard' ? 'active' : '' %>">Mi Portal</a>
+    </nav>
+
+    <div class="navbar-actions">
+      <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema" aria-label="Cambiar tema">☀️</button>
+      <a href="/login" class="btn btn-primary btn-sm">Ingresar</a>
+      <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menú">☰</button>
     </div>
-  </a>
-  <div class="navbar-avatar">CM</div>
-</nav>
+
+  </div>
+</header>
+
+<!-- ══ MENÚ MÓVIL ══ -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <div class="navbar-title" style="font-family:'Bebas Neue';font-size:1.3rem">BY<span style="color:var(--accent)">LE</span></div>
+    <button class="mobile-menu-close" onclick="toggleMenu()">✕</button>
+  </div>
+
+  <div class="menu-label">Explora</div>
+  <a href="/">🏠 Inicio</a>
+  <a href="/info?s=general">ℹ️ Información del gym</a>
+  <a href="/info?s=planes">💎 Planes y membresías</a>
+  <a href="/info?s=horarios">🕐 Horarios</a>
+  <a href="/tienda">🛒 Tienda</a>
+  <a href="/competencias">🏆 Competencias</a>
+  <a href="/hazte-socio">⭐ Hazte socio</a>
+
+  <div class="menu-divider"></div>
+  <div class="menu-label">Mi portal (socios)</div>
+  <a href="/dashboard">📊 Dashboard</a>
+  <a href="/mi-progreso">📈 Mi progreso</a>
+  <a href="/clases">👥 Clases grupales</a>
+  <a href="/pagos">💳 Mis pagos</a>
+  <a href="/acceso-qr">🔑 Acceso QR</a>
+
+  <div class="menu-divider"></div>
+  <a href="/login">🔓 Iniciar sesión</a>
+</div>

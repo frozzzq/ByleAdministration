@@ -1,15 +1,12 @@
 {
   "name": "byle-web",
-  "version": "1.0.0",
-  "description": "Portal web para clientes — ByleAdministrationGym",
+  "version": "2.0.0",
+  "description": "Portal web — ByleAdministrationGym",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
-  "keywords": [],
-  "author": "Equipo Byle",
-  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
