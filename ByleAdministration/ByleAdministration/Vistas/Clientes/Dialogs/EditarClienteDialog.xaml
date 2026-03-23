@@ -237,18 +237,18 @@
                             <Button x:Name="BtnEnrolar" Content="Enrolar"
                                     Style="{StaticResource BtnPrimario}"
                                     FontSize="11" Margin="0,0,4,0"
-                                    Click="BtnEnrolar_Click"/>
+                                    />
                             <Button x:Name="BtnVerificar" Content="Verificar"
                                     Style="{StaticResource BtnSecundario}"
                                     FontSize="11" Margin="2,0"
-                                    Click="BtnVerificar_Click"/>
+                                    />
                             <Button x:Name="BtnEliminarHuella" Content="Eliminar"
                                     FontSize="11" Margin="4,0,0,0"
                                     Foreground="{DynamicResource BrushError}"
                                     Background="Transparent"
                                     BorderBrush="{DynamicResource BrushError}"
                                     BorderThickness="1" Cursor="Hand"
-                                    Click="BtnEliminarHuella_Click"/>
+                                    />
                         </UniformGrid>
                     </StackPanel>
                 </Border>
@@ -267,12 +267,12 @@
                     Style="{StaticResource BtnSecundario}"
                     FontSize="12" Margin="0,0,8,0"
                     Padding="20,10"
-                    Click="BtnCancelar_Click"/>
+                    />
             <Button Grid.Column="2" Content="Guardar cambios"
                     Style="{StaticResource BtnPrimario}"
                     FontSize="12"
                     Padding="20,10"
-                    Click="BtnGuardar_Click"/>
+                    />
         </Grid>
     </Grid>
 </Window>

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-
+using ByleAdministration.Vistas.Clientes.Dialogs;
 namespace ByleAdministration.Vistas.Clientes
 {
     public partial class ClientesView : UserControl
@@ -266,6 +266,13 @@ namespace ByleAdministration.Vistas.Clientes
                     break;
             }
             MostrarClientes(filtrados);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            EditarClienteDialog dialog = new EditarClienteDialog();
+            dialog.Owner = Window.GetWindow(this);
+            dialog.ShowDialog();
         }
     }
 }

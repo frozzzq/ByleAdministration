@@ -221,7 +221,7 @@
 
                         <!-- Solo editar -->
                         <Button Content="Editar" Style="{StaticResource BtnSecundario}"
-                                FontSize="11" HorizontalAlignment="Stretch"/>
+                                FontSize="11" HorizontalAlignment="Stretch" Click="Button_Click"/>
                     </StackPanel>
                 </Border>
 
