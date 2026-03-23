@@ -40,6 +40,6 @@
     <SolidColorBrush x:Key="BrushError"          Color="#E74C3C"/>
     <SolidColorBrush x:Key="BrushWarning"        Color="#F39C12"/>
     <SolidColorBrush x:Key="BrushSuccessMuted"   Color="#1A3D2B"/>
-    <SolidColorBrush x:Key="BrushErrorMuted"     Color="#3D1010"/>
-    <SolidColorBrush x:Key="BrushWarningMuted"   Color="#3D2A10"/>
+    <SolidColorBrush x:Key="BrushWarningMuted"  Color="#3D2E10"/>
+    <SolidColorBrush x:Key="BrushErrorMuted"    Color="#3D1A1A"/>
 </ResourceDictionary>

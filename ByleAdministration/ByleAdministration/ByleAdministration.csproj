@@ -122,7 +122,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ModelosVistas\NuevoEmpleadoVM.cs" />
+    <Compile Include="Modelos\Clientes.cs" />
     <Compile Include="Modelos\Roles.cs" />
+    <Compile Include="Repositorios\RepositorioCliente.cs" />
     <Compile Include="Repositorios\RepositorioEmpleado.cs" />
     <Compile Include="Repositorios\RepositorioRol.cs" />
     <Compile Include="Servicios\ServicioEmpleado.cs" />
@@ -142,6 +144,9 @@
     </Compile>
     <Compile Include="Vistas\Clientes\ClientesView.xaml.cs">
       <DependentUpon>ClientesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Clientes\Dialogs\EditarClienteDialog.xaml.cs">
+      <DependentUpon>EditarClienteDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Dashboard\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
@@ -203,6 +208,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vistas\Clientes\ClientesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vistas\Clientes\Dialogs\EditarClienteDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

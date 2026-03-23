@@ -19,41 +19,62 @@ namespace ByleAdministration
 
         public MainWindow()
         {
-            InitializeComponent();
-            MainContent.Content = new AccesoView();
+            try
+            {
+                InitializeComponent();
+                MessageBox.Show("InitializeComponent OK");
+                MainContent.Content = new AccesoView();
+                MessageBox.Show("AccesoView cargada OK");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en MainWindow: " + ex.ToString());
+            }
         }
 
         private void NavBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is not RadioButton btn) return;
+           
+            
+            
+                
+                if (!IsLoaded) return;  
 
-            string seccion = btn.Name.Replace("Nav", "");
+                if (!(sender is RadioButton btn)) return;
+                string seccion = btn.Name.Replace("Nav", "");
+               
 
-            TxtSeccionActual.Text = seccion switch
-            {
-                "Dashboard" => "Dashboard",
-                "Acceso" => "Acceso",
-                "Ventas" => "Ventas / Caja",
-                "Clientes" => "Clientes",
-                "Membresias" => "Membresías",
-                "Clases" => "Clases y Progreso",
-                "Reportes" => "Reportes",
-                "Sistema" => "Sistema",
-                _ => "Acceso"
-            };
+                TxtSeccionActual.Text = seccion switch
+                {
+                    "Dashboard" => "Dashboard",
+                    "Acceso" => "Acceso",
+                    "Ventas" => "Ventas / Caja",
+                    "Clientes" => "Clientes",
+                    "Membresias" => "Membresías",
+                    "Clases" => "Clases y Progreso",
+                    "Reportes" => "Reportes",
+                    "Sistema" => "Sistema",
+                    _ => "Acceso"
+                };
 
-            MainContent.Content = seccion switch
-            {
-                "Dashboard" => new DashboardView(),
-                "Acceso" => new AccesoView(),
-                "Ventas" => new VentasView(),
-                "Clientes" => new ClientesView(),
-                "Membresias" => new MembresiasView(),
-                "Clases" => new ClasesView(),
-                "Reportes" => new ReportesView(),
-                "Sistema" => new SistemaView(),
-                _ => new AccesoView()
-            };
+                MainContent.Content = seccion switch
+                {
+
+                    "Dashboard" => new DashboardView(),
+                    "Acceso" => new AccesoView(),
+                    "Ventas" => new VentasView(),
+                    "Clientes" => new ClientesView(),
+                    "Membresias" => new MembresiasView(),
+                    "Clases" => new ClasesView(),
+                    "Reportes" => new ReportesView(),
+                    "Sistema" => new SistemaView(),
+                    _ => new AccesoView()
+                };
+            
+            
+            
+
+            
         }
 
         private void ThemeToggle_Click(object sender, RoutedEventArgs e)
@@ -95,5 +116,7 @@ namespace ByleAdministration
 
         private void BtnMinimizar_Click(object sender, RoutedEventArgs e)
             => WindowState = WindowState.Minimized;
+    
+       
     }
 }

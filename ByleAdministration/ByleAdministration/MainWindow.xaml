@@ -116,7 +116,7 @@
                                      Style="{StaticResource menuButton}"
                                      Tag="{StaticResource color1}"
                                      GroupName="Nav"
-                                     Click="NavBtn_Click">
+                                     Checked="NavBtn_Click">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="ChartPie" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="Dashboard" Style="{StaticResource menuButtonText}"/>
@@ -128,7 +128,7 @@
                                      Tag="{StaticResource color2}"
                                      GroupName="Nav"
                                      IsChecked="True"
-                                     Click="NavBtn_Click">
+                                     Checked="NavBtn_Click">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="DoorOpen" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="Acceso" Style="{StaticResource menuButtonText}"/>
@@ -143,7 +143,7 @@
                                      Style="{StaticResource menuButton}"
                                      Tag="{StaticResource color3}"
                                      GroupName="Nav"
-                                     Click="NavBtn_Click">
+                                     Checked="NavBtn_Click">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="CashRegister" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="Ventas / Caja" Style="{StaticResource menuButtonText}"/>
@@ -154,7 +154,7 @@
                                      Style="{StaticResource menuButton}"
                                      Tag="{StaticResource color4}"
                                      GroupName="Nav"
-                                     Click="NavBtn_Click">
+                                     Checked="NavBtn_Click">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="Users" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="Clientes" Style="{StaticResource menuButtonText}"/>
@@ -165,7 +165,7 @@
                                      Style="{StaticResource menuButton}"
                                      Tag="{StaticResource color5}"
                                      GroupName="Nav"
-                                     Click="NavBtn_Click">
+                                     Checked="NavBtn_Click">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="IdCard" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="Membresías" Style="{StaticResource menuButtonText}"/>
@@ -176,7 +176,7 @@
                                      Style="{StaticResource menuButton}"
                                      Tag="{StaticResource color6}"
                                      GroupName="Nav"
-                                     Click="NavBtn_Click">
+                                     Checked="NavBtn_Click">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="PersonRunning" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="Clases y Progreso" Style="{StaticResource menuButtonText}"/>
@@ -187,7 +187,7 @@
                                      Style="{StaticResource menuButton}"
                                      Tag="{StaticResource color7}"
                                      GroupName="Nav"
-                                     Click="NavBtn_Click">
+                                     Checked="NavBtn_Click">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="ChartBar" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="Reportes" Style="{StaticResource menuButtonText}"/>
@@ -198,7 +198,7 @@
                                      Style="{StaticResource menuButton}"
                                      Tag="{StaticResource color8}"
                                      GroupName="Nav"
-                                     Click="NavBtn_Click">
+                                     Checked="NavBtn_Click">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="Gear" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="Sistema" Style="{StaticResource menuButtonText}"/>

@@ -9,33 +9,37 @@
         <Setter Property="Height"       Value="50"/>
         <Setter Property="Margin"       Value="-5,0,0,4"/>
         <Setter Property="Background"   Value="Transparent"/>
-        <Setter Property="Foreground"   Value="{StaticResource BrushTextSecondary}"/>
+        <Setter Property="Foreground"   Value="{DynamicResource BrushTextSecondary}"/>
         <Setter Property="BorderBrush"  Value="Transparent"/>
         <Setter Property="Cursor"       Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
                     <Border Background="{TemplateBinding Background}"
-                            BorderThickness="4,0,0,0"
-                            BorderBrush="{TemplateBinding BorderBrush}">
+                        BorderThickness="4,0,0,0"
+                        BorderBrush="{TemplateBinding BorderBrush}">
                         <ContentPresenter HorizontalAlignment="Left"
-                                          VerticalAlignment="Center"/>
+                                      VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
+            <!-- ✅ Ahora usan Brush, no Color -->
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Margin"       Value="0,0,0,4"/>
-                <Setter Property="Background"   Value="{DynamicResource BrushNavHover}"/>
-                <Setter Property="Foreground"   Value="{DynamicResource BrushTextPrimary}"/>
-                <Setter Property="BorderBrush"  Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
+                <Setter Property="Margin"      Value="0,0,0,4"/>
+                <Setter Property="Background"  Value="{DynamicResource BrushNavHover}"/>
+                <Setter Property="Foreground"  Value="{DynamicResource BrushTextPrimary}"/>
+                <Setter Property="BorderBrush" Value="{Binding Path=Tag,
+                               RelativeSource={RelativeSource Self}}"/>
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Margin"       Value="0,0,0,4"/>
-                <Setter Property="Background"   Value="{DynamicResource BrushNavSelected}"/>
-                <Setter Property="Foreground"   Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
-                <Setter Property="BorderBrush"  Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
+                <Setter Property="Margin"      Value="0,0,0,4"/>
+                <Setter Property="Background"  Value="{DynamicResource BrushNavSelected}"/>
+                <Setter Property="Foreground"  Value="{Binding Path=Tag,
+                               RelativeSource={RelativeSource Self}}"/>
+                <Setter Property="BorderBrush" Value="{Binding Path=Tag,
+                               RelativeSource={RelativeSource Self}}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
