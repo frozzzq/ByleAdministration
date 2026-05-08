@@ -2,82 +2,179 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp">
 
+    <!--
+    ══════════════════════════════════════════════════════
+      ESTILOS GLOBALES — Byle Administration Gym
+      • Animaciones hover/press suaves en botones primarios
+      • Focus indicators visibles (accesibilidad de teclado)
+      • Sin contornos de focus predeterminados de Windows
+      • Todos los colores usan DynamicResource para soporte de temas
+    ══════════════════════════════════════════════════════
+    -->
+
+    <!-- Eliminar el FocusVisualStyle de sistema (lo reemplazamos por el nuestro) -->
+    <Style x:Key="{x:Static SystemParameters.FocusVisualStyleKey}" TargetType="Control">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+    </Style>
+
     <!-- ══════════════════════════════════════
-         NAV — RadioButton estilo (como referencia)
+         NAV — RadioButton estilo sidebar
     ══════════════════════════════════════ -->
     <Style x:Key="menuButton" TargetType="RadioButton">
-        <Setter Property="Height"       Value="50"/>
-        <Setter Property="Margin"       Value="-5,0,0,4"/>
-        <Setter Property="Background"   Value="Transparent"/>
-        <Setter Property="Foreground"   Value="{DynamicResource BrushTextSecondary}"/>
-        <Setter Property="BorderBrush"  Value="Transparent"/>
-        <Setter Property="Cursor"       Value="Hand"/>
+        <Setter Property="Height"          Value="50"/>
+        <Setter Property="Margin"          Value="-5,0,0,2"/>
+        <Setter Property="Background"      Value="Transparent"/>
+        <Setter Property="Foreground"      Value="{DynamicResource BrushTextSecondary}"/>
+        <Setter Property="BorderBrush"     Value="Transparent"/>
+        <Setter Property="Cursor"          Value="Hand"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
-                    <Border Background="{TemplateBinding Background}"
-                        BorderThickness="4,0,0,0"
-                        BorderBrush="{TemplateBinding BorderBrush}">
-                        <ContentPresenter HorizontalAlignment="Left"
-                                      VerticalAlignment="Center"/>
+                    <!--
+                        Estructura de capas:
+                        1. RootBorder  — borde izquierdo de acento + clip
+                        2. HoverLayer  — overlay blanco semitransparente que anima en hover
+                        3. ContentPresenter — icono + texto
+                    -->
+                    <Border x:Name="RootBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="4,0,0,0"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            SnapsToDevicePixels="True">
+                        <Grid>
+                            <!-- Capa hover animada -->
+                            <Border x:Name="HoverLayer"
+                                    Background="#10FFFFFF"
+                                    Opacity="0"/>
+                            <!-- Indicador de focus (accesibilidad teclado) -->
+                            <Border x:Name="FocusRing"
+                                    BorderBrush="{DynamicResource BrushAccent}"
+                                    BorderThickness="0,0,2,0"
+                                    Opacity="0"/>
+                            <ContentPresenter HorizontalAlignment="Left"
+                                              VerticalAlignment="Center"
+                                              Margin="0"/>
+                        </Grid>
                     </Border>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Hover — fade in suave -->
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="HoverLayer"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="1" Duration="0:0:0.14"
+                                                     EasingFunction="{x:Null}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="HoverLayer"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+
+                        <!-- Focus (navegación con teclado) -->
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="FocusRing" Property="Opacity" Value="1"/>
+                        </Trigger>
+
+                        <!-- Mouse over — fondo y texto -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Margin"      Value="0,0,0,2"/>
+                            <Setter Property="Background"  Value="{DynamicResource BrushNavHover}"/>
+                            <Setter Property="Foreground"  Value="{DynamicResource BrushTextPrimary}"/>
+                            <Setter Property="BorderBrush" Value="{Binding Path=Tag,
+                                        RelativeSource={RelativeSource Self}}"/>
+                        </Trigger>
+
+                        <!-- Seleccionado -->
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Margin"      Value="0,0,0,2"/>
+                            <Setter Property="Background"  Value="{DynamicResource BrushNavSelected}"/>
+                            <Setter Property="Foreground"  Value="{Binding Path=Tag,
+                                        RelativeSource={RelativeSource Self}}"/>
+                            <Setter Property="BorderBrush" Value="{Binding Path=Tag,
+                                        RelativeSource={RelativeSource Self}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <!-- ✅ Ahora usan Brush, no Color -->
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Margin"      Value="0,0,0,4"/>
-                <Setter Property="Background"  Value="{DynamicResource BrushNavHover}"/>
-                <Setter Property="Foreground"  Value="{DynamicResource BrushTextPrimary}"/>
-                <Setter Property="BorderBrush" Value="{Binding Path=Tag,
-                               RelativeSource={RelativeSource Self}}"/>
-            </Trigger>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Margin"      Value="0,0,0,4"/>
-                <Setter Property="Background"  Value="{DynamicResource BrushNavSelected}"/>
-                <Setter Property="Foreground"  Value="{Binding Path=Tag,
-                               RelativeSource={RelativeSource Self}}"/>
-                <Setter Property="BorderBrush" Value="{Binding Path=Tag,
-                               RelativeSource={RelativeSource Self}}"/>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
+    <!-- Icono FontAwesome en nav -->
     <Style x:Key="menuButtonIcon" TargetType="fa:IconImage">
         <Setter Property="Foreground" Value="{Binding Path=Tag,
                           RelativeSource={RelativeSource AncestorType=RadioButton}}"/>
-        <Setter Property="Width"    Value="20"/>
-        <Setter Property="Height"   Value="20"/>
-        <Setter Property="Margin"   Value="30,0,16,0"/>
+        <Setter Property="Width"   Value="18"/>
+        <Setter Property="Height"  Value="18"/>
+        <Setter Property="Margin"  Value="30,0,14,0"/>
     </Style>
 
+    <!-- Texto en nav -->
     <Style x:Key="menuButtonText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{Binding Path=Foreground,
                           RelativeSource={RelativeSource AncestorType=RadioButton}}"/>
-        <Setter Property="FontSize"         Value="13"/>
-        <Setter Property="FontWeight"       Value="Medium"/>
+        <Setter Property="FontSize"          Value="13"/>
+        <Setter Property="FontWeight"        Value="Medium"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
-    <!-- Control bar (minimizar / cerrar) -->
+    <!-- ══════════════════════════════════════
+         BOTONES DE CONTROL (minimize / close)
+    ══════════════════════════════════════ -->
     <Style x:Key="controlButton" TargetType="Button">
-        <Setter Property="Width"            Value="20"/>
-        <Setter Property="Height"           Value="20"/>
-        <Setter Property="Margin"           Value="5,0,0,0"/>
-        <Setter Property="Background"       Value="Transparent"/>
-        <Setter Property="BorderThickness"  Value="0"/>
-        <Setter Property="Cursor"           Value="Hand"/>
-        <Setter Property="Foreground"       Value="{DynamicResource BrushTextMuted}"/>
+        <Setter Property="Width"           Value="28"/>
+        <Setter Property="Height"          Value="28"/>
+        <Setter Property="Margin"          Value="4,0,0,0"/>
+        <Setter Property="Background"      Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor"          Value="Hand"/>
+        <Setter Property="Foreground"      Value="{DynamicResource BrushTextMuted}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="4">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Border x:Name="Bg"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="6"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="Bg"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     From="1" To="0.85" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="Bg"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="1" Duration="0:0:0.15"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#20FFFFFF"/>
                             <Setter Property="Foreground" Value="{DynamicResource BrushTextPrimary}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="#35FFFFFF"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -89,15 +186,21 @@
          TARJETA
     ══════════════════════════════════════ -->
     <Style x:Key="CardStyle" TargetType="Border">
-        <Setter Property="Background"       Value="{DynamicResource BrushBgCard}"/>
-        <Setter Property="CornerRadius"     Value="12"/>
-        <Setter Property="Padding"          Value="20"/>
-        <Setter Property="BorderBrush"      Value="{DynamicResource BrushBorder}"/>
-        <Setter Property="BorderThickness"  Value="1"/>
+        <Setter Property="Background"      Value="{DynamicResource BrushBgCard}"/>
+        <Setter Property="CornerRadius"    Value="12"/>
+        <Setter Property="Padding"         Value="22"/>
+        <Setter Property="BorderBrush"     Value="{DynamicResource BrushBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="#000000" BlurRadius="18"
+                                  ShadowDepth="0" Opacity="0.3"/>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!-- ══════════════════════════════════════
-         BOTÓN PRIMARIO
+         BOTÓN PRIMARIO — con animación hover / press
     ══════════════════════════════════════ -->
     <Style x:Key="BtnPrimario" TargetType="Button">
         <Setter Property="Foreground"       Value="White"/>
@@ -105,25 +208,91 @@
         <Setter Property="FontWeight"       Value="SemiBold"/>
         <Setter Property="FontSize"         Value="13"/>
         <Setter Property="Cursor"           Value="Hand"/>
-        <Setter Property="Padding"          Value="20,10"/>
+        <Setter Property="Padding"          Value="22,11"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="Bg" CornerRadius="8" Padding="{TemplateBinding Padding}">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#F26419" Offset="0"/>
-                                <GradientStop Color="#D94F00" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
+                    <Grid RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <ScaleTransform x:Name="ScaleT" ScaleX="1" ScaleY="1"/>
+                        </Grid.RenderTransform>
+
+                        <!-- Fondo base (gradiente naranja) -->
+                        <Border x:Name="BgBase" CornerRadius="9"
+                                Padding="{TemplateBinding Padding}">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#F26419" Offset="0"/>
+                                    <GradientStop Color="#D94F00" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+
+                        <!-- Overlay hover (blanco semitransparente) -->
+                        <Border x:Name="HoverBg" CornerRadius="9"
+                                Background="#18FFFFFF" Opacity="0"
+                                IsHitTestVisible="False"/>
+
+                        <!-- Ring de focus para teclado -->
+                        <Border x:Name="FocusRingBtn" CornerRadius="11"
+                                BorderBrush="#F26419" BorderThickness="2"
+                                Margin="-2" Opacity="0" IsHitTestVisible="False"/>
+                    </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bg" Property="Opacity" Value="0.88"/>
+                        <!-- Hover -->
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="HoverBg"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="1" Duration="0:0:0.14"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="HoverBg"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     To="0" Duration="0:0:0.18"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <!-- Press — escala hacia abajo -->
+                        <EventTrigger RoutedEvent="PreviewMouseLeftButtonDown">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="ScaleT"
+                                                     Storyboard.TargetProperty="ScaleX"
+                                                     To="0.96" Duration="0:0:0.07"/>
+                                    <DoubleAnimation Storyboard.TargetName="ScaleT"
+                                                     Storyboard.TargetProperty="ScaleY"
+                                                     To="0.96" Duration="0:0:0.07"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="PreviewMouseLeftButtonUp">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="ScaleT"
+                                                     Storyboard.TargetProperty="ScaleX"
+                                                     To="1" Duration="0:0:0.12"/>
+                                    <DoubleAnimation Storyboard.TargetName="ScaleT"
+                                                     Storyboard.TargetProperty="ScaleY"
+                                                     To="1" Duration="0:0:0.12"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <!-- Focus (teclado) -->
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="FocusRingBtn" Property="Opacity" Value="1"/>
                         </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Bg" Property="Opacity" Value="0.75"/>
+                        <!-- Deshabilitado -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="BgBase" Property="Opacity" Value="0.45"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -139,20 +308,56 @@
         <Setter Property="BorderThickness"  Value="1"/>
         <Setter Property="FontSize"         Value="13"/>
         <Setter Property="Cursor"           Value="Hand"/>
-        <Setter Property="Padding"          Value="18,9"/>
+        <Setter Property="Padding"          Value="20,10"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="Bg" Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="8" Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
+                    <Grid RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <ScaleTransform x:Name="ScaleS" ScaleX="1" ScaleY="1"/>
+                        </Grid.RenderTransform>
+                        <Border x:Name="BgS"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="9"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
                     <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="PreviewMouseLeftButtonDown">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="ScaleS"
+                                                     Storyboard.TargetProperty="ScaleX"
+                                                     To="0.97" Duration="0:0:0.07"/>
+                                    <DoubleAnimation Storyboard.TargetName="ScaleS"
+                                                     Storyboard.TargetProperty="ScaleY"
+                                                     To="0.97" Duration="0:0:0.07"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="PreviewMouseLeftButtonUp">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="ScaleS"
+                                                     Storyboard.TargetProperty="ScaleX"
+                                                     To="1" Duration="0:0:0.12"/>
+                                    <DoubleAnimation Storyboard.TargetName="ScaleS"
+                                                     Storyboard.TargetProperty="ScaleY"
+                                                     To="1" Duration="0:0:0.12"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bg" Property="Background"
+                            <Setter TargetName="BgS" Property="Background"
                                     Value="{DynamicResource BrushAccentMuted}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="BgS" Property="Opacity" Value="0.45"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -160,32 +365,44 @@
         </Setter>
     </Style>
 
-    <!-- INPUT -->
+    <!-- ══════════════════════════════════════
+         INPUT SEARCH (topbar)
+    ══════════════════════════════════════ -->
     <Style x:Key="SearchBoxStyle" TargetType="TextBox">
         <Setter Property="Background"       Value="{DynamicResource BrushBgInput}"/>
-        <Setter Property="Foreground"       Value="{DynamicResource BrushTextPrimary}"/>
+        <Setter Property="Foreground"       Value="{DynamicResource BrushTextMuted}"/>
         <Setter Property="BorderBrush"      Value="{DynamicResource BrushBorder}"/>
         <Setter Property="BorderThickness"  Value="1"/>
-        <Setter Property="FontSize"         Value="13"/>
-        <Setter Property="Padding"          Value="12,10"/>
+        <Setter Property="FontSize"         Value="12.5"/>
+        <Setter Property="Padding"          Value="12,8"/>
         <Setter Property="CaretBrush"       Value="{DynamicResource BrushAccent}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
-                    <Border Background="{TemplateBinding Background}"
+                    <Border x:Name="InputBorder"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="8">
+                            CornerRadius="9">
                         <ScrollViewer x:Name="PART_ContentHost"
                                       Margin="{TemplateBinding Padding}"
                                       VerticalAlignment="Center"/>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="InputBorder" Property="BorderBrush"
+                                    Value="{DynamicResource BrushBorderFocus}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <!-- TOGGLE TEMA -->
+    <!-- ══════════════════════════════════════
+         TOGGLE TEMA
+    ══════════════════════════════════════ -->
     <Style x:Key="ThemeToggleStyle" TargetType="ToggleButton">
         <Setter Property="Background"       Value="{DynamicResource BrushBgCard}"/>
         <Setter Property="Foreground"       Value="{DynamicResource BrushTextSecondary}"/>
@@ -193,29 +410,127 @@
         <Setter Property="BorderThickness"  Value="1"/>
         <Setter Property="FontSize"         Value="12"/>
         <Setter Property="Cursor"           Value="Hand"/>
-        <Setter Property="Padding"          Value="12,7"/>
+        <Setter Property="Padding"          Value="12,8"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Border x:Name="Bg"
+                    <Border x:Name="TgBg"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="20" Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            CornerRadius="20"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="Bg" Property="BorderBrush"
+                            <Setter TargetName="TgBg" Property="BorderBrush"
                                     Value="{DynamicResource BrushAccent}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bg" Property="Opacity" Value="0.82"/>
+                            <Setter TargetName="TgBg" Property="Background"
+                                    Value="{DynamicResource BrushBgCardHover}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!-- ══════════════════════════════════════
+         BOTÓN DANGER (acciones destructivas)
+    ══════════════════════════════════════ -->
+    <Style x:Key="BtnDanger" TargetType="Button">
+        <Setter Property="Foreground"       Value="White"/>
+        <Setter Property="BorderThickness"  Value="0"/>
+        <Setter Property="FontSize"         Value="13"/>
+        <Setter Property="FontWeight"       Value="SemiBold"/>
+        <Setter Property="Cursor"           Value="Hand"/>
+        <Setter Property="Padding"          Value="20,10"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <ScaleTransform x:Name="ScaleDanger"/>
+                        </Grid.RenderTransform>
+                        <Border x:Name="BgDanger" CornerRadius="9"
+                                Padding="{TemplateBinding Padding}">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#E74C3C" Offset="0"/>
+                                    <GradientStop Color="#C0392B" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BgDanger" Property="Opacity" Value="0.88"/>
+                        </Trigger>
+                        <EventTrigger RoutedEvent="PreviewMouseLeftButtonDown">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="ScaleDanger"
+                                                     Storyboard.TargetProperty="ScaleX"
+                                                     To="0.96" Duration="0:0:0.07"/>
+                                    <DoubleAnimation Storyboard.TargetName="ScaleDanger"
+                                                     Storyboard.TargetProperty="ScaleY"
+                                                     To="0.96" Duration="0:0:0.07"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="PreviewMouseLeftButtonUp">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="ScaleDanger"
+                                                     Storyboard.TargetProperty="ScaleX"
+                                                     To="1" Duration="0:0:0.12"/>
+                                    <DoubleAnimation Storyboard.TargetName="ScaleDanger"
+                                                     Storyboard.TargetProperty="ScaleY"
+                                                     To="1" Duration="0:0:0.12"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ══════════════════════════════════════
+         BADGE de estado (activo / inactivo)
+    ══════════════════════════════════════ -->
+    <Style x:Key="BadgeActivo" TargetType="Border">
+        <Setter Property="Background"      Value="#1A34D399"/>
+        <Setter Property="BorderBrush"     Value="#34D399"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius"    Value="6"/>
+        <Setter Property="Padding"         Value="8,3"/>
+    </Style>
+    <Style x:Key="BadgeInactivo" TargetType="Border">
+        <Setter Property="Background"      Value="#1AF87171"/>
+        <Setter Property="BorderBrush"     Value="#F87171"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius"    Value="6"/>
+        <Setter Property="Padding"         Value="8,3"/>
+    </Style>
+
+    <!-- ══════════════════════════════════════
+         SEPARADOR DE SECCIÓN
+         Nota: TextTransform NO existe en WPF .NET 4.8 — omitido.
+         Para efecto uppercase usar Text="MI LABEL" en mayúsculas directamente.
+    ══════════════════════════════════════ -->
+    <Style x:Key="SectionLabel" TargetType="TextBlock">
+        <Setter Property="Foreground"  Value="{DynamicResource BrushTextMuted}"/>
+        <Setter Property="FontSize"    Value="10.5"/>
+        <Setter Property="FontWeight"  Value="SemiBold"/>
+        <Setter Property="Margin"      Value="0,0,0,6"/>
     </Style>
 
 </ResourceDictionary>

@@ -5,8 +5,11 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!--  1 → Colores de marca (no cambian con el tema)  -->
                 <ResourceDictionary Source="Recursos/Estilos/Colores.xaml"/>
+                <!--  2 → Tema inicial (oscuro). ThemeToggle_Click lo reemplaza en runtime  -->
                 <ResourceDictionary Source="Recursos/Estilos/TemaOscuro.xaml"/>
+                <!--  3 → Estilos globales (depende de los brushes del tema)  -->
                 <ResourceDictionary Source="Recursos/Estilos/Estilos.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

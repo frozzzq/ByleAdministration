@@ -1,45 +1,70 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Color x:Key="primaryBackColor1">#EEF1FF</Color>
-    <Color x:Key="primaryBackColor2">#BDCBFF</Color>
-    <Color x:Key="secondaryBackColor1">#D6E0FF</Color>
-    <Color x:Key="secondaryBackColor2">#C8D5FF</Color>
-    <Color x:Key="winBorderColor1">#E17A1C</Color>
-    <Color x:Key="winBorderColor2">#4357A9</Color>
-    <Color x:Key="winBorderColor3">#BDCBFF</Color>
-    <Color x:Key="panelActiveColor">#C8D5FF</Color>
-    <Color x:Key="panelOverColor">#D6E0FF</Color>
-    <Color x:Key="plainTextColor3">#4357A9</Color>
-    <Color x:Key="titleColor2">#000E37</Color>
-    <Color x:Key="titleColor3">#000E37</Color>
-    <Color x:Key="color1">#E17A1C</Color>
-    <Color x:Key="color2">#E17A1C</Color>
-    <Color x:Key="color3">#E17A1C</Color>
-    <Color x:Key="color4">#E17A1C</Color>
-    <Color x:Key="color5">#E17A1C</Color>
-    <Color x:Key="color6">#E17A1C</Color>
-    <Color x:Key="color7">#E17A1C</Color>
-    <Color x:Key="color8">#E17A1C</Color>
+    <!--
+    ══════════════════════════════════════════════════════
+      TEMA CLARO — Byle Administration Gym
+      TextPrimary  (#1C1C2E) / BgPrimary  (#FAF9FF) → ~14 : 1  ✓
+      TextSecondary(#4A4A6A) / BgPrimary  (#FAF9FF) →  ~7 : 1  ✓
+      Accent       (#D4540E) / BgPrimary  (#FAF9FF) →  ~5 : 1  ✓
+    ══════════════════════════════════════════════════════
+    -->
 
-    <SolidColorBrush x:Key="BrushBgPrimary"      Color="#EEF1FF"/>
-    <SolidColorBrush x:Key="BrushBgSidebar"      Color="#D6E0FF"/>
+    <Color x:Key="primaryBackColor1">#FAF9FF</Color>
+    <Color x:Key="primaryBackColor2">#F3F2FC</Color>
+    <Color x:Key="secondaryBackColor1">#EEEDFa</Color>
+    <Color x:Key="secondaryBackColor2">#E6E5F6</Color>
+
+    <Color x:Key="winBorderColor1">#D4540E</Color>
+    <Color x:Key="winBorderColor2">#C8C8E8</Color>
+    <Color x:Key="winBorderColor3">#FAF9FF</Color>
+
+    <Color x:Key="panelActiveColor">#E2E1F5</Color>
+    <Color x:Key="panelOverColor">#EDEDFB</Color>
+
+    <Color x:Key="plainTextColor3">#8888A8</Color>
+    <Color x:Key="titleColor2">#1C1C2E</Color>
+    <Color x:Key="titleColor3">#1C1C2E</Color>
+
+    <Color x:Key="color1">#D4540E</Color>
+    <Color x:Key="color2">#D4540E</Color>
+    <Color x:Key="color3">#D4540E</Color>
+    <Color x:Key="color4">#D4540E</Color>
+    <Color x:Key="color5">#D4540E</Color>
+    <Color x:Key="color6">#D4540E</Color>
+    <Color x:Key="color7">#D4540E</Color>
+    <Color x:Key="color8">#D4540E</Color>
+
+    <!-- Fondos -->
+    <SolidColorBrush x:Key="BrushBgPrimary"      Color="#FAF9FF"/>
+    <SolidColorBrush x:Key="BrushBgSidebar"      Color="#EEEDFB"/>
     <SolidColorBrush x:Key="BrushBgCard"         Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="BrushBgCardHover"    Color="#EEF1FF"/>
+    <SolidColorBrush x:Key="BrushBgCardHover"    Color="#F3F2FC"/>
     <SolidColorBrush x:Key="BrushBgInput"        Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="BrushAccent"         Color="#E17A1C"/>
-    <SolidColorBrush x:Key="BrushAccentHover"    Color="#F5923A"/>
-    <SolidColorBrush x:Key="BrushAccentMuted"    Color="#F5D498"/>
-    <SolidColorBrush x:Key="BrushTextPrimary"    Color="#000E37"/>
-    <SolidColorBrush x:Key="BrushTextSecondary"  Color="#4357A9"/>
-    <SolidColorBrush x:Key="BrushTextMuted"      Color="#7E8FC0"/>
-    <SolidColorBrush x:Key="BrushBorder"         Color="#BDCBFF"/>
-    <SolidColorBrush x:Key="BrushNavSelected"    Color="#C8D5FF"/>
-    <SolidColorBrush x:Key="BrushNavHover"       Color="#D6E0FF"/>
-    <SolidColorBrush x:Key="BrushSuccess"        Color="#1A7A3C"/>
-    <SolidColorBrush x:Key="BrushError"          Color="#C0392B"/>
-    <SolidColorBrush x:Key="BrushWarning"        Color="#7E380D"/>
-    <SolidColorBrush x:Key="BrushSuccessMuted"   Color="#D4EDDA"/>
-    <SolidColorBrush x:Key="BrushWarningMuted"  Color="#FFF0D0"/>
-    <SolidColorBrush x:Key="BrushErrorMuted"    Color="#FFE0E0"/>
+
+    <!-- Acento (naranja más oscuro para contraste sobre blanco) -->
+    <SolidColorBrush x:Key="BrushAccent"         Color="#D4540E"/>
+    <SolidColorBrush x:Key="BrushAccentHover"    Color="#E86010"/>
+    <SolidColorBrush x:Key="BrushAccentMuted"    Color="#FDE8D8"/>
+
+    <!-- Textos -->
+    <SolidColorBrush x:Key="BrushTextPrimary"    Color="#1C1C2E"/>
+    <SolidColorBrush x:Key="BrushTextSecondary"  Color="#4A4A6A"/>
+    <SolidColorBrush x:Key="BrushTextMuted"      Color="#8888A8"/>
+
+    <!-- Bordes -->
+    <SolidColorBrush x:Key="BrushBorder"         Color="#D8D7EE"/>
+    <SolidColorBrush x:Key="BrushBorderFocus"    Color="#D4540E"/>
+
+    <!-- Navegación -->
+    <SolidColorBrush x:Key="BrushNavSelected"    Color="#E2E1F5"/>
+    <SolidColorBrush x:Key="BrushNavHover"       Color="#EDEDFB"/>
+
+    <!-- Estados semánticos -->
+    <SolidColorBrush x:Key="BrushSuccess"        Color="#059669"/>
+    <SolidColorBrush x:Key="BrushError"          Color="#DC2626"/>
+    <SolidColorBrush x:Key="BrushWarning"        Color="#B45309"/>
+
+    <SolidColorBrush x:Key="BrushOverlay"        Color="#40000000"/>
+
 </ResourceDictionary>
