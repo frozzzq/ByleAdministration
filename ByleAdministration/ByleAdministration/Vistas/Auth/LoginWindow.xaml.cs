@@ -31,7 +31,7 @@ namespace ByleAdministration.Vistas.Auth
             {
                 MainWindow main = new MainWindow();
                 main.Show();
-                this.Close();
+                this.Close();  // ← cierra el login
             }
             else
             {
