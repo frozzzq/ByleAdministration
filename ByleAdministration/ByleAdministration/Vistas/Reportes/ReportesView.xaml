@@ -1,12 +1,433 @@
 ﻿<UserControl x:Class="ByleAdministration.Vistas.Reportes.ReportesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ByleAdministration.Vistas.Reportes"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             Background="{DynamicResource BrushBgPrimary}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="28,22,28,22">
+
+            <!-- ── ENCABEZADO ── -->
+            <DockPanel Margin="0,0,0,20">
+                <StackPanel DockPanel.Dock="Left">
+                    <TextBlock Text="Reportes y Métricas" FontSize="19" FontWeight="Bold"
+                               Foreground="{DynamicResource BrushTextPrimary}"/>
+                    <TextBlock Text="Análisis de ingresos, ventas y asistencia del gimnasio."
+                               FontSize="12.5" Foreground="{DynamicResource BrushTextSecondary}" Margin="0,4,0,0"/>
+                </StackPanel>
+                <Button DockPanel.Dock="Right" Style="{StaticResource BtnSecundario}"
+                        HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="FileArrowDown" Width="13" Height="13"
+                                      Foreground="{DynamicResource BrushAccent}" Margin="0,0,8,0"/>
+                        <TextBlock Text="Exportar PDF" Foreground="{DynamicResource BrushAccent}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </DockPanel>
+
+            <!-- ── FILTROS DE PERÍODO ── -->
+            <Border CornerRadius="12" Padding="18,14"
+                    Background="{DynamicResource BrushBgCard}"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                    Margin="0,0,0,20">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Período:" FontSize="12.5" FontWeight="Medium"
+                               Foreground="{DynamicResource BrushTextSecondary}"
+                               VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    <!-- Botones de período rápido -->
+                    <Border Background="{DynamicResource BrushAccentMuted}" CornerRadius="8"
+                            Padding="14,8" Margin="0,0,6,0" Cursor="Hand">
+                        <TextBlock Text="Hoy" FontSize="12" FontWeight="Medium"
+                                   Foreground="{DynamicResource BrushAccent}"/>
+                    </Border>
+                    <Border Background="{DynamicResource BrushBgPrimary}"
+                            BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                            CornerRadius="8" Padding="14,8" Margin="0,0,6,0" Cursor="Hand">
+                        <TextBlock Text="Esta semana" FontSize="12"
+                                   Foreground="{DynamicResource BrushTextSecondary}"/>
+                    </Border>
+                    <Border Background="{DynamicResource BrushBgPrimary}"
+                            BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                            CornerRadius="8" Padding="14,8" Margin="0,0,6,0" Cursor="Hand">
+                        <TextBlock Text="Este mes" FontSize="12"
+                                   Foreground="{DynamicResource BrushTextSecondary}"/>
+                    </Border>
+                    <Border Background="{DynamicResource BrushBgPrimary}"
+                            BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                            CornerRadius="8" Padding="14,8" Cursor="Hand">
+                        <TextBlock Text="Personalizado" FontSize="12"
+                                   Foreground="{DynamicResource BrushTextSecondary}"/>
+                    </Border>
+                    <!-- Rango de fechas -->
+                    <Rectangle Width="1" Margin="14,0" Fill="{DynamicResource BrushBorder}"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Del:" FontSize="12" Foreground="{DynamicResource BrushTextMuted}"
+                                   Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <Border Background="{DynamicResource BrushBgInput}" CornerRadius="8"
+                                Padding="12,7" Margin="0,0,8,0">
+                            <TextBlock Text="01/05/2026" FontSize="12"
+                                       Foreground="{DynamicResource BrushTextSecondary}"/>
+                        </Border>
+                        <TextBlock Text="Al:" FontSize="12" Foreground="{DynamicResource BrushTextMuted}"
+                                   Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <Border Background="{DynamicResource BrushBgInput}" CornerRadius="8"
+                                Padding="12,7" Margin="0,0,12,0">
+                            <TextBlock Text="08/05/2026" FontSize="12"
+                                       Foreground="{DynamicResource BrushTextSecondary}"/>
+                        </Border>
+                        <Button Style="{StaticResource BtnPrimario}" Padding="14,7" Content="Aplicar"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ── 4 MÉTRICAS ── -->
+            <UniformGrid Rows="1" Columns="4" Margin="0,0,0,20">
+
+                <!-- Ingresos del período -->
+                <Border Margin="0,0,10,0" CornerRadius="12" Padding="18,16"
+                        Background="{DynamicResource BrushBgCard}"
+                        BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                    <StackPanel>
+                        <Border Width="40" Height="40" CornerRadius="10"
+                                Background="#2234D399" HorizontalAlignment="Left" Margin="0,0,0,14">
+                            <fa:IconImage Icon="DollarSign" Width="18" Height="18" Foreground="#34D399"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="$18,450" FontSize="24" FontWeight="Black"
+                                   Foreground="{DynamicResource BrushTextPrimary}"/>
+                        <TextBlock Text="Ingresos totales" FontSize="12"
+                                   Foreground="{DynamicResource BrushTextSecondary}" Margin="0,3,0,0"/>
+                        <TextBlock Text="↑ 12% vs mes anterior" FontSize="10.5"
+                                   Foreground="#34D399" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Ventas registradas -->
+                <Border Margin="0,0,10,0" CornerRadius="12" Padding="18,16"
+                        Background="{DynamicResource BrushBgCard}"
+                        BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                    <StackPanel>
+                        <Border Width="40" Height="40" CornerRadius="10"
+                                Background="#22F26419" HorizontalAlignment="Left" Margin="0,0,0,14">
+                            <fa:IconImage Icon="Receipt" Width="18" Height="18" Foreground="#F26419"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="89" FontSize="28" FontWeight="Black"
+                                   Foreground="{DynamicResource BrushTextPrimary}"/>
+                        <TextBlock Text="Ventas registradas" FontSize="12"
+                                   Foreground="{DynamicResource BrushTextSecondary}" Margin="0,3,0,0"/>
+                        <TextBlock Text="↑ 8% vs mes anterior" FontSize="10.5"
+                                   Foreground="#34D399" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Clientes nuevos -->
+                <Border Margin="0,0,10,0" CornerRadius="12" Padding="18,16"
+                        Background="{DynamicResource BrushBgCard}"
+                        BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                    <StackPanel>
+                        <Border Width="40" Height="40" CornerRadius="10"
+                                Background="#22FBBF24" HorizontalAlignment="Left" Margin="0,0,0,14">
+                            <fa:IconImage Icon="UserPlus" Width="18" Height="18" Foreground="#FBBF24"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="15" FontSize="28" FontWeight="Black"
+                                   Foreground="{DynamicResource BrushTextPrimary}"/>
+                        <TextBlock Text="Clientes nuevos" FontSize="12"
+                                   Foreground="{DynamicResource BrushTextSecondary}" Margin="0,3,0,0"/>
+                        <TextBlock Text="↑ 5% vs mes anterior" FontSize="10.5"
+                                   Foreground="#34D399" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Tasa de renovación -->
+                <Border Margin="0" CornerRadius="12" Padding="18,16"
+                        Background="{DynamicResource BrushBgCard}"
+                        BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                    <StackPanel>
+                        <Border Width="40" Height="40" CornerRadius="10"
+                                Background="#22F87171" HorizontalAlignment="Left" Margin="0,0,0,14">
+                            <fa:IconImage Icon="ArrowsRotate" Width="18" Height="18" Foreground="#F26419"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="78%" FontSize="28" FontWeight="Black"
+                                   Foreground="{DynamicResource BrushTextPrimary}"/>
+                        <TextBlock Text="Tasa de renovación" FontSize="12"
+                                   Foreground="{DynamicResource BrushTextSecondary}" Margin="0,3,0,0"/>
+                        <TextBlock Text="↓ 2% vs mes anterior" FontSize="10.5"
+                                   Foreground="#F87171" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- ── TABLAS ── -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Tabla de ventas recientes -->
+                <Border Grid.Column="0" CornerRadius="12" Padding="20"
+                        Background="{DynamicResource BrushBgCard}"
+                        BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,16">
+                            <StackPanel DockPanel.Dock="Left">
+                                <TextBlock Text="VENTAS RECIENTES" FontSize="11" FontWeight="Bold"
+                                           Foreground="{DynamicResource BrushTextMuted}"/>
+                                <TextBlock Text="Últimas transacciones" FontSize="13" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource BrushTextPrimary}" Margin="0,3,0,0"/>
+                            </StackPanel>
+                        </DockPanel>
+
+                        <!-- Cabecera tabla -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="90"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="70"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Cliente / Concepto" FontSize="11" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource BrushTextMuted}"/>
+                            <TextBlock Grid.Column="1" Text="Fecha" FontSize="11" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource BrushTextMuted}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Text="Método" FontSize="11" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource BrushTextMuted}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="3" Text="Monto" FontSize="11" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource BrushTextMuted}" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Rectangle Height="1" Margin="0,0,0,8">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="{StaticResource winBorderColor2}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+
+                        <!-- Filas de ventas -->
+                        <StackPanel>
+                            <Grid Margin="0,0,0,8" Height="46">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="70"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="Juan García" FontSize="12.5" FontWeight="Medium"
+                                               Foreground="{DynamicResource BrushTextPrimary}"/>
+                                    <TextBlock Text="Membresía Premium" FontSize="11"
+                                               Foreground="{DynamicResource BrushTextSecondary}"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="08/05/26" FontSize="12"
+                                           Foreground="{DynamicResource BrushTextSecondary}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Grid.Column="2" Background="#1A34D399" CornerRadius="6"
+                                        Padding="8,4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock Text="Tarjeta" FontSize="11" Foreground="#34D399"/>
+                                </Border>
+                                <TextBlock Grid.Column="3" Text="$899" FontSize="13" FontWeight="Bold"
+                                           Foreground="{DynamicResource BrushAccent}"
+                                           HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8" Height="46">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="70"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="Carlos López" FontSize="12.5" FontWeight="Medium"
+                                               Foreground="{DynamicResource BrushTextPrimary}"/>
+                                    <TextBlock Text="Proteína (scoop)" FontSize="11"
+                                               Foreground="{DynamicResource BrushTextSecondary}"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="08/05/26" FontSize="12"
+                                           Foreground="{DynamicResource BrushTextSecondary}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Grid.Column="2" Background="#1AFBBF24" CornerRadius="6"
+                                        Padding="8,4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock Text="Efectivo" FontSize="11" Foreground="#FBBF24"/>
+                                </Border>
+                                <TextBlock Grid.Column="3" Text="$120" FontSize="13" FontWeight="Bold"
+                                           Foreground="{DynamicResource BrushAccent}"
+                                           HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8" Height="46">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="70"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="Ana Torres" FontSize="12.5" FontWeight="Medium"
+                                               Foreground="{DynamicResource BrushTextPrimary}"/>
+                                    <TextBlock Text="Membresía Básico" FontSize="11"
+                                               Foreground="{DynamicResource BrushTextSecondary}"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="07/05/26" FontSize="12"
+                                           Foreground="{DynamicResource BrushTextSecondary}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Grid.Column="2" Background="#1A34D399" CornerRadius="6"
+                                        Padding="8,4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock Text="Tarjeta" FontSize="11" Foreground="#34D399"/>
+                                </Border>
+                                <TextBlock Grid.Column="3" Text="$399" FontSize="13" FontWeight="Bold"
+                                           Foreground="{DynamicResource BrushAccent}"
+                                           HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid Height="46">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="70"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="Roberto Vega" FontSize="12.5" FontWeight="Medium"
+                                               Foreground="{DynamicResource BrushTextPrimary}"/>
+                                    <TextBlock Text="Membresía Estándar" FontSize="11"
+                                               Foreground="{DynamicResource BrushTextSecondary}"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="07/05/26" FontSize="12"
+                                           Foreground="{DynamicResource BrushTextSecondary}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Grid.Column="2" Background="#1AFBBF24" CornerRadius="6"
+                                        Padding="8,4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock Text="Efectivo" FontSize="11" Foreground="#FBBF24"/>
+                                </Border>
+                                <TextBlock Grid.Column="3" Text="$649" FontSize="13" FontWeight="Bold"
+                                           Foreground="{DynamicResource BrushAccent}"
+                                           HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Top membresías vendidas -->
+                <Border Grid.Column="2" CornerRadius="12" Padding="20"
+                        Background="{DynamicResource BrushBgCard}"
+                        BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="TOP MEMBRESÍAS" FontSize="11" FontWeight="Bold"
+                                   Foreground="{DynamicResource BrushTextMuted}"/>
+                        <TextBlock Text="Más vendidas del período" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource BrushTextPrimary}" Margin="0,3,0,16"/>
+
+                        <!-- Membresía Básico -->
+                        <StackPanel Margin="0,0,0,14">
+                            <DockPanel Margin="0,0,0,5">
+                                <TextBlock Text="Básico" FontSize="12.5" FontWeight="Medium"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                                <TextBlock Text="42 ventas · $16,758" FontSize="12"
+                                           Foreground="{DynamicResource BrushTextSecondary}"
+                                           HorizontalAlignment="Right"/>
+                            </DockPanel>
+                            <Border Height="8" CornerRadius="4"
+                                    Background="{DynamicResource BrushBgPrimary}">
+                                <Border HorizontalAlignment="Left" Width="220" Height="8" CornerRadius="4">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#F26419" Offset="0"/>
+                                            <GradientStop Color="#D94F00" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Membresía Estándar -->
+                        <StackPanel Margin="0,0,0,14">
+                            <DockPanel Margin="0,0,0,5">
+                                <TextBlock Text="Estándar" FontSize="12.5" FontWeight="Medium"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                                <TextBlock Text="31 ventas · $20,119" FontSize="12"
+                                           Foreground="{DynamicResource BrushTextSecondary}"
+                                           HorizontalAlignment="Right"/>
+                            </DockPanel>
+                            <Border Height="8" CornerRadius="4"
+                                    Background="{DynamicResource BrushBgPrimary}">
+                                <Border HorizontalAlignment="Left" Width="170" Height="8" CornerRadius="4">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#F26419" Offset="0"/>
+                                            <GradientStop Color="#D94F00" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Membresía Premium -->
+                        <StackPanel Margin="0,0,0,14">
+                            <DockPanel Margin="0,0,0,5">
+                                <TextBlock Text="Premium" FontSize="12.5" FontWeight="Medium"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                                <TextBlock Text="16 ventas · $14,384" FontSize="12"
+                                           Foreground="{DynamicResource BrushTextSecondary}"
+                                           HorizontalAlignment="Right"/>
+                            </DockPanel>
+                            <Border Height="8" CornerRadius="4"
+                                    Background="{DynamicResource BrushBgPrimary}">
+                                <Border HorizontalAlignment="Left" Width="100" Height="8" CornerRadius="4">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#FBBF24" Offset="0"/>
+                                            <GradientStop Color="#D97706" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Barras de productos -->
+                        <Rectangle Height="1" Margin="0,4,0,14">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="Transparent" Offset="0"/>
+                                    <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
+                                    <GradientStop Color="Transparent" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Text="Productos más vendidos" FontSize="11.5" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource BrushTextSecondary}" Margin="0,0,0,12"/>
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Proteína (scoop)" FontSize="12"
+                                       Foreground="{DynamicResource BrushTextPrimary}"/>
+                            <TextBlock Grid.Column="1" Text="24 uds" FontSize="11"
+                                       Foreground="{DynamicResource BrushTextSecondary}"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Text="$2,880" FontSize="12" FontWeight="Bold"
+                                       Foreground="{DynamicResource BrushAccent}" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Agua embotellada" FontSize="12"
+                                       Foreground="{DynamicResource BrushTextPrimary}"/>
+                            <TextBlock Grid.Column="1" Text="118 uds" FontSize="11"
+                                       Foreground="{DynamicResource BrushTextSecondary}"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Text="$2,360" FontSize="12" FontWeight="Bold"
+                                       Foreground="{DynamicResource BrushAccent}" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>
