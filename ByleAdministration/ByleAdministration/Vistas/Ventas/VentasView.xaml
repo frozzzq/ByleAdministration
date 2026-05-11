@@ -1,12 +1,549 @@
 ﻿<UserControl x:Class="ByleAdministration.Vistas.Ventas.VentasView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ByleAdministration.Vistas.Ventas"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             Background="{DynamicResource BrushBgPrimary}">
+
+    <UserControl.Resources>
+        <!-- Estilo segmento/pill para selección de concepto -->
+        <Style x:Key="PillTab" TargetType="RadioButton">
+            <Setter Property="Height"          Value="34"/>
+            <Setter Property="Padding"         Value="18,0"/>
+            <Setter Property="Background"      Value="Transparent"/>
+            <Setter Property="Foreground"      Value="{DynamicResource BrushTextSecondary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize"        Value="12.5"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="Bg" CornerRadius="8" Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource BrushAccent}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource BrushAccentMuted}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="28,22,28,22">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="16"/>
+            <ColumnDefinition Width="310"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ── ENCABEZADO ── -->
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="3" Margin="0,0,0,20">
+            <StackPanel DockPanel.Dock="Left">
+                <TextBlock Text="Ventas / Caja" FontSize="19" FontWeight="Bold"
+                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                <TextBlock Text="Registra ventas de membresías, productos e inscripciones."
+                           FontSize="12.5" Foreground="{DynamicResource BrushTextSecondary}" Margin="0,4,0,0"/>
+            </StackPanel>
+            <Border DockPanel.Dock="Right" VerticalAlignment="Center"
+                    Background="{DynamicResource BrushBgCard}"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                    CornerRadius="9" Padding="14,8">
+                <StackPanel Orientation="Horizontal">
+                    <fa:IconImage Icon="CalendarDay" Width="12" Height="12"
+                                  Foreground="{DynamicResource BrushAccent}" Margin="0,0,7,0"/>
+                    <TextBlock Text="08/05/2026" FontSize="12"
+                               Foreground="{DynamicResource BrushTextSecondary}"/>
+                </StackPanel>
+            </Border>
+        </DockPanel>
+
+        <!-- ── PANEL IZQUIERDO: cliente + concepto ── -->
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- SECCIÓN CLIENTE -->
+            <Border Grid.Row="0" CornerRadius="12" Padding="18"
+                    Background="{DynamicResource BrushBgCard}"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                    Margin="0,0,0,14">
+                <StackPanel>
+                    <TextBlock Text="CLIENTE" FontSize="11" FontWeight="Bold"
+                               Foreground="{DynamicResource BrushTextMuted}" Margin="0,0,0,10"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Background="{DynamicResource BrushBgInput}" CornerRadius="9"
+                                BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1" Height="40">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="38"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <fa:IconImage Icon="MagnifyingGlass" Width="13" Height="13"
+                                              Foreground="{DynamicResource BrushTextMuted}"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="1" Background="Transparent" BorderThickness="0"
+                                         Foreground="{DynamicResource BrushTextMuted}"
+                                         VerticalAlignment="Center" FontSize="12.5" Padding="0,0,8,0"
+                                         Text="Buscar cliente..."/>
+                            </Grid>
+                        </Border>
+                        <Button Grid.Column="2" Style="{StaticResource BtnPrimario}"
+                                Height="40" Padding="14,0" Content="Buscar"/>
+                        <Button Grid.Column="4" Style="{StaticResource BtnSecundario}"
+                                Height="40" Padding="14,0">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="UserPlus" Width="13" Height="13"
+                                              Foreground="{DynamicResource BrushAccent}" Margin="0,0,6,0"/>
+                                <TextBlock Text="Nuevo" Foreground="{DynamicResource BrushAccent}"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+
+                    <!-- Tarjeta del cliente seleccionado -->
+                    <Border Margin="0,12,0,0" Padding="14,10" CornerRadius="9"
+                            Background="{DynamicResource BrushBgPrimary}"
+                            BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="44"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="38" Height="38" CornerRadius="19">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#F26419" Offset="0"/>
+                                        <GradientStop Color="#D94F00" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="JG" FontSize="13" FontWeight="Bold" Foreground="White"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="Juan García" FontSize="13" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                                <TextBlock Text="Membresía Premium · Activo" FontSize="11"
+                                           Foreground="{DynamicResource BrushTextSecondary}"/>
+                            </StackPanel>
+                            <Border Grid.Column="2" Background="#1A34D399" CornerRadius="6"
+                                    Padding="8,4" VerticalAlignment="Center">
+                                <TextBlock Text="ACTIVO" FontSize="9.5" FontWeight="Bold" Foreground="#34D399"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- SECCIÓN CONCEPTO -->
+            <Border Grid.Row="1" CornerRadius="12" Padding="18"
+                    Background="{DynamicResource BrushBgCard}"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="CONCEPTO" FontSize="11" FontWeight="Bold"
+                               Foreground="{DynamicResource BrushTextMuted}" Margin="0,0,0,10"/>
+
+                    <!-- Selector tipo de concepto -->
+                    <Border Grid.Row="1" Background="{DynamicResource BrushBgPrimary}"
+                            CornerRadius="10" Padding="4" Margin="0,0,0,12">
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton Style="{StaticResource PillTab}" GroupName="Concepto"
+                                         IsChecked="True" Content="Membresía"/>
+                            <RadioButton Style="{StaticResource PillTab}" GroupName="Concepto"
+                                         Content="Producto" Margin="4,0,0,0"/>
+                            <RadioButton Style="{StaticResource PillTab}" GroupName="Concepto"
+                                         Content="Inscripción a Clase" Margin="4,0,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Lista de conceptos (Membresías visible por defecto) -->
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <!-- Membresía Básico -->
+                            <Border Padding="14,12" CornerRadius="9" Margin="0,0,0,6" Cursor="Hand">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource BrushBgPrimary}"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource BrushBgCardHover}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="38"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="34" Height="34" CornerRadius="8" Background="#22F26419">
+                                        <fa:IconImage Icon="IdCard" Width="15" Height="15" Foreground="#F26419"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Membresía Básico" FontSize="13" FontWeight="Medium"
+                                                   Foreground="{DynamicResource BrushTextPrimary}"/>
+                                        <TextBlock Text="30 días de acceso" FontSize="11"
+                                                   Foreground="{DynamicResource BrushTextSecondary}"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="$399" FontSize="15" FontWeight="Black"
+                                               Foreground="{DynamicResource BrushAccent}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <Button Grid.Column="3" Style="{StaticResource BtnPrimario}"
+                                            Padding="0,8" FontSize="11.5" Content="+ Agregar"
+                                            VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                            <!-- Membresía Estándar -->
+                            <Border Padding="14,12" CornerRadius="9" Margin="0,0,0,6" Cursor="Hand">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource BrushBgPrimary}"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource BrushBgCardHover}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="38"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="34" Height="34" CornerRadius="8" Background="#22F26419">
+                                        <fa:IconImage Icon="IdCard" Width="15" Height="15" Foreground="#F26419"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Membresía Estándar" FontSize="13" FontWeight="Medium"
+                                                   Foreground="{DynamicResource BrushTextPrimary}"/>
+                                        <TextBlock Text="30 días de acceso + clases" FontSize="11"
+                                                   Foreground="{DynamicResource BrushTextSecondary}"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="$649" FontSize="15" FontWeight="Black"
+                                               Foreground="{DynamicResource BrushAccent}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <Button Grid.Column="3" Style="{StaticResource BtnPrimario}"
+                                            Padding="0,8" FontSize="11.5" Content="+ Agregar"
+                                            VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                            <!-- Membresía Premium -->
+                            <Border Padding="14,12" CornerRadius="9" Margin="0,0,0,6" Cursor="Hand">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource BrushBgPrimary}"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource BrushBgCardHover}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="38"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="34" Height="34" CornerRadius="8" Background="#22FBBF24">
+                                        <fa:IconImage Icon="Star" Width="15" Height="15" Foreground="#FBBF24"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Membresía Premium" FontSize="13" FontWeight="Medium"
+                                                       Foreground="{DynamicResource BrushTextPrimary}"/>
+                                            <Border Background="#22FBBF24" CornerRadius="4"
+                                                    Padding="5,2" Margin="8,0,0,0" VerticalAlignment="Center">
+                                                <TextBlock Text="POPULAR" FontSize="9" FontWeight="Bold"
+                                                           Foreground="#FBBF24"/>
+                                            </Border>
+                                        </StackPanel>
+                                        <TextBlock Text="30 días · acceso total + nutrición" FontSize="11"
+                                                   Foreground="{DynamicResource BrushTextSecondary}"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="$899" FontSize="15" FontWeight="Black"
+                                               Foreground="{DynamicResource BrushAccent}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <Button Grid.Column="3" Style="{StaticResource BtnPrimario}"
+                                            Padding="0,8" FontSize="11.5" Content="+ Agregar"
+                                            VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                            <!-- Producto: Agua -->
+                            <Border Padding="14,12" CornerRadius="9" Margin="0,0,0,6" Cursor="Hand">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource BrushBgPrimary}"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource BrushBgCardHover}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="38"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="34" Height="34" CornerRadius="8" Background="#2234D399">
+                                        <fa:IconImage Icon="Droplet" Width="15" Height="15" Foreground="#34D399"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Agua embotellada" FontSize="13" FontWeight="Medium"
+                                                   Foreground="{DynamicResource BrushTextPrimary}"/>
+                                        <TextBlock Text="Stock: 24 unidades" FontSize="11"
+                                                   Foreground="{DynamicResource BrushTextSecondary}"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="$20" FontSize="15" FontWeight="Black"
+                                               Foreground="{DynamicResource BrushAccent}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <Button Grid.Column="3" Style="{StaticResource BtnPrimario}"
+                                            Padding="0,8" FontSize="11.5" Content="+ Agregar"
+                                            VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                            <!-- Producto: Proteína -->
+                            <Border Padding="14,12" CornerRadius="9" Cursor="Hand">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource BrushBgPrimary}"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource BrushBgCardHover}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="38"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="34" Height="34" CornerRadius="8" Background="#22F26419">
+                                        <fa:IconImage Icon="Dumbbell" Width="15" Height="15" Foreground="#F26419"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="Proteína (scoop)" FontSize="13" FontWeight="Medium"
+                                                   Foreground="{DynamicResource BrushTextPrimary}"/>
+                                        <TextBlock Text="Stock: 8 unidades" FontSize="11"
+                                                   Foreground="{DynamicResource BrushTextSecondary}"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="$120" FontSize="15" FontWeight="Black"
+                                               Foreground="{DynamicResource BrushAccent}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <Button Grid.Column="3" Style="{StaticResource BtnPrimario}"
+                                            Padding="0,8" FontSize="11.5" Content="+ Agregar"
+                                            VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- ── PANEL DERECHO: carrito y pago ── -->
+        <Border Grid.Row="1" Grid.Column="2" CornerRadius="12" Padding="18"
+                Background="{DynamicResource BrushBgCard}"
+                BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+            <DockPanel>
+                <!-- Header carrito -->
+                <StackPanel DockPanel.Dock="Top" Margin="0,0,0,14">
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                            <fa:IconImage Icon="CartShopping" Width="15" Height="15"
+                                          Foreground="{DynamicResource BrushAccent}" Margin="0,0,8,0"/>
+                            <TextBlock Text="Carrito" FontSize="14" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource BrushTextPrimary}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Border DockPanel.Dock="Right" Background="{DynamicResource BrushAccent}"
+                                CornerRadius="10" Padding="8,3" HorizontalAlignment="Right">
+                            <TextBlock Text="2 items" FontSize="10.5" FontWeight="Bold" Foreground="White"/>
+                        </Border>
+                    </DockPanel>
+                    <Rectangle Height="1" Margin="0,12,0,0">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="Transparent" Offset="0"/>
+                                <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
+                                <GradientStop Color="Transparent" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </StackPanel>
+
+                <!-- Items del carrito -->
+                <StackPanel DockPanel.Dock="Top" Margin="0,0,0,14">
+                    <!-- Item 1 -->
+                    <Border Padding="12,10" CornerRadius="9" Margin="0,0,0,6"
+                            Background="{DynamicResource BrushBgPrimary}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="24"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Membresía Estándar" FontSize="12.5" FontWeight="Medium"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                                <TextBlock Text="30 días · 1 unidad" FontSize="11"
+                                           Foreground="{DynamicResource BrushTextSecondary}"/>
+                            </StackPanel>
+                            <TextBlock Grid.Column="1" Text="$649" FontSize="13.5" FontWeight="Bold"
+                                       Foreground="{DynamicResource BrushAccent}"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Button Grid.Column="2" Background="Transparent" BorderThickness="0"
+                                    Cursor="Hand" VerticalAlignment="Center">
+                                <fa:IconImage Icon="Xmark" Width="11" Height="11" Foreground="#F87171"/>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <!-- Item 2 -->
+                    <Border Padding="12,10" CornerRadius="9"
+                            Background="{DynamicResource BrushBgPrimary}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="24"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Agua embotellada" FontSize="12.5" FontWeight="Medium"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                                <TextBlock Text="1 unidad" FontSize="11"
+                                           Foreground="{DynamicResource BrushTextSecondary}"/>
+                            </StackPanel>
+                            <TextBlock Grid.Column="1" Text="$20" FontSize="13.5" FontWeight="Bold"
+                                       Foreground="{DynamicResource BrushAccent}"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Button Grid.Column="2" Background="Transparent" BorderThickness="0"
+                                    Cursor="Hand" VerticalAlignment="Center">
+                                <fa:IconImage Icon="Xmark" Width="11" Height="11" Foreground="#F87171"/>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- Totales -->
+                <StackPanel DockPanel.Dock="Top" Margin="0,0,0,16">
+                    <Rectangle Height="1" Margin="0,0,0,12">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="Transparent" Offset="0"/>
+                                <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
+                                <GradientStop Color="Transparent" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <DockPanel Margin="0,0,0,6">
+                        <TextBlock Text="Subtotal" FontSize="12.5"
+                                   Foreground="{DynamicResource BrushTextSecondary}"/>
+                        <TextBlock Text="$669" FontSize="12.5" HorizontalAlignment="Right"
+                                   Foreground="{DynamicResource BrushTextSecondary}"/>
+                    </DockPanel>
+                    <DockPanel Margin="0,0,0,8">
+                        <TextBlock Text="Descuento" FontSize="12.5"
+                                   Foreground="{DynamicResource BrushTextSecondary}"/>
+                        <TextBlock Text="—" FontSize="12.5" HorizontalAlignment="Right"
+                                   Foreground="{DynamicResource BrushTextMuted}"/>
+                    </DockPanel>
+                    <Border Background="{DynamicResource BrushBgPrimary}" CornerRadius="9" Padding="14,10">
+                        <DockPanel>
+                            <TextBlock Text="TOTAL" FontSize="14" FontWeight="Black"
+                                       Foreground="{DynamicResource BrushTextPrimary}"/>
+                            <TextBlock Text="$669" FontSize="20" FontWeight="Black"
+                                       HorizontalAlignment="Right"
+                                       Foreground="{DynamicResource BrushAccent}"/>
+                        </DockPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Método de pago -->
+                <StackPanel DockPanel.Dock="Top" Margin="0,0,0,16">
+                    <TextBlock Text="MÉTODO DE PAGO" FontSize="11" FontWeight="Bold"
+                               Foreground="{DynamicResource BrushTextMuted}" Margin="0,0,0,8"/>
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton x:Name="RbEfectivo" GroupName="Pago" IsChecked="True">
+                            <Border Background="{DynamicResource BrushBgPrimary}" CornerRadius="9"
+                                    Padding="14,9" Cursor="Hand">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:IconImage Icon="MoneyBill" Width="14" Height="14"
+                                                  Foreground="{DynamicResource BrushAccent}" Margin="0,0,7,0"/>
+                                    <TextBlock Text="Efectivo" FontSize="12.5"
+                                               Foreground="{DynamicResource BrushTextPrimary}"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </RadioButton>
+                        <RadioButton x:Name="RbTarjeta" GroupName="Pago" Margin="8,0,0,0">
+                            <Border Background="{DynamicResource BrushBgPrimary}" CornerRadius="9"
+                                    Padding="14,9" Cursor="Hand">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:IconImage Icon="CreditCard" Width="14" Height="14"
+                                                  Foreground="{DynamicResource BrushAccent}" Margin="0,0,7,0"/>
+                                    <TextBlock Text="Tarjeta" FontSize="12.5"
+                                               Foreground="{DynamicResource BrushTextPrimary}"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </RadioButton>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Botón confirmar -->
+                <Button DockPanel.Dock="Bottom" Style="{StaticResource BtnPrimario}"
+                        Height="48" FontSize="14" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="Check" Width="15" Height="15"
+                                      Foreground="White" Margin="0,0,8,0"/>
+                        <TextBlock Text="CONFIRMAR VENTA" FontWeight="Bold" FontSize="13"
+                                   Foreground="White" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>
