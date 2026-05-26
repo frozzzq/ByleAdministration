@@ -329,16 +329,6 @@
                                           Width="11" Height="11"
                                           Foreground="{DynamicResource BrushTextSecondary}"/>
                         </Button>
-                        
-                        
-                        <!-- Minimizar -->
-                        <Button Style="{StaticResource controlButton}"
-                                Click="BtnMinimizar_Click"
-                                ToolTip="Minimizar">
-                            <fa:IconImage Icon="WindowMinimize"
-                                          Width="11" Height="11"
-                                          Foreground="{DynamicResource BrushTextSecondary}"/>
-                        </Button>
 
                         <!-- NUEVO: Pantalla completa -->
                         <Button x:Name="BtnPantallaCompleta" Style="{StaticResource controlButton}"
@@ -349,6 +339,17 @@
                                 Width="11" Height="11"
                                 Foreground="{DynamicResource BrushTextSecondary}"/>
                         </Button>
+
+                        <!-- Minimizar -->
+                        <Button Style="{StaticResource controlButton}"
+                                Click="BtnMinimizar_Click"
+                                ToolTip="Minimizar">
+                            <fa:IconImage Icon="WindowMinimize"
+                                          Width="11" Height="11"
+                                          Foreground="{DynamicResource BrushTextSecondary}"/>
+                        </Button>
+
+
 
                     </StackPanel>
                     
