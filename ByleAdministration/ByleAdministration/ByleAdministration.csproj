@@ -39,6 +39,26 @@
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
       <HintPath>..\packages\BouncyCastle.Cryptography.2.6.2\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
     </Reference>
+    <Reference Include="DPFPDevNET, Version=1.6.1.0, Culture=neutral, PublicKeyToken=696774c42ee28c57, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\DigitalPersona\One Touch SDK\.NET\Bin\DPFPDevNET.dll</HintPath>
+    </Reference>
+    <Reference Include="DPFPEngNET, Version=1.6.1.0, Culture=neutral, PublicKeyToken=7fe76e7adf19964b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\DigitalPersona\One Touch SDK\.NET\Bin\DPFPEngNET.dll</HintPath>
+    </Reference>
+    <Reference Include="DPFPGuiNET, Version=1.6.1.0, Culture=neutral, PublicKeyToken=d4f4a0bd9c559145, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\DigitalPersona\One Touch SDK\.NET\Bin\DPFPGuiNET.dll</HintPath>
+    </Reference>
+    <Reference Include="DPFPShrNET, Version=1.6.1.0, Culture=neutral, PublicKeyToken=d902fe275a8d6cf2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\DigitalPersona\One Touch SDK\.NET\Bin\DPFPShrNET.dll</HintPath>
+    </Reference>
+    <Reference Include="DPFPVerNET, Version=1.6.1.0, Culture=neutral, PublicKeyToken=4de0a9c4dcc83984, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\DigitalPersona\One Touch SDK\.NET\Bin\DPFPVerNET.dll</HintPath>
+    </Reference>
     <Reference Include="FontAwesome.Sharp, Version=6.6.0.0, Culture=neutral, PublicKeyToken=d16d1e4e568ec10f, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.Sharp.6.6.0\lib\net48\FontAwesome.Sharp.dll</HintPath>
     </Reference>
@@ -123,13 +143,23 @@
     </ApplicationDefinition>
     <Compile Include="ModelosVistas\NuevoEmpleadoVM.cs" />
     <Compile Include="Modelos\Clientes.cs" />
+    <Compile Include="Modelos\Membresia.cs" />
+    <Compile Include="Modelos\RegistroAcceso.cs" />
     <Compile Include="Modelos\Roles.cs" />
+    <Compile Include="Repositorios\RepositorioAcceso.cs" />
+    <Compile Include="Repositorios\Repositoriobiometria.cs" />
     <Compile Include="Repositorios\RepositorioCliente.cs" />
     <Compile Include="Repositorios\RepositorioEmpleado.cs" />
+    <Compile Include="Repositorios\Repositoriomembresia.cs" />
     <Compile Include="Repositorios\RepositorioRol.cs" />
+    <Compile Include="Servicios\ServicioAcceso.cs" />
+    <Compile Include="Servicios\Serviciobiometria.cs" />
+    <Compile Include="Servicios\Serviciocliente.cs" />
     <Compile Include="Servicios\ServicioEmpleado.cs" />
     <Compile Include="Soportes\SoporteDatabase.cs" />
     <Compile Include="Soportes\VistaModeloBase.cs" />
+    <Compile Include="utils\Gestorsensor.cs" />
+    <Compile Include="utils\Lectorhuella.cs" />
     <Compile Include="Vistas\Acceso\AccesoView.xaml.cs">
       <DependentUpon>AccesoView.xaml</DependentUpon>
     </Compile>

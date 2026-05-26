@@ -8,117 +8,215 @@ namespace ByleAdministration.Repositorios
 {
     public class RepositorioCliente
     {
+        // ── SQL base con JOIN a membresias ──────────────────────────
+        // Todas las consultas de lectura usan este SELECT para que
+        // NombreMembresia llegue lleno sin consultas adicionales.
+        private const string SELECT_BASE = @"
+            SELECT  u.*,
+                    m.nombre_membresia
+            FROM    usuarios u
+            LEFT JOIN membresias m ON u.id_membresia = m.id_membresia";
+
+        // ─────────────────────────────────────────────────────────────
+        // ESCRITURA
+        // ─────────────────────────────────────────────────────────────
+
+        public int Insertar(Cliente c)
+        {
+            using (var conn = SoporteDatabase.ObtenerConexion())
+            {
+                conn.Open();
+                const string sql = @"
+                    INSERT INTO usuarios
+                        (nombre_completo, edad, ciudad, telefono, telefono_emergencia,
+                         correo, fecha_inscripcion, fecha_renovacion, id_membresia, estado)
+                    VALUES
+                        (@nombre, @edad, @ciudad, @tel, @telEm,
+                         @correo, @inscripcion, @renovacion, @idMem, @estado)";
+
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", c.NombreCompleto);
+                    cmd.Parameters.AddWithValue("@edad", c.Edad);
+                    cmd.Parameters.AddWithValue("@ciudad", c.Ciudad);
+                    cmd.Parameters.AddWithValue("@tel", c.Telefono);
+                    cmd.Parameters.AddWithValue("@telEm", c.TelefonoEmergencia);
+                    cmd.Parameters.AddWithValue("@correo", c.Correo);
+                    cmd.Parameters.AddWithValue("@inscripcion", c.FechaInscripcion);
+                    cmd.Parameters.AddWithValue("@renovacion", (object)c.FechaRenovacion ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@idMem", c.IdMembresia);
+                    cmd.Parameters.AddWithValue("@estado", c.Estado ?? "activo");
+                    cmd.ExecuteNonQuery();
+                    return (int)cmd.LastInsertedId;
+                }
+            }
+        }
+
+        public bool Actualizar(Cliente c)
+        {
+            using (var conn = SoporteDatabase.ObtenerConexion())
+            {
+                conn.Open();
+                const string sql = @"
+                    UPDATE usuarios SET
+                        nombre_completo     = @nombre,
+                        edad                = @edad,
+                        ciudad              = @ciudad,
+                        telefono            = @tel,
+                        telefono_emergencia = @telEm,
+                        correo              = @correo,
+                        id_membresia        = @idMem,
+                        estado              = @estado,
+                        fecha_inscripcion   = @inscripcion,
+                        fecha_renovacion    = @renovacion
+                    WHERE id_usuario = @id";
+
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", c.NombreCompleto);
+                    cmd.Parameters.AddWithValue("@edad", c.Edad);
+                    cmd.Parameters.AddWithValue("@ciudad", c.Ciudad);
+                    cmd.Parameters.AddWithValue("@tel", c.Telefono);
+                    cmd.Parameters.AddWithValue("@telEm", c.TelefonoEmergencia);
+                    cmd.Parameters.AddWithValue("@correo", c.Correo);
+                    cmd.Parameters.AddWithValue("@idMem", c.IdMembresia);
+                    cmd.Parameters.AddWithValue("@estado", c.Estado ?? "activo");
+                    cmd.Parameters.AddWithValue("@inscripcion", c.FechaInscripcion);
+                    cmd.Parameters.AddWithValue("@renovacion", (object)c.FechaRenovacion ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@id", c.IdUsuario);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
+        public bool CambiarEstado(int idUsuario, string estado)
+        {
+            using (var conn = SoporteDatabase.ObtenerConexion())
+            {
+                conn.Open();
+                const string sql = "UPDATE usuarios SET estado = @estado WHERE id_usuario = @id";
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@estado", estado);
+                    cmd.Parameters.AddWithValue("@id", idUsuario);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // LECTURA  — todas usan SELECT_BASE (incluye JOIN a membresias)
+        // ─────────────────────────────────────────────────────────────
+
+        public Cliente ObtenerPorId(int id)
+        {
+            using (var conn = SoporteDatabase.ObtenerConexion())
+            {
+                conn.Open();
+                string sql = SELECT_BASE + " WHERE u.id_usuario = @id LIMIT 1";
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    using (var r = cmd.ExecuteReader())
+                        return r.Read() ? Mapear(r) : null;
+                }
+            }
+        }
+
         public List<Cliente> ObtenerTodos()
         {
             var lista = new List<Cliente>();
             using (var conn = SoporteDatabase.ObtenerConexion())
             {
                 conn.Open();
-                string sql = @"SELECT u.id_usuario, u.nombre_completo, u.edad, u.ciudad,
-                                      u.telefono, u.telefono_emergencia, u.correo,
-                                      u.fecha_inscripcion, u.fecha_renovacion,
-                                      u.id_membresia, u.estado,
-                                      m.nombre_membresia
-                               FROM usuarios u
-                               LEFT JOIN membresias m ON u.id_membresia = m.id_membresia
-                               ORDER BY u.nombre_completo";
-
+                string sql = SELECT_BASE + " ORDER BY u.nombre_completo";
                 using (var cmd = new MySqlCommand(sql, conn))
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        lista.Add(MapearCliente(reader));
-                    }
-                }
+                using (var r = cmd.ExecuteReader())
+                    while (r.Read()) lista.Add(Mapear(r));
             }
             return lista;
         }
 
-        public List<Cliente> BuscarPorNombreOCorreo(string termino)
+        public List<Cliente> ObtenerActivos()
         {
             var lista = new List<Cliente>();
             using (var conn = SoporteDatabase.ObtenerConexion())
             {
                 conn.Open();
-                string sql = @"SELECT u.id_usuario, u.nombre_completo, u.edad, u.ciudad,
-                                      u.telefono, u.telefono_emergencia, u.correo,
-                                      u.fecha_inscripcion, u.fecha_renovacion,
-                                      u.id_membresia, u.estado,
-                                      m.nombre_membresia
-                               FROM usuarios u
-                               LEFT JOIN membresias m ON u.id_membresia = m.id_membresia
-                               WHERE u.nombre_completo LIKE @termino
-                                  OR u.correo LIKE @termino
-                                  OR u.telefono LIKE @termino
-                               ORDER BY u.nombre_completo";
-
+                string sql = SELECT_BASE + " WHERE u.estado = 'activo' ORDER BY u.nombre_completo";
                 using (var cmd = new MySqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("@termino", "%" + termino + "%");
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            lista.Add(MapearCliente(reader));
-                        }
-                    }
-                }
+                using (var r = cmd.ExecuteReader())
+                    while (r.Read()) lista.Add(Mapear(r));
             }
             return lista;
         }
 
-        public List<Cliente> ObtenerPorEstado(string estado)
+        public List<Cliente> BuscarPorNombre(string termino)
         {
             var lista = new List<Cliente>();
             using (var conn = SoporteDatabase.ObtenerConexion())
             {
                 conn.Open();
-                string sql = @"SELECT u.id_usuario, u.nombre_completo, u.edad, u.ciudad,
-                                      u.telefono, u.telefono_emergencia, u.correo,
-                                      u.fecha_inscripcion, u.fecha_renovacion,
-                                      u.id_membresia, u.estado,
-                                      m.nombre_membresia
-                               FROM usuarios u
-                               LEFT JOIN membresias m ON u.id_membresia = m.id_membresia
-                               WHERE u.estado = @estado
-                               ORDER BY u.nombre_completo";
-
+                string sql = SELECT_BASE +
+                    " WHERE u.nombre_completo LIKE @termino ORDER BY u.nombre_completo";
                 using (var cmd = new MySqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@estado", estado);
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            lista.Add(MapearCliente(reader));
-                        }
-                    }
+                    cmd.Parameters.AddWithValue("@termino", $"%{termino}%");
+                    using (var r = cmd.ExecuteReader())
+                        while (r.Read()) lista.Add(Mapear(r));
                 }
             }
             return lista;
         }
 
-        private Cliente MapearCliente(MySqlDataReader reader)
+        public List<Cliente> ObtenerPorVencer(int dias = 7)
+        {
+            var lista = new List<Cliente>();
+            using (var conn = SoporteDatabase.ObtenerConexion())
+            {
+                conn.Open();
+                string sql = SELECT_BASE + @"
+                    WHERE u.estado = 'activo'
+                      AND u.fecha_renovacion BETWEEN NOW()
+                          AND DATE_ADD(NOW(), INTERVAL @dias DAY)
+                    ORDER BY u.fecha_renovacion";
+
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@dias", dias);
+                    using (var r = cmd.ExecuteReader())
+                        while (r.Read()) lista.Add(Mapear(r));
+                }
+            }
+            return lista;
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // MAPEO
+        // ─────────────────────────────────────────────────────────────
+
+        private static Cliente Mapear(MySqlDataReader r)
         {
             return new Cliente
             {
-                IdUsuario = reader.GetInt32("id_usuario"),
-                NombreCompleto = reader["nombre_completo"].ToString(),
-                Edad = reader.GetInt32("edad"),
-                Ciudad = reader["ciudad"].ToString(),
-                Telefono = reader.GetInt64("telefono"),
-                TelefonoEmergencia = reader.GetInt64("telefono_emergencia"),
-                Correo = reader["correo"].ToString(),
-                FechaInscripcion = reader.GetDateTime("fecha_inscripcion"),
-                FechaRenovacion = reader.IsDBNull(reader.GetOrdinal("fecha_renovacion"))
-                    ? (DateTime?)null
-                    : reader.GetDateTime("fecha_renovacion"),
-                IdMembresia = reader.GetInt32("id_membresia"),
-                Estado = reader["estado"].ToString(),
-                NombreMembresia = reader.IsDBNull(reader.GetOrdinal("nombre_membresia"))
-                    ? "Sin membresía"
-                    : reader["nombre_membresia"].ToString()
+                IdUsuario = r.GetInt32("id_usuario"),
+                NombreCompleto = r["nombre_completo"].ToString(),
+                Edad = r.GetInt32("edad"),
+                Ciudad = r["ciudad"].ToString(),
+                Telefono = Convert.ToInt64(r["telefono"]),
+                TelefonoEmergencia = Convert.ToInt64(r["telefono_emergencia"]),
+                Correo = r["correo"].ToString(),
+                FechaInscripcion = r.GetDateTime("fecha_inscripcion"),
+                FechaRenovacion = r["fecha_renovacion"] == DBNull.Value
+                                        ? (DateTime?)null
+                                        : r.GetDateTime("fecha_renovacion"),
+                IdMembresia = r.GetInt32("id_membresia"),
+                Estado = r["estado"].ToString(),
+
+                // ← Viene del JOIN con membresias
+                NombreMembresia = r["nombre_membresia"] == DBNull.Value
+                                        ? "—"
+                                        : r["nombre_membresia"].ToString()
             };
         }
     }

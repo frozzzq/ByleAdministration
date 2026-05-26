@@ -2,277 +2,552 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        Title="Editar Cliente"
-        Height="720" Width="520"
+        Height="760" Width="440"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
         WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize"
-        Background="{DynamicResource BrushBgPrimary}">
+        ResizeMode="NoResize">
 
-    <Grid Margin="28,24,28,20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <Window.Resources>
 
-        <!-- ══════════ ENCABEZADO ══════════ -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,20">
-            <TextBlock Text="Editar cliente"
-                       FontSize="20" FontWeight="Bold"
-                       Foreground="{DynamicResource BrushAccent}"/>
-            <TextBlock x:Name="TxtSubtitulo" Text="ID: —"
-                       FontSize="11"
-                       Foreground="{DynamicResource BrushTextMuted}"
-                       Margin="0,4,0,0"/>
-        </StackPanel>
+        <!-- ── TextBox: Focusable="false" en PART_ContentHost es OBLIGATORIO ── -->
+        <Style x:Key="InputStyle" TargetType="TextBox">
+            <Setter Property="Height"                   Value="38"/>
+            <Setter Property="FontSize"                 Value="12.5"/>
+            <Setter Property="Background"               Value="{DynamicResource BrushBgInput}"/>
+            <Setter Property="Foreground"               Value="{DynamicResource BrushTextPrimary}"/>
+            <Setter Property="BorderBrush"              Value="{DynamicResource BrushBorder}"/>
+            <Setter Property="BorderThickness"          Value="1"/>
+            <Setter Property="Padding"                  Value="10,0"/>
+            <Setter Property="CaretBrush"               Value="{DynamicResource BrushAccent}"/>
+            <Setter Property="SelectionBrush"           Value="{DynamicResource BrushAccent}"/>
+            <Setter Property="FocusVisualStyle"         Value="{x:Null}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="Brd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Focusable="false"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden"
+                                          Padding="{TemplateBinding Padding}"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="Brd" Property="BorderBrush"
+                                        Value="{DynamicResource BrushAccent}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Brd" Property="BorderBrush"
+                                        Value="{DynamicResource BrushTextMuted}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-        <!-- ══════════ CONTENIDO SCROLLABLE ══════════ -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"
-                      Margin="0,0,0,16">
-            <StackPanel>
+        <!-- ── Etiqueta de campo ─────────────────────────────────── -->
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="FontSize"   Value="11.5"/>
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextSecondary}"/>
+            <Setter Property="Margin"     Value="0,0,0,5"/>
+        </Style>
 
-                <!-- ── DATOS PERSONALES ── -->
-                <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
-                            <fa:IconImage Icon="User" Width="14" Height="14"
-                                          Foreground="{DynamicResource BrushAccent}"
-                                          Margin="0,0,8,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="Datos personales" FontSize="13" FontWeight="SemiBold"
-                                       Foreground="{DynamicResource BrushTextPrimary}"/>
-                        </StackPanel>
+        <!-- ── Items del ComboBox en el dropdown ─────────────────── -->
+        <Style x:Key="ComboItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="Background"       Value="{DynamicResource BrushBgCard}"/>
+            <Setter Property="Foreground"       Value="{DynamicResource BrushTextPrimary}"/>
+            <Setter Property="Padding"          Value="12,9"/>
+            <Setter Property="FontSize"         Value="12.5"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsHighlighted" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource BrushNavHover}"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource BrushAccentMuted}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource BrushAccent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-                        <!-- Nombre -->
-                        <TextBlock Text="Nombre completo" FontSize="10"
-                                   Foreground="{DynamicResource BrushTextMuted}" Margin="0,0,0,4"/>
-                        <TextBox x:Name="TxtNombre" Height="36" Padding="10,8"
-                                 FontSize="12"
-                                 Background="{DynamicResource BrushBgInput}"
-                                 Foreground="{DynamicResource BrushTextPrimary}"
-                                 BorderBrush="{DynamicResource BrushBorder}"
-                                 CaretBrush="{DynamicResource BrushAccent}"
-                                 Margin="0,0,0,10"/>
+        <!--
+            ── ComboBox oscuro con ControlTemplate completo ──────────
+            El ControlTemplate propio es necesario porque el template
+            predeterminado de WPF usa colores del sistema (fondo blanco)
+            para el área de selección, haciendo invisible el texto claro
+            de tema oscuro. Aquí controlamos explícitamente ese área.
+        -->
+        <Style x:Key="DarkComboStyle" TargetType="ComboBox">
+            <Setter Property="Height"                   Value="38"/>
+            <Setter Property="FontSize"                 Value="12.5"/>
+            <Setter Property="Background"               Value="{DynamicResource BrushBgInput}"/>
+            <Setter Property="Foreground"               Value="{DynamicResource BrushTextPrimary}"/>
+            <Setter Property="BorderBrush"              Value="{DynamicResource BrushBorder}"/>
+            <Setter Property="BorderThickness"          Value="1"/>
+            <Setter Property="Padding"                  Value="10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FocusVisualStyle"         Value="{x:Null}"/>
+            <Setter Property="MaxDropDownHeight"        Value="200"/>
+            <Setter Property="ItemContainerStyle"       Value="{StaticResource ComboItemStyle}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid x:Name="Root">
 
-                        <!-- Edad + Ciudad en fila -->
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="12"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel>
-                                <TextBlock Text="Edad" FontSize="10"
-                                           Foreground="{DynamicResource BrushTextMuted}" Margin="0,0,0,4"/>
-                                <TextBox x:Name="TxtEdad" Height="36" Padding="10,8"
-                                         FontSize="12"
-                                         Background="{DynamicResource BrushBgInput}"
-                                         Foreground="{DynamicResource BrushTextPrimary}"
-                                         BorderBrush="{DynamicResource BrushBorder}"
-                                         CaretBrush="{DynamicResource BrushAccent}"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2">
-                                <TextBlock Text="Ciudad" FontSize="10"
-                                           Foreground="{DynamicResource BrushTextMuted}" Margin="0,0,0,4"/>
-                                <TextBox x:Name="TxtCiudad" Height="36" Padding="10,8"
-                                         FontSize="12"
-                                         Background="{DynamicResource BrushBgInput}"
-                                         Foreground="{DynamicResource BrushTextPrimary}"
-                                         BorderBrush="{DynamicResource BrushBorder}"
-                                         CaretBrush="{DynamicResource BrushAccent}"/>
-                            </StackPanel>
-                        </Grid>
+                            <!-- Fondo y borde del control cerrado -->
+                            <Border x:Name="Brd"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="8"/>
 
-                        <!-- Correo -->
-                        <TextBlock Text="Correo" FontSize="10"
-                                   Foreground="{DynamicResource BrushTextMuted}" Margin="0,0,0,4"/>
-                        <TextBox x:Name="TxtCorreo" Height="36" Padding="10,8"
-                                 FontSize="12"
-                                 Background="{DynamicResource BrushBgInput}"
-                                 Foreground="{DynamicResource BrushTextPrimary}"
-                                 BorderBrush="{DynamicResource BrushBorder}"
-                                 CaretBrush="{DynamicResource BrushAccent}"
-                                 Margin="0,0,0,10"/>
-
-                        <!-- Teléfonos en fila -->
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="12"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel>
-                                <TextBlock Text="Teléfono" FontSize="10"
-                                           Foreground="{DynamicResource BrushTextMuted}" Margin="0,0,0,4"/>
-                                <TextBox x:Name="TxtTelefono" Height="36" Padding="10,8"
-                                         FontSize="12"
-                                         Background="{DynamicResource BrushBgInput}"
-                                         Foreground="{DynamicResource BrushTextPrimary}"
-                                         BorderBrush="{DynamicResource BrushBorder}"
-                                         CaretBrush="{DynamicResource BrushAccent}"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2">
-                                <TextBlock Text="Tel. emergencia" FontSize="10"
-                                           Foreground="{DynamicResource BrushTextMuted}" Margin="0,0,0,4"/>
-                                <TextBox x:Name="TxtTelEmergencia" Height="36" Padding="10,8"
-                                         FontSize="12"
-                                         Background="{DynamicResource BrushBgInput}"
-                                         Foreground="{DynamicResource BrushTextPrimary}"
-                                         BorderBrush="{DynamicResource BrushBorder}"
-                                         CaretBrush="{DynamicResource BrushAccent}"/>
-                            </StackPanel>
-                        </Grid>
-
-                        <!-- Estado -->
-                        <TextBlock Text="Estado" FontSize="10"
-                                   Foreground="{DynamicResource BrushTextMuted}" Margin="0,0,0,4"/>
-                        <ComboBox x:Name="CmbEstado" Height="36" FontSize="12">
-                            <ComboBoxItem Content="activo"/>
-                            <ComboBoxItem Content="inactivo"/>
-                        </ComboBox>
-                    </StackPanel>
-                </Border>
-
-                <!-- ── SENSOR DE HUELLA DIGITAL ── -->
-                <Border Style="{StaticResource CardStyle}" Margin="0,0,0,0">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
-                            <fa:IconImage Icon="Fingerprint" Width="14" Height="14"
-                                          Foreground="{DynamicResource BrushAccent}"
-                                          Margin="0,0,8,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="Huella digital — DigitalPersona 4500"
-                                       FontSize="13" FontWeight="SemiBold"
-                                       Foreground="{DynamicResource BrushTextPrimary}"/>
-                        </StackPanel>
-
-                        <!-- Estado del sensor -->
-                        <Border Background="{DynamicResource BrushBgCardHover}"
-                                CornerRadius="8" Padding="14,10" Margin="0,0,0,12">
-                            <Grid>
+                            <!-- Item seleccionado + flecha (no reciben clics) -->
+                            <Grid IsHitTestVisible="False">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="30"/>
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Indicador LED -->
-                                <Border x:Name="LedSensor" Width="10" Height="10"
-                                        CornerRadius="5" Margin="0,0,10,0"
-                                        VerticalAlignment="Center"
-                                        Background="#E74C3C"/>
+                                <!--
+                                    ContentPresenter para el item seleccionado.
+                                    TextElement.Foreground propaga el color al TextBlock
+                                    que WPF genera internamente para DisplayMemberPath.
+                                -->
+                                <ContentPresenter
+                                    x:Name="ContentSite"
+                                    Grid.Column="0"
+                                    Content="{TemplateBinding SelectionBoxItem}"
+                                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                    ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    TextElement.Foreground="{TemplateBinding Foreground}"/>
 
-                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBlock x:Name="TxtEstadoSensor"
-                                               Text="Sensor no conectado"
-                                               FontSize="12" FontWeight="Medium"
-                                               Foreground="{DynamicResource BrushTextPrimary}"/>
-                                    <TextBlock x:Name="TxtDetalleSensor"
-                                               Text="Conecta el DigitalPersona 4500 por USB"
-                                               FontSize="10"
-                                               Foreground="{DynamicResource BrushTextMuted}"
-                                               Margin="0,2,0,0"/>
-                                </StackPanel>
+                                <!-- Flecha indicadora -->
+                                <fa:IconImage Grid.Column="1"
+                                             Icon="ChevronDown" Width="10" Height="10"
+                                             Foreground="{DynamicResource BrushTextMuted}"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"/>
                             </Grid>
-                        </Border>
 
-                        <!-- Área visual de la huella -->
-                        <Border Background="{DynamicResource BrushBgInput}"
-                                BorderBrush="{DynamicResource BrushBorder}"
-                                BorderThickness="1" CornerRadius="10"
-                                Height="140" Margin="0,0,0,12">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <fa:IconImage x:Name="IconHuella"
-                                              Icon="Fingerprint" Width="48" Height="48"
-                                              Foreground="{DynamicResource BrushTextMuted}"/>
-                                <TextBlock x:Name="TxtMensajeHuella"
-                                           Text="Sin huella registrada"
-                                           FontSize="11" FontWeight="Medium"
-                                           Foreground="{DynamicResource BrushTextMuted}"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,8,0,0"/>
-                                <TextBlock x:Name="TxtInstruccionHuella"
-                                           Text="Presiona 'Enrolar' para comenzar"
-                                           FontSize="10"
-                                           Foreground="{DynamicResource BrushTextMuted}"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4,0,0"/>
-                            </StackPanel>
-                        </Border>
+                            <!-- ToggleButton transparente: cubre todo y gestiona apertura -->
+                            <ToggleButton Focusable="False" Cursor="Hand"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,
+                                                      RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border Background="Transparent"/>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
 
-                        <!-- Progreso de enrolamiento -->
-                        <Grid Margin="0,0,0,12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <ProgressBar x:Name="BarraProgreso"
-                                         Height="6" Minimum="0" Maximum="4" Value="0"
-                                         Background="{DynamicResource BrushBgInput}"
-                                         Foreground="{DynamicResource BrushAccent}"
-                                         BorderThickness="0"/>
-                            <TextBlock x:Name="TxtProgreso" Grid.Column="1"
-                                       Text="0 / 4 capturas"
-                                       FontSize="10"
-                                       Foreground="{DynamicResource BrushTextMuted}"
-                                       Margin="10,0,0,0"
-                                       VerticalAlignment="Center"/>
+                            <!-- Popup dropdown -->
+                            <Popup x:Name="PART_Popup"
+                                   AllowsTransparency="True"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   Placement="Bottom"
+                                   PopupAnimation="Fade">
+                                <Border x:Name="DropDown"
+                                        Background="{DynamicResource BrushBgCard}"
+                                        BorderBrush="{DynamicResource BrushBorder}"
+                                        BorderThickness="1"
+                                        CornerRadius="0,0,8,8"
+                                        MinWidth="{Binding ActualWidth,
+                                                   RelativeSource={RelativeSource TemplatedParent}}"
+                                        MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="8" ShadowDepth="2"
+                                                          Opacity="0.3" Color="#000000"/>
+                                    </Border.Effect>
+                                    <ScrollViewer Margin="0,2">
+                                        <ItemsPresenter
+                                            KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
                         </Grid>
 
-                        <!-- Log de eventos del sensor -->
-                        <TextBlock Text="Registro de eventos" FontSize="10"
-                                   Foreground="{DynamicResource BrushTextMuted}" Margin="0,0,0,4"/>
-                        <Border Background="{DynamicResource BrushBgInput}"
-                                BorderBrush="{DynamicResource BrushBorder}"
-                                BorderThickness="1" CornerRadius="6"
-                                Padding="8" Height="70">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                <TextBlock x:Name="TxtLogSensor"
-                                           Text="[Sistema] Esperando conexión del sensor..."
-                                           FontSize="10" FontFamily="Consolas"
-                                           Foreground="{DynamicResource BrushTextSecondary}"
-                                           TextWrapping="Wrap"/>
-                            </ScrollViewer>
-                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="Brd" Property="BorderBrush"
+                                        Value="{DynamicResource BrushAccent}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Brd" Property="BorderBrush"
+                                        Value="{DynamicResource BrushTextMuted}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-                        <!-- Botones de huella -->
-                        <UniformGrid Columns="3" Rows="1" Margin="0,12,0,0">
-                            <Button x:Name="BtnEnrolar" Content="Enrolar"
-                                    Style="{StaticResource BtnPrimario}"
-                                    FontSize="11" Margin="0,0,4,0"
-                                    />
-                            <Button x:Name="BtnVerificar" Content="Verificar"
-                                    Style="{StaticResource BtnSecundario}"
-                                    FontSize="11" Margin="2,0"
-                                    />
-                            <Button x:Name="BtnEliminarHuella" Content="Eliminar"
-                                    FontSize="11" Margin="4,0,0,0"
-                                    Foreground="{DynamicResource BrushError}"
-                                    Background="Transparent"
-                                    BorderBrush="{DynamicResource BrushError}"
-                                    BorderThickness="1" Cursor="Hand"
-                                    />
-                        </UniformGrid>
+    </Window.Resources>
+
+    <!-- ── CONTENEDOR PRINCIPAL ──────────────────────────────────── -->
+    <Border CornerRadius="12"
+            BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
+                <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- ── TÍTULO ───────────────────────────────────────── -->
+            <Border Grid.Row="0" Padding="22,18,22,14" Cursor="SizeAll"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Left">
+                        <TextBlock x:Name="TxtTitulo" Text="Nuevo cliente"
+                                   FontSize="16" FontWeight="Bold"
+                                   Foreground="{DynamicResource BrushAccent}"/>
+                        <TextBlock x:Name="TxtSubtitulo"
+                                   Text="Completa los datos y registra la huella digital"
+                                   FontSize="11.5"
+                                   Foreground="{DynamicResource BrushTextSecondary}"
+                                   Margin="0,3,0,0"/>
                     </StackPanel>
-                </Border>
-            </StackPanel>
-        </ScrollViewer>
+                    <Button DockPanel.Dock="Right" Width="26" Height="26"
+                            HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Background="Transparent" BorderThickness="0"
+                            Cursor="Hand" FocusVisualStyle="{x:Null}"
+                            Click="BtnCerrar_Click">
+                        <fa:IconImage Icon="Xmark" Width="12" Height="12"
+                                      Foreground="{DynamicResource BrushTextMuted}"/>
+                    </Button>
+                </DockPanel>
+            </Border>
 
-        <!-- ══════════ BOTONES INFERIORES ══════════ -->
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+            <!-- ── CONTENIDO ─────────────────────────────────────── -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="22,4,22,14">
 
-            <Button Grid.Column="1" Content="Cancelar"
-                    Style="{StaticResource BtnSecundario}"
-                    FontSize="12" Margin="0,0,8,0"
-                    Padding="20,10"
-                    />
-            <Button Grid.Column="2" Content="Guardar cambios"
-                    Style="{StaticResource BtnPrimario}"
-                    FontSize="12"
-                    Padding="20,10"
-                    />
+                    <!-- ○ DATOS PERSONALES ─────────────────────── -->
+                    <Border CornerRadius="10" Padding="16,14"
+                            Background="{DynamicResource BrushBgCard}"
+                            BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                            Margin="0,0,0,12">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                                <fa:IconImage Icon="UserPen" Width="14" Height="14"
+                                              Foreground="{DynamicResource BrushAccent}"
+                                              Margin="0,0,8,0"/>
+                                <TextBlock Text="Datos personales" FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                            </StackPanel>
+
+                            <TextBlock Text="Nombre completo" Style="{StaticResource FieldLabel}"/>
+                            <TextBox x:Name="TxtNombreCompleto"
+                                     Style="{StaticResource InputStyle}"
+                                     Margin="0,0,0,10"/>
+
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Edad" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="TxtEdad"
+                                             Style="{StaticResource InputStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Ciudad" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="TxtCiudad"
+                                             Style="{StaticResource InputStyle}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock Text="Correo electrónico"
+                                       Style="{StaticResource FieldLabel}"/>
+                            <TextBox x:Name="TxtCorreo"
+                                     Style="{StaticResource InputStyle}"
+                                     Margin="0,0,0,10"/>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Teléfono" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="TxtTelefono"
+                                             Style="{StaticResource InputStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Tel. emergencia"
+                                               Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="TxtTelefonoEmergencia"
+                                             Style="{StaticResource InputStyle}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ○ MEMBRESÍA ────────────────────────────── -->
+                    <Border CornerRadius="10" Padding="16,14"
+                            Background="{DynamicResource BrushBgCard}"
+                            BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                            Margin="0,0,0,12">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                <fa:IconImage Icon="IdCard" Width="14" Height="14"
+                                              Foreground="{DynamicResource BrushAccent}"
+                                              Margin="0,0,8,0"/>
+                                <TextBlock Text="Membresía" FontSize="13" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                            </StackPanel>
+                            <TextBlock Text="Plan de membresía"
+                                       Style="{StaticResource FieldLabel}"/>
+                            <!--
+                                Se usa DarkComboStyle (ControlTemplate propio).
+                                DisplayMemberPath se omite aquí porque el ControlTemplate
+                                muestra SelectionBoxItem directamente; en CargarMembresías()
+                                del code-behind se asigna DisplayMemberPath="NombreMembresia".
+                            -->
+                            <ComboBox x:Name="CmbMembresia"
+                                      Style="{StaticResource DarkComboStyle}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ○ HUELLA DIGITAL ───────────────────────── -->
+                    <Border CornerRadius="10" Padding="16,14"
+                            Background="{DynamicResource BrushBgCard}"
+                            BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                <fa:IconImage Icon="Fingerprint" Width="14" Height="14"
+                                              Foreground="{DynamicResource BrushAccent}"
+                                              Margin="0,0,8,0"/>
+                                <TextBlock Text="Huella digital — DigitalPersona 4500"
+                                           FontSize="13" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                            </StackPanel>
+
+                            <!-- Estado del sensor -->
+                            <Border Background="{DynamicResource BrushBgPrimary}"
+                                    CornerRadius="8" Padding="12,9" Margin="0,0,0,10">
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse x:Name="DotSensor" Width="8" Height="8"
+                                             Fill="#F87171" Margin="0,0,9,0"/>
+                                    <fa:IconImage Icon="Usb" Width="11" Height="11"
+                                                  Foreground="{DynamicResource BrushTextMuted}"
+                                                  Margin="0,0,7,0"/>
+                                    <TextBlock Text="DigitalPersona 4500" FontSize="11.5"
+                                               Foreground="{DynamicResource BrushTextSecondary}"
+                                               Margin="0,0,10,0"/>
+                                    <Rectangle Width="1" Fill="{DynamicResource BrushBorder}"
+                                               Margin="0,1,10,1"/>
+                                    <TextBlock x:Name="TxtEstadoSensor"
+                                               Text="Sensor no conectado"
+                                               FontSize="11.5" FontWeight="SemiBold"
+                                               Foreground="#F87171"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Área visual 3 estados -->
+                            <Border Background="{DynamicResource BrushBgPrimary}"
+                                    CornerRadius="10" Margin="0,0,0,10" Height="120">
+                                <Grid>
+                                    <!-- A: Sin huella -->
+                                    <StackPanel x:Name="PanelSinHuella"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center">
+                                        <fa:IconImage Icon="Fingerprint" Width="44" Height="44"
+                                                      Foreground="{DynamicResource BrushTextMuted}"
+                                                      HorizontalAlignment="Center"
+                                                      Margin="0,0,0,8"/>
+                                        <TextBlock Text="Sin huella registrada"
+                                                   FontSize="12.5" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource BrushTextSecondary}"
+                                                   HorizontalAlignment="Center"/>
+                                        <TextBlock Text="Presiona 'Enrolar' para comenzar"
+                                                   FontSize="11"
+                                                   Foreground="{DynamicResource BrushTextMuted}"
+                                                   HorizontalAlignment="Center"
+                                                   Margin="0,3,0,0"/>
+                                    </StackPanel>
+                                    <!-- B: Enrolando -->
+                                    <StackPanel x:Name="PanelEnrolando" Visibility="Collapsed"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center">
+                                        <Border Width="68" Height="68" CornerRadius="34"
+                                                HorizontalAlignment="Center" Margin="0,0,0,8">
+                                            <Border.Background>
+                                                <RadialGradientBrush>
+                                                    <GradientStop Color="#28F26419" Offset="0"/>
+                                                    <GradientStop Color="#08F26419" Offset="1"/>
+                                                </RadialGradientBrush>
+                                            </Border.Background>
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="#F26419" BlurRadius="16"
+                                                                  ShadowDepth="0" Opacity="0.5"/>
+                                            </Border.Effect>
+                                            <fa:IconImage Icon="Fingerprint" Width="34" Height="34"
+                                                          Foreground="{DynamicResource BrushAccent}"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                        </Border>
+                                        <TextBlock x:Name="TxtMensajeCaptura"
+                                                   Text="Acerca el dedo al sensor..."
+                                                   FontSize="12.5" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource BrushTextPrimary}"
+                                                   HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                    <!-- C: Completo -->
+                                    <StackPanel x:Name="PanelCompleto" Visibility="Collapsed"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center">
+                                        <Border Width="58" Height="58" CornerRadius="29"
+                                                Background="#1A34D399"
+                                                HorizontalAlignment="Center" Margin="0,0,0,8">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="#34D399" BlurRadius="16"
+                                                                  ShadowDepth="0" Opacity="0.5"/>
+                                            </Border.Effect>
+                                            <fa:IconImage Icon="Check" Width="26" Height="26"
+                                                          Foreground="#34D399"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                        </Border>
+                                        <TextBlock Text="¡Huella registrada exitosamente!"
+                                                   FontSize="12.5" FontWeight="SemiBold"
+                                                   Foreground="#34D399"
+                                                   HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- Dots de progreso + contador -->
+                            <DockPanel Margin="0,0,0,10">
+                                <TextBlock DockPanel.Dock="Right"
+                                           x:Name="TxtContador" Text="0 / 4 capturas"
+                                           FontSize="11.5"
+                                           Foreground="{DynamicResource BrushTextMuted}"/>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Ellipse x:Name="CapDot1" Width="10" Height="10"
+                                             Fill="{DynamicResource BrushBorder}"
+                                             Margin="0,0,6,0"/>
+                                    <Ellipse x:Name="CapDot2" Width="10" Height="10"
+                                             Fill="{DynamicResource BrushBorder}"
+                                             Margin="0,0,6,0"/>
+                                    <Ellipse x:Name="CapDot3" Width="10" Height="10"
+                                             Fill="{DynamicResource BrushBorder}"
+                                             Margin="0,0,6,0"/>
+                                    <Ellipse x:Name="CapDot4" Width="10" Height="10"
+                                             Fill="{DynamicResource BrushBorder}"/>
+                                </StackPanel>
+                            </DockPanel>
+
+                            <!-- Log de eventos -->
+                            <TextBlock Text="Registro de eventos"
+                                       Style="{StaticResource FieldLabel}"
+                                       Margin="0,0,0,6"/>
+                            <Border Background="#09091A" CornerRadius="8" Height="108"
+                                    BorderBrush="{DynamicResource BrushBorder}"
+                                    BorderThickness="1" Margin="0,0,0,12">
+                                <ScrollViewer x:Name="ScrollEventos"
+                                              VerticalScrollBarVisibility="Auto"
+                                              HorizontalScrollBarVisibility="Disabled"
+                                              Padding="10,8">
+                                    <TextBlock x:Name="TxtEventos"
+                                               FontFamily="Consolas" FontSize="11"
+                                               Foreground="#7878A8"
+                                               TextWrapping="Wrap"
+                                               LineHeight="18"/>
+                                </ScrollViewer>
+                            </Border>
+
+                            <!-- Botones -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="BtnEnrolar" Grid.Column="0"
+                                        Style="{StaticResource BtnPrimario}"
+                                        Height="40" Click="BtnEnrolar_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:IconImage Icon="Fingerprint" Width="13" Height="13"
+                                                      Foreground="White" Margin="0,0,7,0"/>
+                                        <TextBlock Text="Enrolar" Foreground="White"
+                                                   FontWeight="Bold"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="BtnReiniciar" Grid.Column="2"
+                                        Style="{StaticResource BtnSecundario}"
+                                        Height="40" IsEnabled="False"
+                                        Click="BtnReiniciar_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:IconImage Icon="RotateLeft" Width="12" Height="12"
+                                                      Foreground="{DynamicResource BrushAccent}"
+                                                      Margin="0,0,7,0"/>
+                                        <TextBlock Text="Reiniciar"
+                                                   Foreground="{DynamicResource BrushAccent}"
+                                                   FontWeight="Bold"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- ── FOOTER ─────────────────────────────────────────── -->
+            <Border Grid.Row="2" Padding="22,14"
+                    Background="{DynamicResource BrushBgCard}"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="0,1,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="BtnCancelar" Grid.Column="0"
+                            Style="{StaticResource BtnSecundario}"
+                            Height="40" HorizontalAlignment="Stretch"
+                            Content="Cancelar" Click="BtnCancelar_Click"/>
+                    <Button x:Name="BtnGuardar" Grid.Column="2"
+                            Style="{StaticResource BtnPrimario}"
+                            Height="40" Padding="22,0"
+                            Click="BtnGuardar_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="FloppyDisk" Width="13" Height="13"
+                                          Foreground="White" Margin="0,0,7,0"/>
+                            <TextBlock Text="Guardar cambios" Foreground="White"
+                                       FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Border>
         </Grid>
-    </Grid>
+    </Border>
 </Window>

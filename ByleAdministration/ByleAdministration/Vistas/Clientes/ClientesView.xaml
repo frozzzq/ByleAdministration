@@ -3,253 +3,362 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              Background="{DynamicResource BrushBgPrimary}">
+
     <Grid Margin="24,20,24,24">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="290"/>
         </Grid.ColumnDefinitions>
 
         <!-- ══════════ COLUMNA IZQUIERDA — lista ══════════ -->
-        <DockPanel Grid.Column="0" Margin="0,0,14,0">
+        <DockPanel Grid.Column="0" Margin="0,0,16,0">
 
-            <Grid DockPanel.Dock="Top" Margin="0,0,0,12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="130"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+            <!-- ── Encabezado + acciones ────────────────────────── -->
+            <Grid DockPanel.Dock="Top" Margin="0,0,0,14">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                <!-- Buscador -->
-                <Border Background="{DynamicResource BrushBgCard}"
+                <!-- Título -->
+                <DockPanel Grid.Row="0">
+                    <StackPanel DockPanel.Dock="Left">
+                        <TextBlock Text="Clientes"
+                                   FontSize="19" FontWeight="Bold"
+                                   Foreground="{DynamicResource BrushTextPrimary}"/>
+                        <TextBlock x:Name="TxtContador" Text="Cargando..."
+                                   FontSize="12"
+                                   Foreground="{DynamicResource BrushTextMuted}"
+                                   Margin="0,3,0,0"/>
+                    </StackPanel>
+                    <Button DockPanel.Dock="Right" HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BtnPrimario}"
+                            Click="BtnNuevoCliente_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="UserPlus" Width="13" Height="13"
+                                          Foreground="White" Margin="0,0,7,0"/>
+                            <TextBlock Text="Nuevo cliente" FontSize="12.5"
+                                       Foreground="White"/>
+                        </StackPanel>
+                    </Button>
+                </DockPanel>
+
+                <!-- Barra de búsqueda -->
+                <Border Grid.Row="2"
+                        Background="{DynamicResource BrushBgCard}"
                         BorderBrush="{DynamicResource BrushBorder}"
-                        BorderThickness="1" CornerRadius="8">
+                        BorderThickness="1" CornerRadius="9">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="42"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="36"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <fa:IconImage Icon="MagnifyingGlass" Width="13" Height="13"
+                        <fa:IconImage Grid.Column="0" Icon="MagnifyingGlass"
+                                      Width="13" Height="13"
                                       Foreground="{DynamicResource BrushTextMuted}"
-                                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
                         <TextBox x:Name="TxtBuscar" Grid.Column="1"
-                                 Height="38" BorderThickness="0"
+                                 Height="42" BorderThickness="0"
                                  Background="Transparent"
                                  Foreground="{DynamicResource BrushTextPrimary}"
                                  CaretBrush="{DynamicResource BrushAccent}"
-                                 FontSize="12" VerticalContentAlignment="Center"
+                                 FontSize="12.5" VerticalContentAlignment="Center"
                                  TextChanged="TxtBuscar_TextChanged"/>
                         <Button Grid.Column="2" Background="Transparent"
                                 BorderThickness="0" Cursor="Hand"
-                                VerticalAlignment="Center"
+                                VerticalAlignment="Center" Margin="0,0,4,0"
                                 Click="BtnLimpiarBusqueda_Click">
                             <fa:IconImage Icon="Xmark" Width="10" Height="10"
                                           Foreground="{DynamicResource BrushTextMuted}"/>
                         </Button>
+                        <!-- Separador vertical -->
+                        <Rectangle Grid.Column="3" Width="1" Height="18"
+                                   Fill="{DynamicResource BrushBorder}"
+                                   VerticalAlignment="Center"/>
+                        <!-- Filtros pill -->
+                        <StackPanel Grid.Column="4" Orientation="Horizontal"
+                                    VerticalAlignment="Center" Margin="6,0,6,0">
+                            <RadioButton x:Name="RbTodos" GroupName="Filtro"
+                                         IsChecked="True"
+                                         Content="Todos" FontSize="11.5"
+                                         Foreground="{DynamicResource BrushTextSecondary}"
+                                         Checked="RbFiltro_Checked"
+                                         Style="{StaticResource {x:Type RadioButton}}"
+                                         Margin="0,0,8,0"/>
+                            <RadioButton x:Name="RbActivos" GroupName="Filtro"
+                                         Content="Activos" FontSize="11.5"
+                                         Foreground="{DynamicResource BrushTextSecondary}"
+                                         Checked="RbFiltro_Checked"
+                                         Style="{StaticResource {x:Type RadioButton}}"
+                                         Margin="0,0,8,0"/>
+                            <RadioButton x:Name="RbInactivos" GroupName="Filtro"
+                                         Content="Inactivos" FontSize="11.5"
+                                         Foreground="{DynamicResource BrushTextSecondary}"
+                                         Checked="RbFiltro_Checked"/>
+                        </StackPanel>
                     </Grid>
                 </Border>
-
-                <!-- Filtro por estado -->
-                <ComboBox x:Name="CmbFiltroEstado"
-                          Grid.Column="1" Margin="8,0"
-                          Height="38"
-                          SelectionChanged="CmbFiltroEstado_SelectionChanged">
-                    <ComboBoxItem Content="Todos" IsSelected="True"/>
-                    <ComboBoxItem Content="Activos"/>
-                    <ComboBoxItem Content="Inactivos"/>
-                </ComboBox>
-
-                <!-- Botón nuevo cliente -->
-                <Button Grid.Column="2" Height="38"
-                        Style="{StaticResource BtnPrimario}">
-                    <StackPanel Orientation="Horizontal">
-                        <fa:IconImage Icon="UserPlus" Width="13" Height="13"
-                                      Foreground="White" Margin="0,0,7,0"/>
-                        <TextBlock Text="Nuevo cliente" FontSize="12" Foreground="White"/>
-                    </StackPanel>
-                </Button>
             </Grid>
 
-            <!-- Contador -->
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock x:Name="TxtContador" Text="0 clientes"
-                           FontSize="11"
-                           Foreground="{DynamicResource BrushTextMuted}"
-                           VerticalAlignment="Center"/>
-            </StackPanel>
+            <!-- ── Encabezado tabla ──────────────────────────────── -->
+            <Border DockPanel.Dock="Top"
+                    Background="{DynamicResource BrushBgCard}"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                    CornerRadius="8,8,0,0" Padding="12,9,12,9"
+                    Margin="0,0,0,1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="72"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="CLIENTE" FontSize="9.5" FontWeight="Bold"
+                               Foreground="{DynamicResource BrushTextMuted}"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="TELÉFONO" FontSize="9.5"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource BrushTextMuted}"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Text="MEMBRESÍA" FontSize="9.5"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource BrushTextMuted}"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="3" Text="ESTADO" FontSize="9.5"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource BrushTextMuted}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
+                </Grid>
+            </Border>
 
-            <!-- Encabezado tabla -->
-            <Grid DockPanel.Dock="Top"
-                  Background="{DynamicResource BrushBgCard}"
-                  Height="34" Margin="0,0,0,4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="110"/>
-                    <ColumnDefinition Width="80"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="CLIENTE" FontSize="9" FontWeight="SemiBold"
-                           Foreground="{DynamicResource BrushTextMuted}"
-                           VerticalAlignment="Center" Margin="12,0"/>
-                <TextBlock Grid.Column="1" Text="TELÉFONO" FontSize="9" FontWeight="SemiBold"
-                           Foreground="{DynamicResource BrushTextMuted}" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="2" Text="MEMBRESÍA" FontSize="9" FontWeight="SemiBold"
-                           Foreground="{DynamicResource BrushTextMuted}" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="3" Text="ESTADO" FontSize="9" FontWeight="SemiBold"
-                           Foreground="{DynamicResource BrushTextMuted}"
-                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            </Grid>
-
-            <!-- Lista dinámica -->
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel x:Name="PanelClientes"/>
-            </ScrollViewer>
+            <!-- ── Lista dinámica ────────────────────────────────── -->
+            <Border DockPanel.Dock="Top"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1,0,1,1"
+                    CornerRadius="0,0,8,8" ClipToBounds="True">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="PanelClientes"/>
+                </ScrollViewer>
+            </Border>
         </DockPanel>
 
         <!-- ══════════ COLUMNA DERECHA — perfil ══════════ -->
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
-                    <StackPanel>
-                        <!-- Avatar + nombre + estado -->
-                        <StackPanel HorizontalAlignment="Center" Margin="0,0,0,16">
-                            <Border Width="64" Height="64" CornerRadius="32"
-                                    HorizontalAlignment="Center"
-                                    Background="{DynamicResource BrushAccentMuted}"
-                                    Margin="0,0,0,10">
-                                <TextBlock x:Name="TxtInicialesPerfil" Text="--"
-                                           FontSize="24" FontWeight="Bold"
-                                           Foreground="{DynamicResource BrushAccent}"
-                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                            <TextBlock x:Name="TxtNombrePerfil" Text="Selecciona un cliente"
-                                       FontSize="15" FontWeight="Bold"
-                                       Foreground="{DynamicResource BrushTextPrimary}"
-                                       HorizontalAlignment="Center"/>
-                            <Border x:Name="BorderEstadoPerfil"
-                                    Background="#1A3D2B" CornerRadius="8" Padding="10,3"
-                                    HorizontalAlignment="Center" Margin="0,6,0,0">
+            <Border Background="{DynamicResource BrushBgCard}"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                    CornerRadius="12" Padding="0,0,0,0"
+                    ClipToBounds="True">
+                <StackPanel>
+
+                    <!-- ── Banda superior con avatar ─────────────── -->
+                    <Border Height="72" CornerRadius="12,12,0,0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#1AF26419" Offset="0"/>
+                                <GradientStop Color="#08F26419" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+
+                    <!-- Avatar (sobresale de la banda) -->
+                    <Border Width="64" Height="64" CornerRadius="32"
+                            HorizontalAlignment="Center"
+                            Margin="0,-32,0,0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#F26419" Offset="0"/>
+                                <GradientStop Color="#D94F00" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Effect>
+                            <DropShadowEffect Color="#F26419" BlurRadius="10"
+                                              ShadowDepth="0" Opacity="0.4"/>
+                        </Border.Effect>
+                        <TextBlock x:Name="TxtInicialesPerfil" Text="--"
+                                   FontSize="22" FontWeight="Black" Foreground="White"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+
+                    <!-- Nombre + badge estado -->
+                    <StackPanel HorizontalAlignment="Center" Margin="16,10,16,0">
+                        <TextBlock x:Name="TxtNombrePerfil"
+                                   Text="Selecciona un cliente"
+                                   FontSize="14" FontWeight="Bold"
+                                   Foreground="{DynamicResource BrushTextPrimary}"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="Wrap" TextAlignment="Center"/>
+                        <Border x:Name="BorderEstadoPerfil"
+                                Background="#1A3D2B" CornerRadius="20" Padding="12,4"
+                                HorizontalAlignment="Center" Margin="0,8,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Width="6" Height="6" Fill="#2ECC71"
+                                         Margin="0,0,6,0"/>
                                 <TextBlock x:Name="TxtEstadoPerfil"
-                                           Text="● —" FontSize="10" FontWeight="Bold"
+                                           Text="Sin selección"
+                                           FontSize="10.5" FontWeight="SemiBold"
                                            Foreground="#2ECC71"/>
-                            </Border>
-                        </StackPanel>
-
-                        <!-- Datos -->
-                        <StackPanel Margin="0,0,0,14">
-                            <Grid Margin="0,0,0,8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Teléfono" FontSize="10"
-                                           Foreground="{DynamicResource BrushTextMuted}"/>
-                                <TextBlock x:Name="TxtTelefonoPerfil" Grid.Column="1"
-                                           Text="—" FontSize="11"
-                                           Foreground="{DynamicResource BrushTextPrimary}"/>
-                            </Grid>
-                            <Grid Margin="0,0,0,8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Correo" FontSize="10"
-                                           Foreground="{DynamicResource BrushTextMuted}"/>
-                                <TextBlock x:Name="TxtCorreoPerfil" Grid.Column="1"
-                                           Text="—" FontSize="11"
-                                           Foreground="{DynamicResource BrushTextPrimary}"/>
-                            </Grid>
-                            <Grid Margin="0,0,0,8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Membresía" FontSize="10"
-                                           Foreground="{DynamicResource BrushTextMuted}"/>
-                                <TextBlock x:Name="TxtMembresiaPerfil" Grid.Column="1"
-                                           Text="—" FontSize="11"
-                                           Foreground="{DynamicResource BrushTextPrimary}"/>
-                            </Grid>
-                            <Grid Margin="0,0,0,8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Edad" FontSize="10"
-                                           Foreground="{DynamicResource BrushTextMuted}"/>
-                                <TextBlock x:Name="TxtEdadPerfil" Grid.Column="1"
-                                           Text="—" FontSize="11"
-                                           Foreground="{DynamicResource BrushTextPrimary}"/>
-                            </Grid>
-                            <Grid Margin="0,0,0,8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Ciudad" FontSize="10"
-                                           Foreground="{DynamicResource BrushTextMuted}"/>
-                                <TextBlock x:Name="TxtCiudadPerfil" Grid.Column="1"
-                                           Text="—" FontSize="11"
-                                           Foreground="{DynamicResource BrushTextPrimary}"/>
-                            </Grid>
-                            <Grid Margin="0,0,0,8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Inscripción" FontSize="10"
-                                           Foreground="{DynamicResource BrushTextMuted}"/>
-                                <TextBlock x:Name="TxtInscripcionPerfil" Grid.Column="1"
-                                           Text="—" FontSize="11"
-                                           Foreground="{DynamicResource BrushTextPrimary}"/>
-                            </Grid>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Renovación" FontSize="10"
-                                           Foreground="{DynamicResource BrushTextMuted}"/>
-                                <TextBlock x:Name="TxtRenovacionPerfil" Grid.Column="1"
-                                           Text="—" FontSize="11"
-                                           Foreground="{DynamicResource BrushTextPrimary}"/>
-                            </Grid>
-                        </StackPanel>
-
-                        <Rectangle Height="1" Fill="{DynamicResource BrushBorder}"
-                                   Margin="0,0,0,12"/>
-
-                        <!-- Solo editar -->
-                        <Button Content="Editar" Style="{StaticResource BtnSecundario}"
-                                FontSize="11" HorizontalAlignment="Stretch" Click="Button_Click"/>
-                    </StackPanel>
-                </Border>
-
-                <!-- Nota interna -->
-                <Border Style="{StaticResource CardStyle}">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <fa:IconImage Icon="NoteSticky" Width="13" Height="13"
-                                          Foreground="{DynamicResource BrushTextMuted}"
-                                          VerticalAlignment="Center" Margin="0,0,8,0"/>
-                            <TextBlock Text="Nota interna" FontSize="12" FontWeight="SemiBold"
-                                       Foreground="{DynamicResource BrushTextPrimary}"/>
-                        </StackPanel>
-                        <Border Background="{DynamicResource BrushBgInput}"
-                                BorderBrush="{DynamicResource BrushBorder}"
-                                BorderThickness="1" CornerRadius="8" Padding="10">
-                            <TextBox BorderThickness="0" Background="Transparent"
-                                     Foreground="{DynamicResource BrushTextPrimary}"
-                                     FontSize="11" TextWrapping="Wrap"
-                                     AcceptsReturn="True" Height="60"
-                                     VerticalScrollBarVisibility="Auto"/>
+                            </StackPanel>
                         </Border>
-                        <Button Content="Guardar nota" Style="{StaticResource BtnSecundario}"
-                                FontSize="11" HorizontalAlignment="Right" Margin="0,8,0,0"
-                                Padding="12,6"/>
                     </StackPanel>
-                </Border>
-            </StackPanel>
+
+                    <!-- Separador -->
+                    <Rectangle Height="1" Margin="16,14,16,0"
+                               Fill="{DynamicResource BrushBorder}"/>
+
+                    <!-- ── Datos del cliente ─────────────────────── -->
+                    <StackPanel Margin="18,12,18,0">
+
+                        <!-- Correo -->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="CORREO" FontSize="9" FontWeight="Bold"
+                                       Foreground="{DynamicResource BrushTextMuted}"
+                                       Margin="0,0,0,3"/>
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Envelope" Width="12" Height="12"
+                                              Foreground="{DynamicResource BrushTextMuted}"
+                                              Margin="0,0,7,0"/>
+                                <TextBlock x:Name="TxtCorreoPerfil" Text="—"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Teléfono -->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="TELÉFONO" FontSize="9" FontWeight="Bold"
+                                       Foreground="{DynamicResource BrushTextMuted}"
+                                       Margin="0,0,0,3"/>
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Phone" Width="12" Height="12"
+                                              Foreground="{DynamicResource BrushTextMuted}"
+                                              Margin="0,0,7,0"/>
+                                <TextBlock x:Name="TxtTelefonoPerfil" Text="—"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Membresía -->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="MEMBRESÍA" FontSize="9" FontWeight="Bold"
+                                       Foreground="{DynamicResource BrushTextMuted}"
+                                       Margin="0,0,0,3"/>
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="IdCard" Width="12" Height="12"
+                                              Foreground="{DynamicResource BrushAccent}"
+                                              Margin="0,0,7,0"/>
+                                <TextBlock x:Name="TxtMembresiaPerfil" Text="—"
+                                           FontSize="12" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource BrushAccent}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Separador sutil -->
+                        <Rectangle Height="1" Fill="{DynamicResource BrushBorder}"
+                                   Margin="0,2,0,12"/>
+
+                        <!-- Grid de datos secundarios -->
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Edad -->
+                            <StackPanel Grid.Row="0" Grid.Column="0">
+                                <TextBlock Text="EDAD" FontSize="9" FontWeight="Bold"
+                                           Foreground="{DynamicResource BrushTextMuted}"
+                                           Margin="0,0,0,3"/>
+                                <TextBlock x:Name="TxtEdadPerfil" Text="—"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                            </StackPanel>
+
+                            <!-- Ciudad -->
+                            <StackPanel Grid.Row="0" Grid.Column="1">
+                                <TextBlock Text="CIUDAD" FontSize="9" FontWeight="Bold"
+                                           Foreground="{DynamicResource BrushTextMuted}"
+                                           Margin="0,0,0,3"/>
+                                <TextBlock x:Name="TxtCiudadPerfil" Text="—"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                            </StackPanel>
+
+                            <!-- Inscripción -->
+                            <StackPanel Grid.Row="2" Grid.Column="0">
+                                <TextBlock Text="INSCRIPCIÓN" FontSize="9" FontWeight="Bold"
+                                           Foreground="{DynamicResource BrushTextMuted}"
+                                           Margin="0,0,0,3"/>
+                                <TextBlock x:Name="TxtInscripcionPerfil" Text="—"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                            </StackPanel>
+
+                            <!-- Renovación -->
+                            <StackPanel Grid.Row="2" Grid.Column="1">
+                                <TextBlock Text="RENOVACIÓN" FontSize="9" FontWeight="Bold"
+                                           Foreground="{DynamicResource BrushTextMuted}"
+                                           Margin="0,0,0,3"/>
+                                <TextBlock x:Name="TxtRenovacionPerfil" Text="—"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+                            </StackPanel>
+
+                            <!-- Huella -->
+                            <StackPanel Grid.Row="4" Grid.Column="0"
+                                        Grid.ColumnSpan="2">
+                                <TextBlock Text="HUELLA DIGITAL" FontSize="9"
+                                           FontWeight="Bold"
+                                           Foreground="{DynamicResource BrushTextMuted}"
+                                           Margin="0,0,0,3"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:IconImage x:Name="IconHuellaPerfil"
+                                                  Icon="Fingerprint" Width="12" Height="12"
+                                                  Foreground="{DynamicResource BrushTextMuted}"
+                                                  Margin="0,0,6,0"/>
+                                    <TextBlock x:Name="TxtHuellaPerfil"
+                                               Text="—"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource BrushTextMuted}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ── Botón Editar ────────────────────────────── -->
+                    <Border Padding="18,14,18,18" Margin="0,8,0,0">
+                        <Button Style="{StaticResource BtnSecundario}"
+                                HorizontalAlignment="Stretch"
+                                Height="40" FontSize="12.5"
+                                Click="BtnEditarCliente_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="PenToSquare" Width="13" Height="13"
+                                              Foreground="{DynamicResource BrushAccent}"
+                                              Margin="0,0,8,0"/>
+                                <TextBlock Text="Editar cliente"
+                                           Foreground="{DynamicResource BrushAccent}"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </Border>
+
+                </StackPanel>
+            </Border>
         </ScrollViewer>
     </Grid>
 </UserControl>

@@ -60,6 +60,9 @@ id_rol INT PRIMARY KEY NOT NULL,
 nombre_rol VARCHAR(20) NOT NULL
 );
 
+ALTER TABLE roles
+MODIFY COLUMN id_rol INT NOT NULL AUTO_INCREMENT;
+
 CREATE TABLE empleados(
 id_empleado INT PRIMARY KEY AUTO_INCREMENT,
 nombre_completo VARCHAR(70) NOT NULL,
@@ -127,5 +130,40 @@ ejercicio ENUM("PB","PM","SL" ),
 peso_kg DECIMAL NOT NULL,
 FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );
+
+show create table biometria;
+
+use DB_ByleAdministration;
+SELECT * FROM roles;
+
+
+INSERT INTO roles (id_rol, nombre_rol) VALUES
+(2, 'Administrador');
+
+
+INSERT INTO tags (id_tag, nombre_tag) VALUES
+(1, 'VIP'),
+(2, 'Nuevo'),
+(3, 'Referido'),
+(4, 'Congelado'),
+(5, 'Vetado');
+
+INSERT INTO membresias (id_membresia, nombre_membresia, precio, duracion_dias, descripcion, estado) VALUES
+(1, 'Básico',     399,  30,  'Acceso ilimitado al gimnasio, horario completo.',                           'activa'),
+(2, 'Estándar',   649,  30,  'Acceso completo + inscripción a clases grupales.',                          'activa'),
+(3, 'Premium',    899,  30,  'Acceso total + clases grupales + asesoría nutricional personalizada.',       'activa'),
+(4, 'Semestral',  3200, 180, 'Plan Estándar por 6 meses con descuento.',                                  'activa'),
+(5, 'Anual',      5800, 365, 'Plan Estándar por 12 meses, máximo ahorro.',                                'activa'),
+(6, 'Estudiante', 299,  30,  'Plan Básico con precio especial, requiere credencial vigente.',              'oferta'),
+(7, 'Prueba',     0,    7,   'Semana de prueba gratuita para clientes nuevos.',                            'activa');
+
+INSERT INTO clases (id_clase, nombre_clase, costo, duracion_dias, cupos) VALUES
+(1, 'Zumba',       150, 30, 20),
+(2, 'CrossFit',    200, 30, 15),
+(3, 'Yoga',        150, 30, 18),
+(4, 'Spinning',    180, 30, 12),
+(5, 'Box',         220, 30, 10);
+
+
 
 

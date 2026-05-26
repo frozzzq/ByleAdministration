@@ -1,278 +1,317 @@
 ﻿using ByleAdministration.Modelos;
 using ByleAdministration.Repositorios;
+using ByleAdministration.Vistas.Clientes.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using ByleAdministration.Vistas.Clientes.Dialogs;
+using System.Windows.Media;
+
 namespace ByleAdministration.Vistas.Clientes
 {
     public partial class ClientesView : UserControl
     {
-        private RepositorioCliente _repositorio = new RepositorioCliente();
+        private readonly RepositorioCliente _repositorio = new RepositorioCliente();
+        private readonly RepositorioBiometria _repoBio = new RepositorioBiometria();
         private List<Cliente> _todosClientes;
         private Cliente _clienteSeleccionado;
+
+        // ── Pinceles reutilizables ──────────────────────────────────
+        private static readonly SolidColorBrush _brushVerde =
+            new SolidColorBrush(Color.FromRgb(0x2E, 0xCC, 0x71));
+        private static readonly SolidColorBrush _brushRojo =
+            new SolidColorBrush(Color.FromRgb(0xE7, 0x4C, 0x3C));
+        private static readonly SolidColorBrush _brushFondoVerde =
+            new SolidColorBrush(Color.FromArgb(0xFF, 0x1A, 0x3D, 0x2B));
+        private static readonly SolidColorBrush _brushFondoRojo =
+            new SolidColorBrush(Color.FromArgb(0xFF, 0x3D, 0x1A, 0x1A));
 
         public ClientesView()
         {
             InitializeComponent();
-            CargarClientes();
+            Loaded += (s, e) => CargarClientes();
         }
+
+        // ══════════════════════════════════════════════════════════
+        // CARGA Y VISUALIZACIÓN
+        // ══════════════════════════════════════════════════════════
 
         private void CargarClientes()
         {
             try
             {
                 _todosClientes = _repositorio.ObtenerTodos();
-                MostrarClientes(_todosClientes);
+                AplicarFiltro();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar clientes: " + ex.Message, "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error al cargar clientes: " + ex.Message,
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void AplicarFiltro()
+        {
+            if (_todosClientes == null) return;
+
+            // Filtro por estado
+            List<Cliente> filtrados;
+            if (RbActivos?.IsChecked == true)
+                filtrados = _todosClientes.Where(c => c.EstaActivo).ToList();
+            else if (RbInactivos?.IsChecked == true)
+                filtrados = _todosClientes.Where(c => !c.EstaActivo).ToList();
+            else
+                filtrados = _todosClientes;
+
+            // Filtro por búsqueda
+            string termino = TxtBuscar?.Text?.Trim() ?? "";
+            if (!string.IsNullOrEmpty(termino))
+                filtrados = filtrados
+                    .Where(c =>
+                        c.NombreCompleto.IndexOf(termino, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                        c.Correo.IndexOf(termino, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                        c.Telefono.ToString().Contains(termino))
+                    .ToList();
+
+            MostrarClientes(filtrados);
         }
 
         private void MostrarClientes(List<Cliente> clientes)
         {
             PanelClientes.Children.Clear();
-            TxtContador.Text = clientes.Count + " clientes";
+            TxtContador.Text = clientes.Count == 1 ? "1 cliente" : $"{clientes.Count} clientes";
 
-            foreach (var cliente in clientes)
+            foreach (var c in clientes)
+                PanelClientes.Children.Add(CrearFilaCliente(c));
+
+            // Reseleccionar el mismo cliente si sigue en la lista
+            if (_clienteSeleccionado != null)
             {
-                var fila = CrearFilaCliente(cliente);
-                PanelClientes.Children.Add(fila);
+                var mismo = clientes.FirstOrDefault(c => c.IdUsuario == _clienteSeleccionado.IdUsuario);
+                if (mismo != null) { SeleccionarCliente(mismo); return; }
             }
 
-            // Seleccionar el primero si hay
-            if (clientes.Count > 0 && _clienteSeleccionado == null)
-            {
+            if (clientes.Count > 0)
                 SeleccionarCliente(clientes[0]);
-            }
         }
 
         private Grid CrearFilaCliente(Cliente cliente)
         {
             var grid = new Grid
             {
-                Height = 52,
+                Height = 54,
                 Margin = new Thickness(0, 0, 0, 1),
                 Cursor = System.Windows.Input.Cursors.Hand
             };
 
             // Fondo alternado
-            int index = PanelClientes.Children.Count;
-            if (index % 2 == 0)
+            int idx = PanelClientes.Children.Count;
+            if (idx % 2 == 0)
                 grid.SetResourceReference(Grid.BackgroundProperty, "BrushBgCardHover");
 
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(110) });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(72) });
 
-            // Col 0: indicador + avatar + datos
-            var panelInfo = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
+            // Col 0: indicador + avatar + nombre + correo
+            var panelInfo = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(10, 0, 0, 0)
+            };
 
-            // Indicador lateral de color
             var indicador = new System.Windows.Shapes.Rectangle
             {
                 Width = 3,
+                Height = 28,
                 RadiusX = 2,
                 RadiusY = 2,
-                Margin = new Thickness(0, 0, 8, 0),
-                Fill = cliente.EstaActivo
-                    ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0x2E, 0xCC, 0x71))
-                    : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0xE7, 0x4C, 0x3C))
+                Margin = new Thickness(0, 0, 10, 0),
+                Fill = cliente.EstaActivo ? _brushVerde : _brushRojo
             };
             panelInfo.Children.Add(indicador);
 
-            // Avatar
-            var avatarBorder = new Border
+            var avatar = new Border
             {
-                Width = 34,
-                Height = 34,
-                CornerRadius = new CornerRadius(17),
+                Width = 36,
+                Height = 36,
+                CornerRadius = new CornerRadius(18),
                 Margin = new Thickness(0, 0, 10, 0)
             };
-            avatarBorder.SetResourceReference(Border.BackgroundProperty, "BrushAccentMuted");
-            var avatarText = new TextBlock
+            avatar.SetResourceReference(Border.BackgroundProperty, "BrushAccentMuted");
+            var avatarTxt = new TextBlock
             {
                 Text = cliente.Iniciales,
-                FontSize = 11,
+                FontSize = 12,
                 FontWeight = FontWeights.Bold,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             };
-            avatarText.SetResourceReference(TextBlock.ForegroundProperty, "BrushAccent");
-            avatarBorder.Child = avatarText;
-            panelInfo.Children.Add(avatarBorder);
+            avatarTxt.SetResourceReference(TextBlock.ForegroundProperty, "BrushAccent");
+            avatar.Child = avatarTxt;
+            panelInfo.Children.Add(avatar);
 
-            // Nombre y correo
-            var datosPanel = new StackPanel { VerticalAlignment = VerticalAlignment.Center };
-            var txtNombre = new TextBlock
+            var datosStack = new StackPanel { VerticalAlignment = VerticalAlignment.Center };
+            var nombre = new TextBlock
             {
                 Text = cliente.NombreCompleto,
-                FontSize = 12,
+                FontSize = 12.5,
                 FontWeight = FontWeights.Medium
             };
-            txtNombre.SetResourceReference(TextBlock.ForegroundProperty, "BrushTextPrimary");
-            datosPanel.Children.Add(txtNombre);
+            nombre.SetResourceReference(TextBlock.ForegroundProperty, "BrushTextPrimary");
+            datosStack.Children.Add(nombre);
+            var correo = new TextBlock { Text = cliente.Correo, FontSize = 10.5 };
+            correo.SetResourceReference(TextBlock.ForegroundProperty, "BrushTextMuted");
+            datosStack.Children.Add(correo);
+            panelInfo.Children.Add(datosStack);
 
-            var txtCorreo = new TextBlock { Text = cliente.Correo, FontSize = 10 };
-            txtCorreo.SetResourceReference(TextBlock.ForegroundProperty, "BrushTextMuted");
-            datosPanel.Children.Add(txtCorreo);
-
-            panelInfo.Children.Add(datosPanel);
             Grid.SetColumn(panelInfo, 0);
             grid.Children.Add(panelInfo);
 
             // Col 1: Teléfono
-            var txtTel = new TextBlock
+            var tel = new TextBlock
             {
                 Text = cliente.TelefonoFormateado,
-                FontSize = 11,
+                FontSize = 11.5,
                 VerticalAlignment = VerticalAlignment.Center
             };
-            txtTel.SetResourceReference(TextBlock.ForegroundProperty, "BrushTextSecondary");
-            Grid.SetColumn(txtTel, 1);
-            grid.Children.Add(txtTel);
+            tel.SetResourceReference(TextBlock.ForegroundProperty, "BrushTextSecondary");
+            Grid.SetColumn(tel, 1);
+            grid.Children.Add(tel);
 
             // Col 2: Membresía
-            var txtMem = new TextBlock
+            var mem = new TextBlock
             {
                 Text = cliente.NombreMembresia,
-                FontSize = 11,
+                FontSize = 11.5,
                 VerticalAlignment = VerticalAlignment.Center
             };
-            txtMem.SetResourceReference(TextBlock.ForegroundProperty, "BrushTextPrimary");
-            Grid.SetColumn(txtMem, 2);
-            grid.Children.Add(txtMem);
+            mem.SetResourceReference(TextBlock.ForegroundProperty, "BrushTextPrimary");
+            Grid.SetColumn(mem, 2);
+            grid.Children.Add(mem);
 
-            // Col 3: Estado badge
-            var estadoBorder = new Border
+            // Col 3: Badge estado
+            var badge = new Border
             {
                 CornerRadius = new CornerRadius(6),
                 Padding = new Thickness(6, 3, 6, 3),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             };
-            var estadoText = new TextBlock
+            var badgeTxt = new TextBlock
             {
                 Text = cliente.EstaActivo ? "ACTIVO" : "INACTIVO",
                 FontSize = 9,
                 FontWeight = FontWeights.Bold
             };
-
             if (cliente.EstaActivo)
             {
-                estadoBorder.Background = new System.Windows.Media.SolidColorBrush(
-                    System.Windows.Media.Color.FromArgb(0xFF, 0x1A, 0x3D, 0x2B));
-                estadoText.Foreground = new System.Windows.Media.SolidColorBrush(
-                    System.Windows.Media.Color.FromRgb(0x2E, 0xCC, 0x71));
+                badge.Background = _brushFondoVerde;
+                badgeTxt.Foreground = _brushVerde;
             }
             else
             {
-                estadoBorder.SetResourceReference(Border.BackgroundProperty, "BrushErrorMuted");
-                estadoText.SetResourceReference(TextBlock.ForegroundProperty, "BrushError");
+                badge.Background = _brushFondoRojo;
+                badgeTxt.Foreground = _brushRojo;
             }
+            badge.Child = badgeTxt;
+            Grid.SetColumn(badge, 3);
+            grid.Children.Add(badge);
 
-            estadoBorder.Child = estadoText;
-            Grid.SetColumn(estadoBorder, 3);
-            grid.Children.Add(estadoBorder);
-
-            // Click para seleccionar
             grid.MouseLeftButtonDown += (s, e) => SeleccionarCliente(cliente);
-
             return grid;
         }
 
-        private void SeleccionarCliente(Cliente cliente)
+        private void SeleccionarCliente(Cliente c)
         {
-            _clienteSeleccionado = cliente;
+            _clienteSeleccionado = c;
 
-            TxtNombrePerfil.Text = cliente.NombreCompleto;
-            TxtInicialesPerfil.Text = cliente.Iniciales;
-            TxtTelefonoPerfil.Text = cliente.TelefonoFormateado;
-            TxtCorreoPerfil.Text = cliente.Correo;
-            TxtMembresiaPerfil.Text = cliente.NombreMembresia;
-            TxtEdadPerfil.Text = cliente.Edad.ToString() + " años";
-            TxtCiudadPerfil.Text = cliente.Ciudad;
-            TxtInscripcionPerfil.Text = cliente.FechaInscripcion.ToString("dd/MM/yyyy");
-            TxtRenovacionPerfil.Text = cliente.FechaRenovacion?.ToString("dd/MM/yyyy") ?? "—";
+            TxtInicialesPerfil.Text = c.Iniciales;
+            TxtNombrePerfil.Text = c.NombreCompleto;
+            TxtCorreoPerfil.Text = c.Correo;
+            TxtTelefonoPerfil.Text = c.TelefonoFormateado;
+            TxtMembresiaPerfil.Text = c.NombreMembresia;
+            TxtEdadPerfil.Text = c.Edad + " años";
+            TxtCiudadPerfil.Text = c.Ciudad;
+            TxtInscripcionPerfil.Text = c.FechaInscripcion.ToString("dd/MM/yyyy");
+            TxtRenovacionPerfil.Text = c.FechaRenovacion?.ToString("dd/MM/yyyy") ?? "—";
 
-            // Estado
-            if (cliente.EstaActivo)
+            // Huella
+            bool tieneHuella = _repoBio.ExisteEnrolamiento(c.IdUsuario);
+            TxtHuellaPerfil.Text = tieneHuella ? "Registrada" : "Sin huella";
+            TxtHuellaPerfil.Foreground = tieneHuella ? _brushVerde : _brushRojo;
+            IconHuellaPerfil.Foreground = tieneHuella ? _brushVerde : _brushRojo;
+
+            // Estado badge
+            if (c.EstaActivo)
             {
-                TxtEstadoPerfil.Text = "● Membresía activa";
-                TxtEstadoPerfil.Foreground = new System.Windows.Media.SolidColorBrush(
-                    System.Windows.Media.Color.FromRgb(0x2E, 0xCC, 0x71));
-                BorderEstadoPerfil.Background = new System.Windows.Media.SolidColorBrush(
-                    System.Windows.Media.Color.FromArgb(0xFF, 0x1A, 0x3D, 0x2B));
+                TxtEstadoPerfil.Text = "Membresía activa";
+                TxtEstadoPerfil.Foreground = _brushVerde;
+                BorderEstadoPerfil.Background = _brushFondoVerde;
+                // Ellipse dentro del badge
+                if (BorderEstadoPerfil.Child is StackPanel sp && sp.Children.Count > 0
+                    && sp.Children[0] is System.Windows.Shapes.Ellipse dot)
+                    dot.Fill = _brushVerde;
             }
             else
             {
-                TxtEstadoPerfil.Text = "● Membresía inactiva";
-                TxtEstadoPerfil.Foreground = new System.Windows.Media.SolidColorBrush(
-                    System.Windows.Media.Color.FromRgb(0xE7, 0x4C, 0x3C));
-                BorderEstadoPerfil.Background = new System.Windows.Media.SolidColorBrush(
-                    System.Windows.Media.Color.FromArgb(0xFF, 0x3D, 0x1A, 0x1A));
+                TxtEstadoPerfil.Text = "Membresía inactiva";
+                TxtEstadoPerfil.Foreground = _brushRojo;
+                BorderEstadoPerfil.Background = _brushFondoRojo;
+                if (BorderEstadoPerfil.Child is StackPanel sp && sp.Children.Count > 0
+                    && sp.Children[0] is System.Windows.Shapes.Ellipse dot)
+                    dot.Fill = _brushRojo;
             }
         }
+
+        // ══════════════════════════════════════════════════════════
+        // NUEVO CLIENTE
+        // ══════════════════════════════════════════════════════════
+
+        private void BtnNuevoCliente_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new EditarClienteDialog();
+            dialog.Owner = Window.GetWindow(this);
+            if (dialog.ShowDialog() == true)
+            {
+                _clienteSeleccionado = null;
+                CargarClientes();
+            }
+        }
+
+        // ══════════════════════════════════════════════════════════
+        // EDITAR CLIENTE
+        // ══════════════════════════════════════════════════════════
+
+        private void BtnEditarCliente_Click(object sender, RoutedEventArgs e)
+        {
+            if (_clienteSeleccionado == null)
+            {
+                MessageBox.Show("Selecciona un cliente para editar.",
+                    "Sin selección", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            var dialog = new EditarClienteDialog(_clienteSeleccionado.IdUsuario);
+            dialog.Owner = Window.GetWindow(this);
+            if (dialog.ShowDialog() == true)
+                CargarClientes();
+        }
+
+        // ══════════════════════════════════════════════════════════
+        // BÚSQUEDA Y FILTROS
+        // ══════════════════════════════════════════════════════════
 
         private void TxtBuscar_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string termino = TxtBuscar.Text.Trim();
-
-            if (string.IsNullOrEmpty(termino))
-            {
-                MostrarClientes(_todosClientes);
-            }
-            else
-            {
-                // Filtrar local para no bombardear la BD en cada tecla
-                var filtrados = _todosClientes
-                    .Where(c => c.NombreCompleto.IndexOf(termino, StringComparison.OrdinalIgnoreCase) >= 0
-                             || c.Correo.IndexOf(termino, StringComparison.OrdinalIgnoreCase) >= 0
-                             || c.Telefono.ToString().Contains(termino))
-                    .ToList();
-                MostrarClientes(filtrados);
-            }
-        }
+            => AplicarFiltro();
 
         private void BtnLimpiarBusqueda_Click(object sender, RoutedEventArgs e)
-        {
-            TxtBuscar.Text = "";
-        }
+            => TxtBuscar.Text = "";
 
-        private void CmbFiltroEstado_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (_todosClientes == null) return;
-
-            var item = CmbFiltroEstado.SelectedItem as ComboBoxItem;
-            string filtro = item?.Content?.ToString() ?? "Todos";
-
-            List<Cliente> filtrados;
-            switch (filtro)
-            {
-                case "Activos":
-                    filtrados = _todosClientes.Where(c => c.EstaActivo).ToList();
-                    break;
-                case "Inactivos":
-                    filtrados = _todosClientes.Where(c => !c.EstaActivo).ToList();
-                    break;
-                default:
-                    filtrados = _todosClientes;
-                    break;
-            }
-            MostrarClientes(filtrados);
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            EditarClienteDialog dialog = new EditarClienteDialog();
-            dialog.Owner = Window.GetWindow(this);
-            dialog.ShowDialog();
-        }
+        private void RbFiltro_Checked(object sender, RoutedEventArgs e)
+            => AplicarFiltro();
     }
 }
