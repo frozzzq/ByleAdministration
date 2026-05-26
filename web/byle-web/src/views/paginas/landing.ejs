@@ -23,21 +23,49 @@
 
     <!-- Panel expandible info del gym -->
     <div class="hero-gym-panel" id="gymPanel">
+      <div class="gym-panel-header">
+        <span class="gym-panel-tag">Conoce Byle Gym</span>
+      </div>
       <div class="gym-cards-grid">
         <div class="gym-info-card">
+          <span class="gym-card-icon">🏋️</span>
           <h3>Instalaciones</h3>
           <p>Área de pesas de última generación, zona cardiovascular y espacios dedicados para clases grupales. Todo el equipo que necesitas para alcanzar tus metas.</p>
+          <div class="gym-card-stat">
+            <span class="gym-card-stat-val">1,200 m²</span>
+            <span class="gym-card-stat-label">de espacio</span>
+          </div>
+          <a href="/info?s=general" class="gym-card-link">Ver instalaciones →</a>
         </div>
         <div class="gym-info-card">
+          <span class="gym-card-icon">🎯</span>
           <h3>Nuestro equipo</h3>
           <p>Entrenadores certificados en fuerza, crossfit y nutrición deportiva. Estamos contigo en cada paso de tu transformación física.</p>
+          <div class="gym-card-stat">
+            <span class="gym-card-stat-val">8+</span>
+            <span class="gym-card-stat-label">entrenadores</span>
+          </div>
+          <a href="/info?s=general" class="gym-card-link">Conocer al equipo →</a>
         </div>
         <div class="gym-info-card">
+          <span class="gym-card-icon">📍</span>
           <h3>Ubicación y horarios</h3>
-          <p>En el corazón de Los Mochis, Sinaloa. Abrimos desde las 5am de lunes a sábado para adaptarnos a tu horario.</p>
+          <p>En el corazón de Los Mochis, Sinaloa. Abrimos desde las 5am de lunes a sábado para adaptarnos a tu ritmo de vida.</p>
+          <div class="gym-card-stat">
+            <span class="gym-card-stat-val">5am–10pm</span>
+            <span class="gym-card-stat-label">Lun – Sáb</span>
+          </div>
+          <a href="/info?s=horarios" class="gym-card-link">Ver horarios →</a>
         </div>
       </div>
-      <button class="gym-panel-close" onclick="toggleGymInfo()">Cerrar ↑</button>
+      <div class="gym-panel-footer">
+        <button id="gymCloseBtn" class="gym-close-btn" onclick="toggleGymInfo()" aria-label="Cerrar panel">
+          <svg class="gym-close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+          <span>Cerrar</span>
+        </button>
+      </div>
     </div>
   </section>
 
@@ -143,27 +171,32 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script>
   (function () {
-    const panel = document.getElementById('gymPanel');
-    const btn   = document.getElementById('gymInfoBtn');
-    const cards = panel.querySelectorAll('.gym-info-card');
+    const panel  = document.getElementById('gymPanel');
+    const btn    = document.getElementById('gymInfoBtn');
+    const cards  = panel.querySelectorAll('.gym-info-card');
+    const tag    = panel.querySelector('.gym-panel-tag');
+    const footer = panel.querySelector('.gym-panel-footer');
     let isOpen = false;
     let tl = null;
 
     gsap.set(panel, { height: 0 });
+    gsap.set([tag, footer], { opacity: 0 });
 
     function open() {
       if (isOpen) return;
       isOpen = true;
-      btn.textContent = 'Cerrar ↑';
+      btn.textContent = 'Cerrar';
       btn.classList.add('active');
       if (tl) tl.kill();
       tl = gsap.timeline();
-      tl.to(panel, { height: 'auto', duration: 0.55, ease: 'power3.out' })
+      tl.to(panel, { height: 'auto', duration: 0.5, ease: 'power3.out' })
+        .to(tag, { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out' }, '-=0.2')
         .fromTo(cards,
-          { y: 50, opacity: 0, scale: 0.96 },
-          { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'power3.out', stagger: 0.12 },
-          '-=0.3'
-        );
+          { y: 48, opacity: 0, scale: 0.95 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.48, ease: 'power3.out', stagger: 0.1 },
+          '-=0.05'
+        )
+        .to(footer, { opacity: 1, duration: 0.3, ease: 'power2.out' }, '-=0.15');
     }
 
     function close() {
@@ -172,9 +205,16 @@
       btn.textContent = 'Conoce el gym';
       btn.classList.remove('active');
       if (tl) tl.kill();
-      tl = gsap.timeline({ onComplete: () => gsap.set(panel, { height: 0 }) });
-      tl.to(cards, { y: 20, opacity: 0, scale: 0.97, duration: 0.22, stagger: 0.06, ease: 'power2.in' })
-        .to(panel,  { height: 0, duration: 0.4, ease: 'power3.in' }, '-=0.12');
+      tl = gsap.timeline({
+        onComplete: () => {
+          gsap.set(panel, { height: 0 });
+          gsap.set([tag, footer], { opacity: 0 });
+        }
+      });
+      tl.to(footer, { opacity: 0, duration: 0.15 })
+        .to(cards, { y: 18, opacity: 0, scale: 0.97, duration: 0.2, stagger: 0.06, ease: 'power2.in' }, '-=0.05')
+        .to(tag,   { opacity: 0, duration: 0.15 }, '-=0.1')
+        .to(panel, { height: 0, duration: 0.38, ease: 'power3.in' }, '-=0.08');
     }
 
     window.toggleGymInfo = function () { isOpen ? close() : open(); };
