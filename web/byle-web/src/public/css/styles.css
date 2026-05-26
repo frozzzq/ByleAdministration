@@ -150,7 +150,8 @@ button{font-family:inherit}
 .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,10vw,5rem);letter-spacing:.04em;line-height:1}
 .hero-title span{color:var(--accent)}
 .hero-sub{font-size:.85rem;color:rgba(240,240,245,0.6);margin-top:.75rem;letter-spacing:.06em}
-.hero-actions{display:flex;gap:.75rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
+.hero-actions{display:flex;flex-direction:column;gap:.75rem;align-items:center;margin-top:2rem}
+.hero-actions .btn{width:100%;max-width:260px}
 .hero-stats{display:flex;gap:2.5rem;justify-content:center;margin-top:2.5rem}
 .hero-stat{text-align:center}
 .hero-stat-value{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent)}
@@ -163,6 +164,29 @@ button{font-family:inherit}
 .hero > *:nth-child(4){animation-delay:.2s}
 .hero > *:nth-child(5){animation-delay:.3s}
 .hero > *:nth-child(6){animation-delay:.4s}
+.hero > *:nth-child(7){animation-delay:.5s}
+
+/* Hero — orbes flotantes animados */
+@keyframes orbFloat1{0%,100%{transform:translate(0,0) scale(1);opacity:.15}50%{transform:translate(40px,-28px) scale(1.2);opacity:.28}}
+@keyframes orbFloat2{0%,100%{transform:translate(0,0) scale(1);opacity:.1}50%{transform:translate(-30px,35px) scale(.85);opacity:.2}}
+.hero-orb{position:absolute;border-radius:50%;pointer-events:none;will-change:transform}
+.hero-orb-1{width:480px;height:480px;background:radial-gradient(circle,rgba(242,100,25,.2),transparent 70%);top:-130px;right:6%;animation:orbFloat1 10s ease-in-out infinite}
+.hero-orb-2{width:340px;height:340px;background:radial-gradient(circle,rgba(130,60,210,.14),transparent 70%);bottom:8%;left:2%;animation:orbFloat2 13s ease-in-out infinite}
+
+/* Hero gym panel — estilo CardNav */
+.hero-gym-panel{width:100%;max-width:880px;margin:0 auto;overflow:hidden}
+.gym-cards-grid{display:flex;gap:10px;padding:1.25rem 0 .5rem}
+.gym-info-card{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:1.25rem 1.1rem;backdrop-filter:blur(8px);min-height:110px}
+.gym-info-card h3{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.04em;color:#fff;margin:0 0 .5rem}
+.gym-info-card p{font-size:.82rem;color:rgba(240,240,245,.65);line-height:1.55;margin:0}
+.gym-panel-close{display:block;margin:.6rem auto .25rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(240,240,245,.7);border-radius:8px;padding:.4rem 1.5rem;font-size:.78rem;cursor:pointer;transition:all .2s}
+.gym-panel-close:hover{background:rgba(255,255,255,.16);color:#fff}
+@media(max-width:640px){.gym-cards-grid{flex-direction:column}}
+
+/* Botón Conoce el gym — pulso sutil */
+@keyframes btnGlow{0%,100%{box-shadow:0 0 0 0 rgba(242,100,25,0)}55%{box-shadow:0 0 18px 4px rgba(242,100,25,.3)}}
+.hero-gym-btn{animation:btnGlow 3.5s ease-in-out infinite}
+.hero-gym-btn.active{animation:none}
 
 /* ══════════════════════════════════════
    CARDS

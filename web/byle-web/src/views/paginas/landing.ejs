@@ -5,18 +5,39 @@
   <%- include('../partials/navbar') %>
 
   <!-- HERO -->
-  <section class="hero">
+  <section class="hero" id="heroSection">
+    <span class="hero-orb hero-orb-1" aria-hidden="true"></span>
+    <span class="hero-orb hero-orb-2" aria-hidden="true"></span>
     <img src="/img/logo.svg" alt="Byle" class="hero-logo">
     <h1 class="hero-title">BY<span>LE</span> GYM</h1>
     <p class="hero-sub">Tu centro deportivo en Los Mochis, Sinaloa</p>
     <div class="hero-actions">
       <a href="/hazte-socio" class="btn btn-primary btn-lg">Hazte socio hoy</a>
-      <a href="/info?s=general" class="btn btn-secondary btn-lg" style="border-color:rgba(255,255,255,0.3);color:#fff">Conoce el gym</a>
+      <button id="gymInfoBtn" class="btn btn-secondary btn-lg hero-gym-btn" onclick="toggleGymInfo()">Conoce el gym</button>
     </div>
     <div class="hero-stats">
       <div class="hero-stat"><div class="hero-stat-value">350+</div><div class="hero-stat-label">Socios activos</div></div>
       <div class="hero-stat"><div class="hero-stat-value">10</div><div class="hero-stat-label">Clases grupales</div></div>
       <div class="hero-stat"><div class="hero-stat-value">5am</div><div class="hero-stat-label">Abrimos temprano</div></div>
+    </div>
+
+    <!-- Panel expandible info del gym -->
+    <div class="hero-gym-panel" id="gymPanel">
+      <div class="gym-cards-grid">
+        <div class="gym-info-card">
+          <h3>Instalaciones</h3>
+          <p>Área de pesas de última generación, zona cardiovascular y espacios dedicados para clases grupales. Todo el equipo que necesitas para alcanzar tus metas.</p>
+        </div>
+        <div class="gym-info-card">
+          <h3>Nuestro equipo</h3>
+          <p>Entrenadores certificados en fuerza, crossfit y nutrición deportiva. Estamos contigo en cada paso de tu transformación física.</p>
+        </div>
+        <div class="gym-info-card">
+          <h3>Ubicación y horarios</h3>
+          <p>En el corazón de Los Mochis, Sinaloa. Abrimos desde las 5am de lunes a sábado para adaptarnos a tu horario.</p>
+        </div>
+      </div>
+      <button class="gym-panel-close" onclick="toggleGymInfo()">Cerrar ↑</button>
     </div>
   </section>
 
@@ -118,5 +139,46 @@
   </div>
 
   <%- include('../partials/footer') %>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script>
+  (function () {
+    const panel = document.getElementById('gymPanel');
+    const btn   = document.getElementById('gymInfoBtn');
+    const cards = panel.querySelectorAll('.gym-info-card');
+    let isOpen = false;
+    let tl = null;
+
+    gsap.set(panel, { height: 0 });
+
+    function open() {
+      if (isOpen) return;
+      isOpen = true;
+      btn.textContent = 'Cerrar ↑';
+      btn.classList.add('active');
+      if (tl) tl.kill();
+      tl = gsap.timeline();
+      tl.to(panel, { height: 'auto', duration: 0.55, ease: 'power3.out' })
+        .fromTo(cards,
+          { y: 50, opacity: 0, scale: 0.96 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'power3.out', stagger: 0.12 },
+          '-=0.3'
+        );
+    }
+
+    function close() {
+      if (!isOpen) return;
+      isOpen = false;
+      btn.textContent = 'Conoce el gym';
+      btn.classList.remove('active');
+      if (tl) tl.kill();
+      tl = gsap.timeline({ onComplete: () => gsap.set(panel, { height: 0 }) });
+      tl.to(cards, { y: 20, opacity: 0, scale: 0.97, duration: 0.22, stagger: 0.06, ease: 'power2.in' })
+        .to(panel,  { height: 0, duration: 0.4, ease: 'power3.in' }, '-=0.12');
+    }
+
+    window.toggleGymInfo = function () { isOpen ? close() : open(); };
+  })();
+  </script>
 </body>
 </html>
