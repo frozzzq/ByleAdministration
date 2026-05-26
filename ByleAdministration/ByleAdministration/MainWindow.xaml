@@ -19,6 +19,9 @@
       • Navegación con RadioButtons (GroupName="Nav")
       • Todos los textos ≥ 4.5:1 contraste sobre sus fondos
       • Hover en nav con animación suave (Estilos.xaml)
+      
+      CAMBIOS REALIZADOS: StaticResource → DynamicResource en colores de fondo
+      para que responda al cambio dinámico de tema
     ══════════════════════════════════════════════════════
     -->
 
@@ -26,9 +29,9 @@
     <Border CornerRadius="12" ClipToBounds="True" BorderThickness="1">
         <Border.BorderBrush>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="{StaticResource winBorderColor1}" Offset="0"/>
-                <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
-                <GradientStop Color="{StaticResource winBorderColor3}" Offset="1"/>
+                <GradientStop Color="{DynamicResource winBorderColor1}" Offset="0"/>
+                <GradientStop Color="{DynamicResource winBorderColor2}" Offset="0.5"/>
+                <GradientStop Color="{DynamicResource winBorderColor3}" Offset="1"/>
             </LinearGradientBrush>
         </Border.BorderBrush>
 
@@ -44,8 +47,8 @@
             <Border Grid.Column="0" CornerRadius="12,0,0,12">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0.3,1">
-                        <GradientStop Color="{StaticResource secondaryBackColor1}" Offset="0"/>
-                        <GradientStop Color="{StaticResource secondaryBackColor2}" Offset="1"/>
+                        <GradientStop Color="{DynamicResource secondaryBackColor1}" Offset="0"/>
+                        <GradientStop Color="{DynamicResource secondaryBackColor2}" Offset="1"/>
                     </LinearGradientBrush>
                 </Border.Background>
 
@@ -298,8 +301,8 @@
             <Border Grid.Column="1" CornerRadius="0,12,12,0">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
-                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
-                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1"/>
+                        <GradientStop Color="{DynamicResource primaryBackColor1}" Offset="0"/>
+                        <GradientStop Color="{DynamicResource primaryBackColor2}" Offset="1"/>
                     </LinearGradientBrush>
                 </Border.Background>
 
@@ -346,8 +349,8 @@
                             BorderThickness="0,0,0,1">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
-                                <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1"/>
+                                <GradientStop Color="{DynamicResource primaryBackColor1}" Offset="0"/>
+                                <GradientStop Color="{DynamicResource primaryBackColor2}" Offset="1"/>
                             </LinearGradientBrush>
                         </Border.Background>
 
