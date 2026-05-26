@@ -124,10 +124,7 @@
                         <!-- Card de usuario activo -->
                         <Border CornerRadius="10" Padding="12,10" Cursor="Hand">
                             <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="#1C1C38" Offset="0"/>
-                                    <GradientStop Color="#242444" Offset="1"/>
-                                </LinearGradientBrush>
+                                <SolidColorBrush Color="{DynamicResource panelActiveColor}"/>
                             </Border.Background>
                             <Border.Style>
                                 <Style TargetType="Border">
@@ -148,21 +145,21 @@
                                         </LinearGradientBrush>
                                     </Border.Background>
                                     <TextBlock Text="A"
-                                               FontSize="14" FontWeight="Bold"
-                                               Foreground="White"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"/>
+                       FontSize="14" FontWeight="Bold"
+                       Foreground="White"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
                                 </Border>
                                 <!-- Nombre y rol -->
                                 <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
                                     <TextBlock x:Name="TxtUsuarioActivo"
-                                               Text="Admin"
-                                               FontSize="12.5"
-                                               FontWeight="SemiBold"
-                                               Foreground="{DynamicResource BrushTextPrimary}"/>
+                       Text="Admin"
+                       FontSize="12.5"
+                       FontWeight="SemiBold"
+                       Foreground="{DynamicResource BrushTextPrimary}"/>
                                     <TextBlock Text="Administrador"
-                                               FontSize="10.5"
-                                               Foreground="{DynamicResource BrushTextSecondary}"/>
+                       FontSize="10.5"
+                       Foreground="{DynamicResource BrushTextSecondary}"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
@@ -332,6 +329,8 @@
                                           Width="11" Height="11"
                                           Foreground="{DynamicResource BrushTextSecondary}"/>
                         </Button>
+                        
+                        
                         <!-- Minimizar -->
                         <Button Style="{StaticResource controlButton}"
                                 Click="BtnMinimizar_Click"
@@ -340,7 +339,19 @@
                                           Width="11" Height="11"
                                           Foreground="{DynamicResource BrushTextSecondary}"/>
                         </Button>
+
+                        <!-- NUEVO: Pantalla completa -->
+                        <Button x:Name="BtnPantallaCompleta" Style="{StaticResource controlButton}"
+                                Click="BtnPantallaCompleta_Click"
+                                ToolTip="Pantalla completa">
+                            <fa:IconImage x:Name="IconPantallaCompleta"
+                                Icon="Expand"
+                                Width="11" Height="11"
+                                Foreground="{DynamicResource BrushTextSecondary}"/>
+                        </Button>
+
                     </StackPanel>
+                    
 
                     <!-- ── Topbar ── -->
                     <Border Grid.Row="1"

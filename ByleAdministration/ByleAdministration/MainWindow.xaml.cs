@@ -32,6 +32,22 @@ namespace ByleAdministration
             }
         }
 
+        private void BtnPantallaCompleta_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+                IconPantallaCompleta.Icon = FontAwesome.Sharp.IconChar.Expand;
+                BtnPantallaCompleta.ToolTip = "Pantalla completa";
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+                IconPantallaCompleta.Icon = FontAwesome.Sharp.IconChar.Compress;
+                BtnPantallaCompleta.ToolTip = "Salir de pantalla completa";
+            }
+        }
+
         private void NavBtn_Click(object sender, RoutedEventArgs e)
         {
            
