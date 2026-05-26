@@ -119,40 +119,34 @@
         <p class="section-desc">Todos incluyen acceso completo al área de pesas y cardio</p>
       </div>
       <div class="plans-grid">
-        <div class="plan-card">
-          <div class="plan-name">Básico</div>
-          <div class="plan-price">$499 <span>/mes</span></div>
-          <div class="plan-duration">30 días</div>
-          <ul class="plan-features">
-            <li>Acceso a pesas y cardio</li>
-            <li>Horario completo</li>
-            <li>Casillero asignado</li>
-          </ul>
-          <a href="/hazte-socio" class="btn btn-secondary btn-block">Elegir plan</a>
-        </div>
-        <div class="plan-card popular">
-          <div class="plan-name">Premium Plus</div>
-          <div class="plan-price">$899 <span>/mes</span></div>
-          <div class="plan-duration">30 días</div>
-          <ul class="plan-features">
-            <li>Todo lo del Básico</li>
-            <li>Clases grupales incluidas</li>
-            <li>Seguimiento de progreso</li>
-            <li>Acceso a competencias</li>
-          </ul>
-          <a href="/hazte-socio" class="btn btn-primary btn-block">Elegir plan</a>
-        </div>
-        <div class="plan-card">
-          <div class="plan-name">Trimestral</div>
-          <div class="plan-price">$2,299 <span>/3 meses</span></div>
-          <div class="plan-duration">90 días · Ahorra $398</div>
-          <ul class="plan-features">
-            <li>Todo lo del Premium Plus</li>
-            <li>Descuento por trimestre</li>
-            <li>Medición corporal mensual</li>
-          </ul>
-          <a href="/hazte-socio" class="btn btn-secondary btn-block">Elegir plan</a>
-        </div>
+        <% if (membresias && membresias.length > 0) { %>
+          <% membresias.forEach(function(plan, i) {
+               const mid = Math.floor(membresias.length / 2);
+               const isPopular = (membresias.length > 1 && i === mid);
+               const meses = plan.duracion_dias >= 60
+                 ? Math.round(plan.duracion_dias / 30) + ' meses'
+                 : null;
+               const durLabel = meses ? plan.duracion_dias + ' días · ' + meses : plan.duracion_dias + ' días';
+               const periodoLabel = meses ? '/' + meses : '/mes';
+          %>
+          <div class="plan-card <%= isPopular ? 'popular' : '' %>">
+            <div class="plan-name"><%= plan.nombre_membresia %></div>
+            <div class="plan-price">$<%= Number(plan.precio).toLocaleString('es-MX') %> <span><%= periodoLabel %></span></div>
+            <div class="plan-duration"><%= durLabel %></div>
+            <ul class="plan-features">
+              <li>Acceso a pesas y cardio</li>
+              <li>Horario completo (5am–10pm)</li>
+              <% if (isPopular) { %><li>Clases grupales incluidas</li><% } %>
+              <% if (plan.duracion_dias >= 60) { %><li>Ahorra pagando por adelantado</li><% } %>
+            </ul>
+            <a href="/hazte-socio" class="btn <%= isPopular ? 'btn-primary' : 'btn-secondary' %> btn-block">Elegir plan</a>
+          </div>
+          <% }); %>
+        <% } else { %>
+          <div style="text-align:center;grid-column:1/-1;padding:2rem;color:var(--text-muted)">
+            Próximamente publicaremos nuestros planes. <a href="/hazte-socio">Contáctanos</a>
+          </div>
+        <% } %>
       </div>
     </section>
 
@@ -218,6 +212,46 @@
     }
 
     window.toggleGymInfo = function () { isOpen ? close() : open(); };
+  })();
+
+  // ── CountUp hero stats ──────────────────────────────────
+  (function () {
+    var stats = document.querySelectorAll('.hero-stat-value');
+    var items = [];
+    stats.forEach(function (el) {
+      var text = el.textContent.trim();
+      var m = text.match(/^(\d+(?:\.\d+)?)(.*)/);
+      if (m) items.push({ el: el, target: parseFloat(m[1]), suffix: m[2], original: text });
+    });
+
+    function easeOutExpo(t) { return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+
+    function run(item) {
+      var duration = 1400;
+      var start = null;
+      function step(ts) {
+        if (!start) start = ts;
+        var t = Math.min((ts - start) / duration, 1);
+        item.el.textContent = Math.round(easeOutExpo(t) * item.target) + item.suffix;
+        if (t < 1) requestAnimationFrame(step);
+        else item.el.textContent = item.original;
+      }
+      requestAnimationFrame(step);
+    }
+
+    var heroStats = document.querySelector('.hero-stats');
+    if (!heroStats || !items.length) return;
+    var fired = false;
+    var obs = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && !fired) {
+        fired = true;
+        items.forEach(function (item, idx) {
+          setTimeout(function () { run(item); }, idx * 120);
+        });
+        obs.disconnect();
+      }
+    }, { threshold: 0.4 });
+    obs.observe(heroStats);
   })();
   </script>
 </body>

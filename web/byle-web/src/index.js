@@ -143,8 +143,16 @@ app.get('/auth/logout', (req, res, next) => {
 //  RUTAS PÚBLICAS
 // ══════════════════════════════════════════════════════════
 
-app.get('/', (req, res) => {
-  res.render('paginas/landing');
+app.get('/', async (req, res) => {
+  try {
+    const [membresias] = await db.query(
+      'SELECT * FROM membresias ORDER BY precio ASC'
+    );
+    res.render('paginas/landing', { membresias });
+  } catch (err) {
+    console.error('Landing error:', err);
+    res.render('paginas/landing', { membresias: [] });
+  }
 });
 
 app.get('/login', (req, res) => {
