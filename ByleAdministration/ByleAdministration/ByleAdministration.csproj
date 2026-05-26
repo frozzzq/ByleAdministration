@@ -156,6 +156,7 @@
     <Compile Include="Servicios\Serviciobiometria.cs" />
     <Compile Include="Servicios\Serviciocliente.cs" />
     <Compile Include="Servicios\ServicioEmpleado.cs" />
+    <Compile Include="Soportes\GestorTema.cs" />
     <Compile Include="Soportes\SoporteDatabase.cs" />
     <Compile Include="Soportes\VistaModeloBase.cs" />
     <Compile Include="utils\Gestorsensor.cs" />
