@@ -8,48 +8,152 @@
 
       <!-- Nav portal socios -->
       <div class="ranking-tabs mb-xl">
-        <a href="/dashboard" class="ranking-tab active">Dashboard</a>
+        <a href="/dashboard"   class="ranking-tab active">Dashboard</a>
         <a href="/mi-progreso" class="ranking-tab">Progreso</a>
-        <a href="/clases" class="ranking-tab">Clases</a>
-        <a href="/pagos" class="ranking-tab">Pagos</a>
-        <a href="/acceso-qr" class="ranking-tab">QR</a>
+        <a href="/clases"      class="ranking-tab">Clases</a>
+        <a href="/pagos"       class="ranking-tab">Pagos</a>
+        <a href="/acceso-qr"   class="ranking-tab">QR</a>
       </div>
 
-      <!-- Alerta membresía por vencer (mock: 3 días) -->
-      <div class="alert-banner alert-warning">⚠️ Tu membresía vence en <strong>3 días</strong>. <a href="/info?s=planes">Renueva aquí</a></div>
+      <% if (!perfil) { %>
+        <div class="alert-banner alert-error">
+          Error al cargar tu perfil. Por favor recarga la página o vuelve a iniciar sesión.
+        </div>
+      <% } else { %>
 
-      <div class="page-header" style="padding-top:0">
-        <p class="text-small">Bienvenido de vuelta</p>
-        <h1 class="text-h1">Carlos Mendoza</h1>
+      <!-- ── Alerta estado membresía ────────────────── -->
+      <% if (perfil.estado === 'inactivo') { %>
+        <div class="alert-banner alert-error">❌ Tu membresía está <strong>inactiva</strong>. <a href="/info?s=planes">Renueva aquí</a></div>
+      <% } else if (perfil.dias_restantes !== null && perfil.dias_restantes <= 0) { %>
+        <div class="alert-banner alert-error">❌ Tu membresía ha <strong>vencido</strong>. <a href="/info?s=planes">Renueva aquí</a></div>
+      <% } else if (perfil.dias_restantes !== null && perfil.dias_restantes <= 7) { %>
+        <div class="alert-banner alert-warning">⚠️ Tu membresía vence en <strong><%= perfil.dias_restantes %> día<%= perfil.dias_restantes !== 1 ? 's' : '' %></strong>. <a href="/info?s=planes">Renueva aquí</a></div>
+      <% } %>
+
+      <!-- ── Header usuario ─────────────────────────── -->
+      <div style="display:flex;align-items:center;gap:1rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem">
+        <% if (usuario && usuario.foto) { %>
+        <img src="<%= usuario.foto %>" alt="<%= perfil.nombre_completo %>"
+             style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);flex-shrink:0">
+        <% } %>
+        <div style="flex:1;min-width:0">
+          <p class="text-small" style="color:var(--text-muted);margin:0">Bienvenido de vuelta</p>
+          <h1 class="text-h1" style="margin:.2rem 0 .3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><%= perfil.nombre_completo %></h1>
+          <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+            <span class="text-small" style="color:var(--text-muted)"><%= perfil.correo %></span>
+            <% if (perfil.nombre_tag) { %>
+            <span class="badge badge-accent"><%= perfil.nombre_tag %></span>
+            <% } %>
+          </div>
+        </div>
+        <a href="/auth/logout" class="btn btn-secondary btn-sm" style="flex-shrink:0">Cerrar sesión</a>
       </div>
 
-      <!-- TODO: SELECT u.*, m.nombre_membresia, m.precio, m.duracion_dias
-                 FROM usuarios u JOIN membresias m ON u.id_membresia = m.id_membresia
-                 WHERE u.id_usuario = ? -->
+      <!-- ── Tarjeta membresía ──────────────────────── -->
       <div class="membership-card mb-lg">
-        <div class="label">Membresía activa</div>
-        <div class="plan">Premium Plus</div>
-        <div class="status"><span class="status-dot"></span><span style="color:#2ECC71;font-size:.8rem">Activa</span></div>
+        <div class="label">Plan actual</div>
+        <div class="plan"><%= perfil.nombre_membresia %></div>
+        <div class="status" style="display:flex;align-items:center;gap:.4rem">
+          <span class="status-dot" style="background:<%= perfil.estado === 'activo' ? 'var(--success)' : 'var(--error)' %>"></span>
+          <span style="color:<%= perfil.estado === 'activo' ? '#2ECC71' : '#E74C3C' %>;font-size:.8rem">
+            <%= perfil.estado === 'activo' ? 'Activa' : 'Inactiva' %>
+          </span>
+          <span style="margin-left:auto;font-size:.75rem;color:rgba(240,240,245,0.5)">$<%= perfil.membresia_precio %>/mes</span>
+        </div>
         <div class="dates">
-          <div><div class="text-caption" style="color:rgba(240,240,245,0.5)">Desde</div><div class="text-h3" style="color:#F0F0F5">15 Feb 2026</div></div>
-          <div><div class="text-caption" style="color:rgba(240,240,245,0.5)">Vence</div><div class="text-h3" style="color:#F0F0F5">15 Mar 2026</div></div>
+          <div>
+            <div class="text-caption" style="color:rgba(240,240,245,0.5)">Contratada</div>
+            <div class="text-h3" style="color:#F0F0F5"><%= perfil.fecha_inscripcion_fmt %></div>
+          </div>
+          <div>
+            <div class="text-caption" style="color:rgba(240,240,245,0.5)">Vence</div>
+            <div class="text-h3" style="color:<%= (perfil.dias_restantes !== null && perfil.dias_restantes <= 7) ? '#F39C12' : '#F0F0F5' %>">
+              <%= perfil.fecha_vencimiento_fmt %>
+            </div>
+          </div>
         </div>
       </div>
 
+      <!-- ── Stats ─────────────────────────────────── -->
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-value">18</div><div class="stat-label">Asistencias</div></div>
-        <div class="stat-card"><div class="stat-value">4</div><div class="stat-label">Clases</div></div>
-        <div class="stat-card"><div class="stat-value" style="color:var(--success)">75 kg</div><div class="stat-label">Peso</div></div>
-        <div class="stat-card"><div class="stat-value" style="color:var(--accent)">31</div><div class="stat-label">Racha 🔥</div></div>
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--accent)"><%= total_asistencias %></div>
+          <div class="stat-label">Asistencias</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color:<%= (perfil.dias_restantes === null || perfil.dias_restantes > 7) ? 'var(--success)' : perfil.dias_restantes > 0 ? 'var(--warning)' : 'var(--error)' %>">
+            <%= Math.max(0, perfil.dias_restantes || 0) %>
+          </div>
+          <div class="stat-label">Días restantes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value"><%= perfil.edad %></div>
+          <div class="stat-label">Años</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value"><%= clase ? clase.nombre_clase : '—' %></div>
+          <div class="stat-label">Clase</div>
+        </div>
       </div>
 
-      <div class="section-label mt-lg">Próxima clase</div>
+      <!-- ── Información personal ───────────────────── -->
+      <div class="section-label mt-lg">Información personal</div>
+      <div class="card">
+        <div class="list-item">
+          <div class="list-icon">📍</div>
+          <div class="list-content"><div class="list-title">Ciudad</div></div>
+          <div class="list-right text-small"><%= perfil.ciudad || '—' %></div>
+        </div>
+        <div class="list-item">
+          <div class="list-icon">📱</div>
+          <div class="list-content"><div class="list-title">Teléfono</div></div>
+          <div class="list-right text-small"><%= perfil.telefono %></div>
+        </div>
+        <div class="list-item">
+          <div class="list-icon">✉️</div>
+          <div class="list-content"><div class="list-title">Correo</div></div>
+          <div class="list-right text-small"><%= perfil.correo %></div>
+        </div>
+        <% if (perfil.fecha_renovacion_fmt !== '—') { %>
+        <div class="list-item">
+          <div class="list-icon">🔄</div>
+          <div class="list-content"><div class="list-title">Última renovación</div></div>
+          <div class="list-right text-small"><%= perfil.fecha_renovacion_fmt %></div>
+        </div>
+        <% } %>
+      </div>
+
+      <!-- ── Clase inscrita ─────────────────────────── -->
+      <% if (clase) { %>
+      <div class="section-label mt-lg">Clase inscrita</div>
       <div class="card card-accent">
         <div class="flex justify-between items-center">
-          <div><div class="text-h3">Spinning</div><div class="text-small">Hoy — 6:00 PM · Coach Diana</div></div>
+          <div>
+            <div class="text-h3"><%= clase.nombre_clase %></div>
+            <div class="text-small" style="color:var(--text-muted);margin-top:.2rem">
+              <%= clase.duracion_dias %> días · <%= clase.cupos %> cupos máx
+            </div>
+          </div>
           <span class="badge badge-accent">Inscrito</span>
         </div>
       </div>
+      <% } %>
+
+      <!-- ── Records personales ─────────────────────── -->
+      <% if (records && records.length > 0) { %>
+      <div class="section-label mt-lg">Records personales</div>
+      <div class="card">
+        <% records.forEach(r => { %>
+        <div class="list-item">
+          <div class="list-icon">🏋️</div>
+          <div class="list-content"><div class="list-title"><%= r.ejercicio %></div></div>
+          <div class="list-right"><strong><%= r.peso_kg %> kg</strong></div>
+        </div>
+        <% }) %>
+      </div>
+      <% } %>
+
+      <% } %> <!-- fin if perfil -->
 
     </section>
   </div>

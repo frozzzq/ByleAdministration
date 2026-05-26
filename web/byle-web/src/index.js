@@ -176,8 +176,71 @@ app.get('/competencias', (req, res) => {
 //  RUTAS SOCIO — requieren sesión activa
 // ══════════════════════════════════════════════════════════
 
-app.get('/dashboard', authSocio, (req, res) => {
-  res.render('paginas/dashboard', { nav: 'dashboard' });
+app.get('/dashboard', authSocio, async (req, res) => {
+  try {
+    const correo = req.user.correo;
+
+    // Usuario + membresía + tag + fechas calculadas
+    const [[perfil]] = await db.query(`
+      SELECT
+        u.*,
+        m.nombre_membresia,
+        m.precio                                                              AS membresia_precio,
+        m.duracion_dias,
+        t.nombre_tag,
+        DATE_ADD(
+          COALESCE(u.fecha_renovacion, u.fecha_inscripcion),
+          INTERVAL m.duracion_dias DAY
+        )                                                                     AS fecha_vencimiento,
+        DATEDIFF(
+          DATE_ADD(
+            COALESCE(u.fecha_renovacion, u.fecha_inscripcion),
+            INTERVAL m.duracion_dias DAY
+          ),
+          NOW()
+        )                                                                     AS dias_restantes
+      FROM usuarios u
+      JOIN  membresias m ON u.id_membresia = m.id_membresia
+      LEFT JOIN tags   t ON u.id_tag       = t.id_tag
+      WHERE u.correo = ?
+      LIMIT 1
+    `, [correo]);
+
+    if (!perfil) return res.redirect('/login');
+
+    // Asistencias, clase y records en paralelo
+    const [asistRes, claseRes, recordsRes] = await Promise.all([
+      db.query('SELECT COUNT(*) AS total FROM acceso WHERE id_usuario = ?', [perfil.id_usuario]),
+      perfil.id_clase
+        ? db.query('SELECT * FROM clases WHERE id_clase = ? LIMIT 1', [perfil.id_clase])
+        : Promise.resolve([[null]]),
+      db.query('SELECT * FROM records_personales WHERE id_usuario = ? ORDER BY id_pr', [perfil.id_usuario]),
+    ]);
+
+    const total_asistencias = asistRes[0][0]?.total  ?? 0;
+    const clase             = claseRes[0][0]         || null;
+    const records           = recordsRes[0]          || [];
+
+    const fmt = d => d
+      ? new Date(d).toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' })
+      : '—';
+
+    res.render('paginas/dashboard', {
+      nav: 'dashboard',
+      perfil: {
+        ...perfil,
+        fecha_inscripcion_fmt: fmt(perfil.fecha_inscripcion),
+        fecha_renovacion_fmt:  fmt(perfil.fecha_renovacion),
+        fecha_vencimiento_fmt: fmt(perfil.fecha_vencimiento),
+      },
+      total_asistencias,
+      clase,
+      records,
+    });
+  } catch (err) {
+    console.error('Dashboard error:', err);
+    res.render('paginas/dashboard', { nav: 'dashboard', perfil: null, total_asistencias: 0, clase: null, records: [] });
+  }
 });
 
 app.get('/mi-progreso', authSocio, (req, res) => {

@@ -12,7 +12,17 @@
 
     <div class="navbar-actions">
       <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema" aria-label="Cambiar tema">☀️</button>
-      <a href="/login" class="btn btn-primary btn-sm">Ingresar</a>
+      <% if (locals.usuario) { %>
+        <a href="/dashboard" style="display:flex;align-items:center;gap:.5rem;text-decoration:none">
+          <% if (usuario.foto) { %>
+          <img src="<%= usuario.foto %>" alt="" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid var(--accent)">
+          <% } %>
+          <span class="text-small" style="color:var(--text-primary);font-weight:500;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= usuario.nombre.split(' ')[0] %></span>
+        </a>
+        <a href="/auth/logout" class="btn btn-secondary btn-sm">Salir</a>
+      <% } else { %>
+        <a href="/login" class="btn btn-primary btn-sm">Ingresar</a>
+      <% } %>
       <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menú">☰</button>
     </div>
 
@@ -26,9 +36,26 @@
     <button class="mobile-menu-close" onclick="toggleMenu()">✕</button>
   </div>
 
+  <% if (locals.usuario) { %>
+  <div style="display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;margin-bottom:.5rem;background:var(--bg-card);border-radius:var(--radius-sm)">
+    <% if (usuario.foto) { %>
+    <img src="<%= usuario.foto %>" alt="" style="width:42px;height:42px;border-radius:50%;object-fit:cover;border:1.5px solid var(--accent);flex-shrink:0">
+    <% } %>
+    <div style="min-width:0">
+      <div style="font-size:.875rem;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><%= usuario.nombre %></div>
+      <div style="font-size:.7rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><%= usuario.correo %></div>
+    </div>
+  </div>
+  <a href="/dashboard">📊 Mi portal</a>
+  <a href="/mi-progreso">📈 Mi progreso</a>
+  <a href="/clases">👥 Clases</a>
+  <a href="/pagos">💳 Mis pagos</a>
+  <div class="menu-divider"></div>
+  <a href="/auth/logout">🔓 Cerrar sesión</a>
+  <% } else { %>
   <a href="/">🏠 Inicio</a>
   <a href="/hazte-socio">⭐ Hazte socio</a>
-
   <div class="menu-divider"></div>
   <a href="/login">🔓 Iniciar sesión</a>
+  <% } %>
 </div>
