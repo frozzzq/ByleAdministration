@@ -30,7 +30,7 @@ namespace ByleAdministration.Vistas.Acceso
         private static readonly Color _colorVerde = Color.FromRgb(0x2E, 0xCC, 0x71);
         private static readonly Color _colorRojo = Color.FromRgb(0xE7, 0x4C, 0x3C);
         private static readonly Color _colorGris = Color.FromRgb(0x70, 0x70, 0xA0);
-
+    
         // ══════════════════════════════════════════════════════════
         // CICLO DE VIDA
         // ══════════════════════════════════════════════════════════
