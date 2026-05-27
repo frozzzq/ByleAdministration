@@ -286,20 +286,95 @@
     <!-- ══ HORARIOS ═════════════════════════════════════════════════════════ -->
     <% if (seccion === 'horarios') { %>
     <section class="page-section">
-      <div class="section-header"><h1 class="text-h1">Horarios</h1></div>
-      <div class="card mb-lg">
-        <h3 class="text-h3 mb-md">Horario del gimnasio</h3>
-        <div class="list-item"><div class="list-content"><div class="list-title">Lunes a Viernes</div></div><div class="list-right"><strong>5:00 AM – 10:00 PM</strong></div></div>
-        <div class="list-item"><div class="list-content"><div class="list-title">Sábado</div></div><div class="list-right"><strong>5:00 AM – 2:00 PM</strong></div></div>
-        <div class="list-item"><div class="list-content"><div class="list-title">Domingo</div></div><div class="list-right"><span class="badge badge-error">Cerrado</span></div></div>
+
+      <div class="section-header">
+        <div class="section-label">Planifica tu entrenamiento</div>
+        <h1 class="text-h1">Horarios y Clases</h1>
+        <p class="section-desc">Consulta el horario de apertura e inscríbete en nuestras clases grupales.</p>
       </div>
-      <h3 class="text-h2 mb-md">Clases grupales</h3>
-      <div class="card">
-        <div class="schedule-item"><div class="schedule-time"><div class="hour">7:00</div><div class="period">AM</div></div><div class="schedule-info"><div class="schedule-name">Crossfit</div><div class="schedule-meta">Coach Roberto · 45 min · Lun/Mié/Vie</div></div></div>
-        <div class="schedule-item"><div class="schedule-time"><div class="hour">9:00</div><div class="period">AM</div></div><div class="schedule-info"><div class="schedule-name">Yoga</div><div class="schedule-meta">Coach Laura · 60 min · Mar/Jue</div></div></div>
-        <div class="schedule-item"><div class="schedule-time"><div class="hour">6:00</div><div class="period">PM</div></div><div class="schedule-info"><div class="schedule-name">Spinning</div><div class="schedule-meta">Coach Diana · 50 min · Lun/Mié/Vie</div></div></div>
-        <div class="schedule-item"><div class="schedule-time"><div class="hour">7:30</div><div class="period">PM</div></div><div class="schedule-info"><div class="schedule-name">Box</div><div class="schedule-meta">Coach Martín · 60 min · Mar/Jue/Sáb</div></div></div>
+
+      <!-- Horario del gym -->
+      <div class="section-label mt-md">Horario del gimnasio</div>
+      <div class="card mt-sm">
+        <div class="list-item">
+          <div class="list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="list-content"><div class="list-title">Lunes a Viernes</div><div class="list-subtitle">Horario completo entre semana</div></div>
+          <div class="list-right"><strong>5:00 AM – 10:00 PM</strong></div>
+        </div>
+        <div class="list-item">
+          <div class="list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="list-content"><div class="list-title">Sábado</div><div class="list-subtitle">Horario de mañana</div></div>
+          <div class="list-right"><strong>5:00 AM – 2:00 PM</strong></div>
+        </div>
+        <div class="list-item">
+          <div class="list-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="list-content"><div class="list-title">Domingo</div><div class="list-subtitle">Día de descanso</div></div>
+          <div class="list-right"><span class="badge badge-error">Cerrado</span></div>
+        </div>
       </div>
+
+      <!-- Clases grupales dinámicas -->
+      <div class="section-label mt-xl">Clases grupales disponibles</div>
+
+      <% if (clases && clases.length > 0) { %>
+      <%
+        function claseIcon(nombre) {
+          var n = nombre.toLowerCase();
+          if (n.includes('crossfit') || n.includes('funcional'))
+            return '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>';
+          if (n.includes('box') || n.includes('kick') || n.includes('mma'))
+            return '<path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>';
+          if (n.includes('yoga') || n.includes('pilates') || n.includes('stretching'))
+            return '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+          if (n.includes('spinning') || n.includes('cicl') || n.includes('bici'))
+            return '<circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/>';
+          if (n.includes('zumba') || n.includes('baile') || n.includes('dance'))
+            return '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>';
+          if (n.includes('nataci') || n.includes('acuati'))
+            return '<path d="M2 12h20M2 17c2-1 4-2 6-2s4 1 6 2 4 2 6 2"/><path d="M2 7c2-1 4-2 6-2s4 1 6 2 4 2 6 2"/>';
+          return '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>';
+        }
+      %>
+      <div class="clases-grid mt-sm">
+        <% clases.forEach(function(clase, i) {
+             var meses = clase.duracion_dias >= 30 ? Math.round(clase.duracion_dias / 30) : null;
+             var durLabel = meses ? meses + (meses === 1 ? ' mes' : ' meses') : clase.duracion_dias + ' días';
+        %>
+        <div class="clase-card">
+          <div class="clase-card-top">
+            <div class="clase-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><%- claseIcon(clase.nombre_clase) %></svg>
+            </div>
+            <div class="clase-name"><%= clase.nombre_clase %></div>
+          </div>
+          <div class="clase-price-row">
+            <span class="clase-price">$<%= Number(clase.costo).toLocaleString('es-MX') %></span>
+            <span class="clase-period">/mes</span>
+          </div>
+          <div class="clase-meta">
+            <div class="clase-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <%= durLabel %>
+            </div>
+            <div class="clase-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <%= clase.cupos %> cupos
+            </div>
+          </div>
+          <a href="/hazte-socio" class="btn btn-secondary btn-block" style="font-size:.8rem;margin-top:auto">Inscribirse</a>
+        </div>
+        <% }); %>
+      </div>
+      <p class="text-caption mt-md" style="color:var(--text-muted);text-align:center">
+        Consulta horarios exactos y disponibilidad en sucursal · <a href="/hazte-socio">Pre-regístrate aquí</a>
+      </p>
+      <% } else { %>
+      <div class="card mt-sm" style="text-align:center;padding:2.5rem">
+        <p style="color:var(--text-muted);font-size:.875rem">No hay clases disponibles en este momento. Contáctanos para más información.</p>
+        <a href="/hazte-socio" class="btn btn-primary btn-sm" style="margin-top:1rem">Contactar</a>
+      </div>
+      <% } %>
+
     </section>
     <% } %>
 

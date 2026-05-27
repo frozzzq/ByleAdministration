@@ -505,6 +505,23 @@ button{font-family:inherit}
 .max-w-sm{max-width:480px}
 
 /* ══════════════════════════════════════
+   CLASE CARDS (horarios)
+   ══════════════════════════════════════ */
+.clases-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+.clase-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.4rem 1.25rem;display:flex;flex-direction:column;gap:.85rem;transition:border-color .2s,box-shadow .2s,transform .2s}
+.clase-card:hover{border-color:var(--accent);box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.clase-card-top{display:flex;align-items:center;gap:.75rem}
+.clase-badge{width:44px;height:44px;border-radius:var(--radius-md);background:var(--accent-muted);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.clase-badge svg{width:20px;height:20px;stroke:var(--accent)}
+.clase-name{font-size:.95rem;font-weight:700;color:var(--text-primary);line-height:1.2}
+.clase-price-row{display:flex;align-items:baseline;gap:.25rem}
+.clase-price{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--accent);line-height:1}
+.clase-period{font-size:.72rem;color:var(--text-muted)}
+.clase-meta{display:flex;flex-wrap:wrap;gap:.4rem}
+.clase-meta-item{display:flex;align-items:center;gap:.3rem;font-size:.7rem;color:var(--text-secondary);background:var(--bg-secondary);border:1px solid var(--border);border-radius:100px;padding:.2rem .6rem}
+.clase-meta-item svg{width:11px;height:11px;stroke:currentColor;flex-shrink:0}
+
+/* ══════════════════════════════════════
    ICON HELPERS
    ══════════════════════════════════════ */
 .area-card-banner-label svg{width:15px;height:15px;stroke:currentColor;flex-shrink:0}

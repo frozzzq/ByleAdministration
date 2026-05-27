@@ -181,7 +181,18 @@ app.get('/info', async (req, res) => {
       console.error('Info/planes error:', err);
     }
   }
-  res.render('paginas/info', { seccion, membresias });
+
+  let clases = [];
+  if (seccion === 'horarios') {
+    try {
+      const [rows] = await db.query('SELECT * FROM clases ORDER BY costo ASC');
+      clases = rows;
+    } catch (err) {
+      console.error('Info/horarios error:', err);
+    }
+  }
+
+  res.render('paginas/info', { seccion, membresias, clases });
 });
 
 app.get('/tienda', (req, res) => {
