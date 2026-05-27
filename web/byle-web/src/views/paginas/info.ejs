@@ -17,27 +17,90 @@
 
     <% if (seccion === 'general') { %>
     <section class="page-section">
-      <h1 class="text-h1 mb-md">Byle Gym</h1>
-      <p class="text-body mb-lg">Somos un gimnasio ubicado en Los Mochis, Sinaloa, comprometido con tu transformación física. Contamos con equipo de primera, clases grupales y un ambiente motivador para que logres tus objetivos.</p>
-      <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
-        <div class="stat-card"><div class="stat-value" style="color:var(--accent)">350+</div><div class="stat-label">Socios</div></div>
-        <div class="stat-card"><div class="stat-value" style="color:var(--accent)">6</div><div class="stat-label">Clases grupales</div></div>
-        <div class="stat-card"><div class="stat-value" style="color:var(--accent)">2024</div><div class="stat-label">Desde</div></div>
+
+      <!-- Header -->
+      <div class="section-header">
+        <div class="section-label">Sobre nosotros</div>
+        <h1 class="text-h1">Byle Gym</h1>
+        <p class="section-desc">Tu centro deportivo en Los Mochis, Sinaloa — más de 1,200 m² para que logres tus metas.</p>
       </div>
-      <div class="card mt-lg">
-        <h3 class="text-h3 mb-sm">Contacto y ubicación</h3>
-        <div class="list-item"><div class="list-icon">📍</div><div class="list-content"><div class="list-title">Los Mochis, Sinaloa</div><div class="list-subtitle">Col. Centro — Calle Ejemplo #123</div></div></div>
-        <div class="list-item"><div class="list-icon">📞</div><div class="list-content"><div class="list-title">(668) 123-4567</div><div class="list-subtitle">Lun–Sáb: 6am – 10pm</div></div></div>
-        <div class="list-item"><div class="list-icon">📧</div><div class="list-content"><div class="list-title">contacto@bylegym.com</div></div></div>
+
+      <!-- Stats -->
+      <div class="info-stats-row">
+        <div class="info-stat"><span class="info-stat-val">350</span><span class="info-stat-unit">+</span><span class="info-stat-label">Socios activos</span></div>
+        <div class="info-stat"><span class="info-stat-val">10</span><span class="info-stat-unit">+</span><span class="info-stat-label">Clases grupales</span></div>
+        <div class="info-stat"><span class="info-stat-val">1,200</span><span class="info-stat-unit"> m²</span><span class="info-stat-label">Instalaciones</span></div>
+        <div class="info-stat"><span class="info-stat-val">5</span><span class="info-stat-unit">am</span><span class="info-stat-label">Abrimos</span></div>
       </div>
-      <div class="card mt-md">
-        <h3 class="text-h3 mb-sm">Redes sociales</h3>
-        <div class="flex gap-md">
-          <a href="#" class="btn btn-secondary btn-sm">Facebook</a>
-          <a href="#" class="btn btn-secondary btn-sm">Instagram</a>
-          <a href="#" class="btn btn-secondary btn-sm">TikTok</a>
+
+      <!-- Por qué elegirnos -->
+      <div class="section-label mt-xl">¿Por qué Byle Gym?</div>
+      <div class="why-grid mt-sm">
+        <div class="why-card">
+          <div class="why-icon">🏋️</div>
+          <div class="why-title">Equipo de primer nivel</div>
+          <p class="why-desc">Máquinas y pesas de última generación, mantenidas y actualizadas constantemente para tu seguridad.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🎯</div>
+          <div class="why-title">Entrenadores certificados</div>
+          <p class="why-desc">Coaches especializados en fuerza, crossfit, yoga y nutrición deportiva que te guían en cada etapa.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">⚡</div>
+          <div class="why-title">Horarios flexibles</div>
+          <p class="why-desc">Abrimos desde las 5am de lunes a sábado para adaptarnos a cualquier rutina de vida.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">📊</div>
+          <div class="why-title">Seguimiento de progreso</div>
+          <p class="why-desc">Portal web y app para ver tus asistencias, records personales y estado de membresía en tiempo real.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🏆</div>
+          <div class="why-title">Comunidad y competencias</div>
+          <p class="why-desc">Ranking de constancia, competencias internas y un ambiente donde todos se motivan mutuamente.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">📍</div>
+          <div class="why-title">Ubicación céntrica</div>
+          <p class="why-desc">En el corazón de Los Mochis — fácil acceso, estacionamiento disponible y bien conectado.</p>
         </div>
       </div>
+
+      <!-- Contacto -->
+      <div class="section-label mt-xl">Contacto y ubicación</div>
+      <div class="card mt-sm">
+        <div class="list-item">
+          <div class="list-icon">📍</div>
+          <div class="list-content"><div class="list-title">Los Mochis, Sinaloa</div><div class="list-subtitle">Col. Centro — visítanos para conocer la dirección exacta</div></div>
+        </div>
+        <div class="list-item">
+          <div class="list-icon">🕐</div>
+          <div class="list-content"><div class="list-title">Lun–Vie: 5am – 10pm &nbsp;·&nbsp; Sáb: 5am – 2pm</div><div class="list-subtitle">Domingo cerrado</div></div>
+        </div>
+        <div class="list-item">
+          <div class="list-icon">📱</div>
+          <div class="list-content"><div class="list-title">Redes sociales</div></div>
+          <div class="list-right" style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <a href="#" class="btn btn-secondary btn-sm">Instagram</a>
+            <a href="#" class="btn btn-secondary btn-sm">Facebook</a>
+            <a href="#" class="btn btn-secondary btn-sm">TikTok</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="info-cta mt-xl">
+        <div class="section-label">¿Listo para empezar?</div>
+        <h2 class="text-h2 mb-sm">Únete a Byle Gym hoy</h2>
+        <p class="text-body mb-lg" style="color:var(--text-secondary)">Pre-regístrate online y ve a pagar a la sucursal. Sin filas, sin esperas.</p>
+        <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+          <a href="/hazte-socio" class="btn btn-primary btn-lg">Hazte socio</a>
+          <a href="/info?s=instalaciones" class="btn btn-secondary btn-lg">Ver instalaciones</a>
+        </div>
+      </div>
+
     </section>
     <% } %>
 
@@ -75,16 +138,121 @@
 
     <% if (seccion === 'instalaciones') { %>
     <section class="page-section">
-      <div class="section-header"><h1 class="text-h1">Nuestras instalaciones</h1><p class="section-desc">Conoce lo que te espera</p></div>
-      <!-- TODO: fotos reales del gym -->
-      <div class="gallery-grid">
-        <div class="gallery-placeholder">📷 Área de pesas</div>
-        <div class="gallery-placeholder">📷 Cardio</div>
-        <div class="gallery-placeholder">📷 Salón de clases</div>
-        <div class="gallery-placeholder">📷 Recepción</div>
-        <div class="gallery-placeholder">📷 Vestidores</div>
-        <div class="gallery-placeholder">📷 Fachada</div>
+
+      <!-- Header -->
+      <div class="section-header">
+        <div class="section-label">Instalaciones</div>
+        <h1 class="text-h1">Conoce Byle Gym</h1>
+        <p class="section-desc">Más de 1,200 m² en Los Mochis, Sinaloa — todo el equipo que necesitas para alcanzar tus metas.</p>
       </div>
+
+      <!-- Stats rápidos -->
+      <div class="info-stats-row">
+        <div class="info-stat"><span class="info-stat-val">1,200</span><span class="info-stat-unit"> m²</span><span class="info-stat-label">de espacio total</span></div>
+        <div class="info-stat"><span class="info-stat-val">4</span><span class="info-stat-unit">+</span><span class="info-stat-label">zonas dedicadas</span></div>
+        <div class="info-stat"><span class="info-stat-val">50</span><span class="info-stat-unit">+</span><span class="info-stat-label">equipos</span></div>
+        <div class="info-stat"><span class="info-stat-val">5</span><span class="info-stat-unit">am</span><span class="info-stat-label">abrimos</span></div>
+      </div>
+
+      <!-- Zonas -->
+      <div class="section-label mt-xl">Zonas del gimnasio</div>
+      <div class="area-grid mt-sm">
+        <div class="area-card">
+          <div class="area-card-banner" style="background:linear-gradient(135deg,#1a1240,#3d2b85)">🏋️</div>
+          <div class="area-card-body">
+            <div class="area-card-name">Área de Pesas Libre</div>
+            <p class="area-card-desc">Zona equipada para entrenamiento de fuerza e hipertrofia con mancuernas, barras olímpicas, jaulas de sentadilla y múltiples estaciones. Ideal para todos los niveles.</p>
+            <div class="area-card-tags">
+              <span class="area-tag">Mancuernas 2.5–50 kg</span>
+              <span class="area-tag">Barras olímpicas</span>
+              <span class="area-tag">Jaulas de squat</span>
+              <span class="area-tag">Press banca</span>
+              <span class="area-tag">Peso muerto</span>
+            </div>
+          </div>
+        </div>
+        <div class="area-card">
+          <div class="area-card-banner" style="background:linear-gradient(135deg,#0d2b1a,#1a5c35)">🏃</div>
+          <div class="area-card-body">
+            <div class="area-card-name">Zona Cardiovascular</div>
+            <p class="area-card-desc">Amplia área de cardio con cintas caminadoras, bicicletas estáticas, elípticas y escaladoras. Pantallas integradas para monitorear tu rendimiento en tiempo real.</p>
+            <div class="area-card-tags">
+              <span class="area-tag">10+ Cintas caminadoras</span>
+              <span class="area-tag">Bicicletas estáticas</span>
+              <span class="area-tag">Elípticas</span>
+              <span class="area-tag">Escaladoras</span>
+            </div>
+          </div>
+        </div>
+        <div class="area-card">
+          <div class="area-card-banner" style="background:linear-gradient(135deg,#2a0d0d,#7a2222)">👥</div>
+          <div class="area-card-body">
+            <div class="area-card-name">Salón de Clases Grupales</div>
+            <p class="area-card-desc">Espacio amplio y ventilado para crossfit, yoga, box y spinning. Equipado con todo lo necesario para cada disciplina. Cupos limitados para mayor atención personalizada.</p>
+            <div class="area-card-tags">
+              <span class="area-tag">Crossfit</span>
+              <span class="area-tag">Yoga</span>
+              <span class="area-tag">Box</span>
+              <span class="area-tag">Spinning</span>
+              <span class="area-tag">Pesas rusas</span>
+            </div>
+          </div>
+        </div>
+        <div class="area-card">
+          <div class="area-card-banner" style="background:linear-gradient(135deg,#0d1a2b,#1a3a5c)">🚿</div>
+          <div class="area-card-body">
+            <div class="area-card-name">Vestidores y Recepción</div>
+            <p class="area-card-desc">Vestidores amplios con casilleros asignados por membresía, regaderas y área de descanso. Recepción atendida por personal capacitado para orientarte en tu primer día.</p>
+            <div class="area-card-tags">
+              <span class="area-tag">Casilleros seguros</span>
+              <span class="area-tag">Regaderas</span>
+              <span class="area-tag">Área de descanso</span>
+              <span class="area-tag">CCTV 24/7</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Equipamiento destacado -->
+      <div class="section-label mt-xl">Equipamiento destacado</div>
+      <div class="equip-grid mt-sm">
+        <div class="equip-item">🏃 10 Cintas caminadoras</div>
+        <div class="equip-item">🚴 8 Bicicletas spinning</div>
+        <div class="equip-item">⚡ 6 Elípticas</div>
+        <div class="equip-item">🏋️ Mancuernas hasta 50 kg</div>
+        <div class="equip-item">🔩 4 Jaulas de squat</div>
+        <div class="equip-item">💪 Cables y poleas</div>
+        <div class="equip-item">🔧 Máquinas Hammer Strength</div>
+        <div class="equip-item">🧘 Colchonetas de yoga</div>
+        <div class="equip-item">🥊 Costales de box</div>
+        <div class="equip-item">⚖️ Báscula digital</div>
+        <div class="equip-item">🔒 Casilleros con llave</div>
+        <div class="equip-item">📷 Vigilancia CCTV</div>
+      </div>
+
+      <!-- Galería -->
+      <div class="section-label mt-xl">Galería</div>
+      <div class="gallery-grid-new mt-sm">
+        <div class="gallery-item"><div class="gallery-item-placeholder">🏋️<span>Área de pesas</span></div></div>
+        <div class="gallery-item"><div class="gallery-item-placeholder">🏃<span>Zona cardio</span></div></div>
+        <div class="gallery-item"><div class="gallery-item-placeholder">👥<span>Clases grupales</span></div></div>
+        <div class="gallery-item"><div class="gallery-item-placeholder">🚿<span>Vestidores</span></div></div>
+        <div class="gallery-item"><div class="gallery-item-placeholder">🏢<span>Recepción</span></div></div>
+        <div class="gallery-item"><div class="gallery-item-placeholder">📍<span>Fachada</span></div></div>
+      </div>
+      <p class="text-caption mt-sm" style="color:var(--text-muted);text-align:center">Próximamente fotos reales del gimnasio</p>
+
+      <!-- CTA -->
+      <div class="info-cta mt-xl">
+        <div class="section-label">¿Te convenciste?</div>
+        <h2 class="text-h2 mb-sm">Ven a conocernos en persona</h2>
+        <p class="text-body mb-lg" style="color:var(--text-secondary);max-width:460px;margin:0 auto 1.5rem">Visítanos en Los Mochis y recibe orientación gratuita con nuestros entrenadores.</p>
+        <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+          <a href="/hazte-socio" class="btn btn-primary btn-lg">Hazte socio</a>
+          <a href="/info?s=horarios" class="btn btn-secondary btn-lg">Ver horarios</a>
+        </div>
+      </div>
+
     </section>
     <% } %>
 
