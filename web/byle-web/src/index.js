@@ -199,8 +199,48 @@ app.get('/tienda', (req, res) => {
   res.render('paginas/tienda', { nav: 'tienda' });
 });
 
-app.get('/hazte-socio', (req, res) => {
-  res.render('paginas/hazte-socio', { nav: 'hazte-socio' });
+app.get('/hazte-socio', async (req, res) => {
+  try {
+    const [membresias] = await db.query(
+      `SELECT id_membresia, nombre_membresia, precio, duracion_dias, descripcion, estado
+       FROM membresias
+       WHERE estado IN ('activa','oferta','temporada')
+       ORDER BY precio ASC`
+    );
+    res.render('paginas/hazte-socio', { nav: 'hazte-socio', membresias });
+  } catch (err) {
+    console.error('Hazte-socio error:', err);
+    res.render('paginas/hazte-socio', { nav: 'hazte-socio', membresias: [] });
+  }
+});
+
+app.post('/api/pre-registro', async (req, res) => {
+  try {
+    const { nombre_completo, edad, ciudad, correo, telefono, telefono_emergencia, id_membresia } = req.body;
+    if (!nombre_completo || !nombre_completo.trim()) {
+      return res.status(400).json({ ok: false, error: 'El nombre es obligatorio.' });
+    }
+    const expira_en = new Date(Date.now() + 60 * 1000);
+    const [result] = await db.query(
+      `INSERT INTO pre_registros
+         (nombre_completo, edad, ciudad, correo, telefono, telefono_emergencia, id_membresia, expira_en)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        nombre_completo.trim(),
+        edad || null,
+        (ciudad || 'Los Mochis').trim(),
+        correo || null,
+        telefono || null,
+        telefono_emergencia || null,
+        id_membresia || null,
+        expira_en,
+      ]
+    );
+    res.json({ ok: true, id: result.insertId, expira_en });
+  } catch (err) {
+    console.error('Pre-registro error:', err);
+    res.status(500).json({ ok: false, error: 'Error interno del servidor.' });
+  }
 });
 
 app.get('/competencias', (req, res) => {
@@ -293,6 +333,18 @@ app.get('/pagos', authSocio, (req, res) => {
 app.get('/acceso-qr', authSocio, (req, res) => {
   res.render('paginas/acceso-qr', { nav: 'acceso-qr' });
 });
+
+// ── Limpieza de pre-registros expirados ──────────────────
+setInterval(async () => {
+  try {
+    await db.query(
+      `UPDATE pre_registros SET estado = 'expirado'
+       WHERE estado = 'pendiente' AND expira_en < NOW()`
+    );
+  } catch (err) {
+    console.error('Cleanup pre_registros error:', err);
+  }
+}, 60_000);
 
 // ── Iniciar ──────────────────────────────────────────────
 app.listen(PORT, () => {

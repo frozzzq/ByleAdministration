@@ -131,6 +131,21 @@ peso_kg DECIMAL NOT NULL,
 FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );
 
+CREATE TABLE pre_registros (
+  id_pre              INT PRIMARY KEY AUTO_INCREMENT,
+  nombre_completo     VARCHAR(100) NOT NULL,
+  edad                INT,
+  ciudad              VARCHAR(50)  DEFAULT 'Los Mochis',
+  correo              VARCHAR(100),
+  telefono            BIGINT,
+  telefono_emergencia BIGINT,
+  id_membresia        INT,
+  fecha_registro      DATETIME     DEFAULT NOW(),
+  expira_en           DATETIME     NOT NULL,
+  estado              ENUM('pendiente','atendido','expirado') DEFAULT 'pendiente',
+  FOREIGN KEY (id_membresia) REFERENCES membresias(id_membresia) ON DELETE SET NULL
+);
+
 show create table biometria;
 
 use DB_ByleAdministration;

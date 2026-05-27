@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using ByleAdministration.Modelos;
+using ByleAdministration.Repositorios;
 using ByleAdministration.Servicios;
 using ByleAdministration.Utilidades;
 
@@ -23,6 +24,7 @@ namespace ByleAdministration.Vistas.Clientes.Dialogs
 
         // ── Estado de la sesión ─────────────────────────────────────
         private readonly int? _idUsuario;
+        private readonly int? _idPreRegistro;
         private byte[] _templateBytes;
         private int _capturas = 0;
 
@@ -68,6 +70,25 @@ namespace ByleAdministration.Vistas.Clientes.Dialogs
                 if (idUsuario.HasValue && _servicioBio.TieneHuella(idUsuario.Value))
                     AgregarEvento("[Huella] El cliente ya tiene huella registrada. Enrola de nuevo para actualizarla.");
             };
+        }
+
+        // Constructor llamado desde bandeja de notificaciones — pre-llena el formulario
+        public EditarClienteDialog(PreRegistro preReg) : this((int?)null)
+        {
+            _idPreRegistro = preReg.IdPre;
+            TxtSubtitulo.Text = "Desde pre-registro web";
+
+            TxtNombreCompleto.Text = preReg.NombreCompleto ?? "";
+            TxtEdad.Text           = preReg.Edad?.ToString() ?? "";
+            TxtCiudad.Text         = preReg.Ciudad ?? "Los Mochis";
+            TxtCorreo.Text         = preReg.Correo ?? "";
+            TxtTelefono.Text       = preReg.Telefono?.ToString() ?? "";
+            TxtTelefonoEmergencia.Text = preReg.TelefonoEmergencia?.ToString() ?? "";
+
+            if (preReg.IdMembresia.HasValue)
+                foreach (var item in CmbMembresia.Items)
+                    if (item is Membresia m && m.IdMembresia == preReg.IdMembresia.Value)
+                    { CmbMembresia.SelectedItem = item; break; }
         }
 
         // ══════════════════════════════════════════════════════════
@@ -316,6 +337,16 @@ namespace ByleAdministration.Vistas.Clientes.Dialogs
                     AgregarEvento(ok
                         ? "[BD] Huella digital guardada exitosamente."
                         : "[Advertencia] No se pudo guardar la huella en la BD.");
+                }
+
+                if (_idPreRegistro.HasValue)
+                {
+                    try
+                    {
+                        new RepositorioPreRegistro().MarcarAtendido(_idPreRegistro.Value);
+                        AgregarEvento("[Pre-registro] Marcado como atendido.");
+                    }
+                    catch { /* no crítico */ }
                 }
 
                 DialogResult = true;

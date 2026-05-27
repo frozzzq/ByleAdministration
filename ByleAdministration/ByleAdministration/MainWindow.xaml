@@ -416,30 +416,86 @@
                                 </Border>
 
                                 <!-- Notificaciones -->
-                                <Border Width="36" Height="36"
-                                        CornerRadius="9"
-                                        Cursor="Hand"
-                                        Margin="10,0,0,0"
-                                        BorderBrush="{DynamicResource BrushBorder}"
-                                        BorderThickness="1"
-                                        Background="{DynamicResource BrushBgCard}"
-                                        ToolTip="Notificaciones">
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background"
-                                                            Value="{DynamicResource BrushBgCardHover}"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    <fa:IconImage Icon="Bell"
-                                                  Width="14" Height="14"
-                                                  Foreground="{DynamicResource BrushTextSecondary}"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"/>
-                                </Border>
+                                <Grid Margin="10,0,0,0">
+                                    <Border x:Name="BellBorder"
+                                            Width="36" Height="36"
+                                            CornerRadius="9"
+                                            Cursor="Hand"
+                                            BorderBrush="{DynamicResource BrushBorder}"
+                                            BorderThickness="1"
+                                            Background="{DynamicResource BrushBgCard}"
+                                            ToolTip="Pre-registros pendientes"
+                                            MouseLeftButtonDown="Bell_MouseLeftButtonDown">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background"
+                                                                Value="{DynamicResource BrushBgCardHover}"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <fa:IconImage Icon="Bell"
+                                                      Width="14" Height="14"
+                                                      Foreground="{DynamicResource BrushTextSecondary}"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                    </Border>
+
+                                    <!-- Badge numérico -->
+                                    <Border x:Name="BellBadge"
+                                            Width="16" Height="16"
+                                            CornerRadius="8"
+                                            Background="#F26419"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Margin="0,-5,-5,0"
+                                            Visibility="Collapsed">
+                                        <TextBlock x:Name="BellBadgeCount"
+                                                   Text="0"
+                                                   FontSize="8.5"
+                                                   FontWeight="Bold"
+                                                   Foreground="White"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                    </Border>
+
+                                    <!-- Popup de pre-registros -->
+                                    <Popup x:Name="NotifPopup"
+                                           Placement="Bottom"
+                                           PlacementTarget="{Binding ElementName=BellBorder}"
+                                           StaysOpen="False"
+                                           AllowsTransparency="True"
+                                           PopupAnimation="Fade">
+                                        <Border Width="320"
+                                                CornerRadius="12"
+                                                Padding="14,12"
+                                                BorderThickness="1"
+                                                BorderBrush="{DynamicResource BrushBorder}"
+                                                Background="{DynamicResource BrushBgCard}">
+                                            <StackPanel>
+                                                <TextBlock Text="Pre-registros pendientes"
+                                                           FontSize="13"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource BrushTextPrimary}"
+                                                           Margin="0,0,0,10"/>
+                                                <ScrollViewer MaxHeight="340"
+                                                              VerticalScrollBarVisibility="Auto"
+                                                              HorizontalScrollBarVisibility="Disabled">
+                                                    <StackPanel x:Name="NotifList"/>
+                                                </ScrollViewer>
+                                                <TextBlock x:Name="NotifEmpty"
+                                                           Text="No hay pre-registros pendientes"
+                                                           FontSize="11.5"
+                                                           Foreground="{DynamicResource BrushTextMuted}"
+                                                           HorizontalAlignment="Center"
+                                                           Margin="0,8,0,2"
+                                                           Visibility="Visible"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </Popup>
+                                </Grid>
 
                             </StackPanel>
                         </DockPanel>
