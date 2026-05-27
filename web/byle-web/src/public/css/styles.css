@@ -372,12 +372,12 @@ button{font-family:inherit}
 
 /* ── Plans widget ─────────────────────────────── */
 .plans-widget{width:100%}
-.plans-chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
-.plans-chip{display:flex;flex-direction:column;align-items:flex-start;gap:.08rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.55rem .85rem;cursor:pointer;transition:border-color .18s,box-shadow .18s;text-align:left;line-height:1}
+.plans-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.5rem;margin-bottom:1rem}
+.plans-chip{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:.85rem 1rem;cursor:pointer;transition:border-color .18s,box-shadow .18s;text-align:left;line-height:1;width:100%}
 .plans-chip:hover{border-color:var(--accent)}
 .plans-chip.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
-.plans-chip-name{font-size:.72rem;font-weight:600;color:var(--text-primary);white-space:nowrap}
-.plans-chip-price{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--accent);line-height:1.1}
+.plans-chip-name{font-size:.78rem;font-weight:600;color:var(--text-primary);white-space:nowrap}
+.plans-chip-price{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--accent);line-height:1.1}
 .plans-detail{display:none;background:var(--bg-card);border:1px solid var(--accent);border-radius:var(--radius-lg);padding:1.75rem;gap:0}
 .plans-detail.visible{display:grid;grid-template-columns:180px 1fr}
 .plans-detail-left{display:flex;flex-direction:column;gap:.2rem;padding-right:1.5rem;border-right:1px solid var(--border)}
