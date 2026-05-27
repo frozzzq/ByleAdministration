@@ -119,44 +119,46 @@
         <p class="section-desc">Todos incluyen acceso completo al área de pesas y cardio</p>
       </div>
       <% if (membresias && membresias.length > 0) { %>
-      <div class="plans-accordion">
+      <div class="plans-widget">
+
+        <!-- Chips selector -->
+        <div class="plans-chips">
+          <% membresias.forEach(function(plan, i) { %>
+          <button class="plans-chip<%= i === 0 ? ' active' : '' %>" onclick="switchPlan(<%= i %>)" type="button">
+            <span class="plans-chip-name"><%= plan.nombre_membresia %></span>
+            <span class="plans-chip-price">$<%= Number(plan.precio).toLocaleString('es-MX') %></span>
+          </button>
+          <% }); %>
+        </div>
+
+        <!-- Paneles de detalle (uno por plan, solo el activo visible) -->
         <% membresias.forEach(function(plan, i) {
              const mid = Math.floor(membresias.length / 2);
              const isPopular = (membresias.length > 1 && i === mid);
              const meses = plan.duracion_dias >= 60 ? Math.round(plan.duracion_dias / 30) : null;
-             const durLabel = meses ? plan.duracion_dias + ' días · ' + meses + ' meses' : plan.duracion_dias + ' días';
              const periodoLabel = meses ? '/' + meses + ' meses' : '/mes';
+             const durLabel = meses ? plan.duracion_dias + ' días · ' + meses + ' meses' : plan.duracion_dias + ' días';
         %>
-        <div class="plan-row">
-          <div class="plan-row-header" onclick="togglePlan(this.parentElement)">
-            <div class="plan-row-name">
-              <%= plan.nombre_membresia %>
-              <% if (isPopular) { %><span class="plan-popular-tag">Popular</span><% } %>
-            </div>
-            <div class="plan-row-right">
-              <div class="plan-row-price-wrap">
-                <span class="plan-row-price">$<%= Number(plan.precio).toLocaleString('es-MX') %></span>
-                <span class="plan-row-period"><%= periodoLabel %></span>
-              </div>
-              <svg class="plan-row-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;display:block">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </div>
+        <div class="plans-detail<%= i === 0 ? ' visible' : '' %>" id="plan-detail-<%= i %>">
+          <div class="plans-detail-left">
+            <% if (isPopular) { %><span class="plans-detail-popular">Popular</span><% } %>
+            <div class="plans-detail-lname"><%= plan.nombre_membresia %></div>
+            <div class="plans-detail-price">$<%= Number(plan.precio).toLocaleString('es-MX') %></div>
+            <span class="plans-detail-period"><%= periodoLabel %></span>
+            <span class="plans-detail-dur">⏱ <%= durLabel %></span>
           </div>
-          <div class="plan-row-body">
-            <div class="plan-row-body-inner">
-              <div class="plan-row-duration">⏱ <%= durLabel %></div>
-              <ul class="plan-features">
-                <li>Acceso a pesas y cardio</li>
-                <li>Horario completo (5am–10pm)</li>
-                <% if (isPopular) { %><li>Clases grupales incluidas</li><% } %>
-                <% if (plan.duracion_dias >= 60) { %><li>Descuento por pago adelantado</li><% } %>
-              </ul>
-              <a href="/hazte-socio" class="btn <%= isPopular ? 'btn-primary' : 'btn-secondary' %> btn-block">Elegir este plan</a>
-            </div>
+          <div class="plans-detail-right">
+            <ul class="plan-features">
+              <li>Acceso a pesas y cardio</li>
+              <li>Horario completo (5am–10pm)</li>
+              <% if (isPopular) { %><li>Clases grupales incluidas</li><% } %>
+              <% if (plan.duracion_dias >= 60) { %><li>Descuento por pago adelantado</li><% } %>
+            </ul>
+            <a href="/hazte-socio" class="btn <%= isPopular ? 'btn-primary' : 'btn-secondary' %> btn-block">Elegir este plan</a>
           </div>
         </div>
         <% }); %>
+
       </div>
       <% } else { %>
       <p style="text-align:center;color:var(--text-muted);padding:2rem 0">
@@ -229,18 +231,32 @@
     window.toggleGymInfo = function () { isOpen ? close() : open(); };
   })();
 
-  // ── Plans accordion ────────────────────────────────────
+  // ── Plans widget ────────────────────────────────────────
   (function () {
-    var openRow = null;
-    window.togglePlan = function (row) {
-      if (row.classList.contains('open')) {
-        row.classList.remove('open');
-        openRow = null;
-      } else {
-        if (openRow && openRow !== row) openRow.classList.remove('open');
-        row.classList.add('open');
-        openRow = row;
-      }
+    var chips  = Array.from(document.querySelectorAll('.plans-chip'));
+    var panels = Array.from(document.querySelectorAll('.plans-detail'));
+    var current = 0;
+    if (!chips.length) return;
+
+    window.switchPlan = function (idx) {
+      if (idx === current) return;
+      var oldPanel = panels[current];
+      var newPanel = panels[idx];
+      chips[current].classList.remove('active');
+      chips[idx].classList.add('active');
+      gsap.to(oldPanel, {
+        opacity: 0, y: 6, duration: 0.15,
+        onComplete: function () {
+          oldPanel.classList.remove('visible');
+          gsap.set(oldPanel, { opacity: 1, y: 0 });
+          newPanel.classList.add('visible');
+          gsap.fromTo(newPanel,
+            { opacity: 0, y: -6 },
+            { opacity: 1, y: 0, duration: 0.22, ease: 'power2.out' }
+          );
+        }
+      });
+      current = idx;
     };
   })();
 
