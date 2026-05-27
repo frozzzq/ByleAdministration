@@ -155,11 +155,13 @@
     <Compile Include="Repositorios\RepositorioPreRegistro.cs" />
     <Compile Include="Repositorios\RepositorioReportes.cs" />
     <Compile Include="Repositorios\RepositorioRol.cs" />
+    <Compile Include="Repositorios\RepositorioVenta.cs" />
     <Compile Include="Servicios\ServicioAcceso.cs" />
     <Compile Include="Servicios\Serviciobiometria.cs" />
     <Compile Include="Servicios\Serviciocliente.cs" />
     <Compile Include="Servicios\ServicioEmpleado.cs" />
     <Compile Include="Soportes\GestorTema.cs" />
+    <Compile Include="Soportes\SesionActual.cs" />
     <Compile Include="Soportes\SoporteDatabase.cs" />
     <Compile Include="Soportes\VistaModeloBase.cs" />
     <Compile Include="utils\Gestorsensor.cs" />

@@ -51,12 +51,13 @@ namespace ByleAdministration.Repositorios
                         {
                             return new Empleados
                             {
+                                IdEmpleado     = Convert.ToInt32(reader["id_empleado"]),
                                 NombreCompleto = reader["nombre_completo"].ToString(),
-                                Correo = reader["correo"].ToString(),
-                                ContraseñaHash = reader["contraseña"].ToString(),  // ← faltaba esto
-                                Telefono = reader["telefono"].ToString(),
-                                Rfc = reader["RFC"].ToString(),
-                                IdRol = Convert.ToInt32(reader["id_rol"])
+                                Correo         = reader["correo"].ToString(),
+                                ContraseñaHash = reader["contraseña"].ToString(),
+                                Telefono       = reader["telefono"].ToString(),
+                                Rfc            = reader["RFC"].ToString(),
+                                IdRol          = Convert.ToInt32(reader["id_rol"])
                             };
                         }
                         return null;

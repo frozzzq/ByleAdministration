@@ -1,5 +1,6 @@
 ﻿using ByleAdministration.Modelos;
 using ByleAdministration.Repositorios;
+using ByleAdministration.Soportes;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -29,7 +30,13 @@ namespace ByleAdministration.Servicios
 
             if (empleado == null) return false;
 
-            return empleado.ContraseñaHash == contrasena;
+            bool ok = empleado.ContraseñaHash == contrasena;
+            if (ok)
+            {
+                SesionActual.IdEmpleado = empleado.IdEmpleado;
+                SesionActual.Nombre     = empleado.NombreCompleto;
+            }
+            return ok;
         }
     }
 }

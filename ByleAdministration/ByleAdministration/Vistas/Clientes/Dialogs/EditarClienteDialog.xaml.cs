@@ -11,6 +11,7 @@ using System.Windows.Media;
 using ByleAdministration.Modelos;
 using ByleAdministration.Repositorios;
 using ByleAdministration.Servicios;
+using ByleAdministration.Soportes;
 using ByleAdministration.Utilidades;
 
 namespace ByleAdministration.Vistas.Clientes.Dialogs
@@ -347,6 +348,26 @@ namespace ByleAdministration.Vistas.Clientes.Dialogs
                         AgregarEvento("[Pre-registro] Marcado como atendido.");
                     }
                     catch { /* no crítico */ }
+                }
+
+                var planVenta = (Membresia)CmbMembresia.SelectedItem;
+                bool esNuevo          = !_idUsuario.HasValue;
+                bool cambioMembresia  = _idUsuario.HasValue && planVenta.IdMembresia != _idMembresiaOriginal;
+                if (esNuevo || cambioMembresia)
+                {
+                    try
+                    {
+                        new RepositorioVenta().Insertar(
+                            idFinal,
+                            SesionActual.IdEmpleado,
+                            planVenta.Precio,
+                            "membresia");
+                        AgregarEvento($"[Venta] Registrada: ${planVenta.Precio:N0} — {planVenta.NombreMembresia}");
+                    }
+                    catch (Exception exV)
+                    {
+                        AgregarEvento($"[Advertencia] No se pudo registrar la venta: {exV.Message}");
+                    }
                 }
 
                 DialogResult = true;

@@ -8,8 +8,9 @@ namespace ByleAdministration.Modelos
 {
     public class Empleados
     {
+        public int    IdEmpleado     { get; set; }
         public string NombreCompleto { get; set; }
-        public string Correo { get; set; }
+        public string Correo         { get; set; }
         public string Telefono { get; set; }
         public string ContraseñaHash { get; set; }
         public string Rfc { get; set; }
