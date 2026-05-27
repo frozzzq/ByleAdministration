@@ -15,8 +15,8 @@ namespace ByleAdministration.Modelos
         public int DuracionDias { get; set; }
         public string Descripcion { get; set; }
         public string Estado { get; set; } // activa | inactiva | temporada | oferta
+        public int    NumClientes { get; set; } // no persisted, loaded with ObtenerTodasConConteo
 
-     
         public override string ToString() => NombreMembresia;
     }
 }

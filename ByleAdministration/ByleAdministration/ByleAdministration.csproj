@@ -184,6 +184,9 @@
     <Compile Include="Vistas\Clientes\Dialogs\EditarClienteDialog.xaml.cs">
       <DependentUpon>EditarClienteDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Membresias\Dialogs\EditarMembresiaDialog.xaml.cs">
+      <DependentUpon>EditarMembresiaDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Dashboard\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
@@ -248,6 +251,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vistas\Clientes\Dialogs\EditarClienteDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vistas\Membresias\Dialogs\EditarMembresiaDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
