@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head><%- include('../partials/head', { pageTitle: 'Inicio' }) %></head>
-<body>
+<body class="page-landing">
   <%- include('../partials/navbar') %>
 
   <!-- HERO -->
   <section class="hero" id="heroSection">
+    <div id="heroParticles" aria-hidden="true"></div>
     <span class="hero-orb hero-orb-1" aria-hidden="true"></span>
     <span class="hero-orb hero-orb-2" aria-hidden="true"></span>
     <img src="/img/logo.svg" alt="Byle" class="hero-logo">
@@ -299,6 +300,125 @@
     }, { threshold: 0.4 });
     obs.observe(heroStats);
   })();
+  </script>
+
+  <!-- Particles WebGL (ogl) -->
+  <script type="module">
+  import { Renderer, Camera, Geometry, Program, Mesh } from 'https://esm.sh/ogl@1.0.7';
+
+  if (window.innerWidth < 768) { /* skip en móvil */ }
+  else { try {
+    const container = document.getElementById('heroParticles');
+    const hero      = document.getElementById('heroSection');
+
+    const COUNT    = 140;
+    const SPREAD   = 8;
+    const SPEED    = 0.07;
+    const DPR      = Math.min(window.devicePixelRatio || 1, 2);
+    const COLORS   = ['#F26419', '#FF8A47', '#ffffff', '#FFD0B0', '#FF6B35'];
+
+    const hexRgb = h => {
+      h = h.replace(/^#/, '');
+      if (h.length === 3) h = h.split('').map(c => c + c).join('');
+      const n = parseInt(h, 16);
+      return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+    };
+
+    const vert = `
+      attribute vec3 position; attribute vec4 random; attribute vec3 color;
+      uniform mat4 modelMatrix, viewMatrix, projectionMatrix;
+      uniform float uTime, uSpread, uBaseSize, uSizeRandomness;
+      varying vec4 vRandom; varying vec3 vColor;
+      void main() {
+        vRandom = random; vColor = color;
+        vec3 pos = position * uSpread; pos.z *= 10.0;
+        vec4 mPos = modelMatrix * vec4(pos, 1.0);
+        mPos.x += sin(uTime * random.z + 6.28 * random.w) * mix(0.1, 1.5, random.x);
+        mPos.y += sin(uTime * random.y + 6.28 * random.x) * mix(0.1, 1.5, random.w);
+        mPos.z += sin(uTime * random.w + 6.28 * random.y) * mix(0.1, 1.5, random.z);
+        vec4 mvPos = viewMatrix * mPos;
+        gl_PointSize = (uBaseSize * (1.0 + uSizeRandomness * (random.x - 0.5))) / length(mvPos.xyz);
+        gl_Position = projectionMatrix * mvPos;
+      }`;
+
+    const frag = `
+      precision highp float;
+      uniform float uTime; varying vec4 vRandom; varying vec3 vColor;
+      void main() {
+        vec2 uv = gl_PointCoord.xy;
+        float d = length(uv - vec2(0.5));
+        float c = smoothstep(0.5, 0.4, d) * 0.8;
+        gl_FragColor = vec4(vColor + 0.2 * sin(uv.yxx + uTime + vRandom.y * 6.28), c);
+      }`;
+
+    const renderer = new Renderer({ dpr: DPR, depth: false, alpha: true });
+    const gl = renderer.gl;
+    container.appendChild(gl.canvas);
+    gl.clearColor(0, 0, 0, 0);
+
+    const camera = new Camera(gl, { fov: 15 });
+    camera.position.set(0, 0, 20);
+
+    const onResize = () => {
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      camera.perspective({ aspect: gl.canvas.width / gl.canvas.height });
+    };
+    window.addEventListener('resize', onResize);
+    onResize();
+
+    const mouse = { x: 0, y: 0 };
+    hero.addEventListener('mousemove', e => {
+      const r = container.getBoundingClientRect();
+      mouse.x = ((e.clientX - r.left) / r.width)  * 2 - 1;
+      mouse.y = -(((e.clientY - r.top)  / r.height) * 2 - 1);
+    });
+
+    const positions = new Float32Array(COUNT * 3);
+    const randoms   = new Float32Array(COUNT * 4);
+    const colors    = new Float32Array(COUNT * 3);
+
+    for (let i = 0; i < COUNT; i++) {
+      let x, y, z, l;
+      do { x = Math.random()*2-1; y = Math.random()*2-1; z = Math.random()*2-1; l = x*x+y*y+z*z; }
+      while (l > 1 || l === 0);
+      const r = Math.cbrt(Math.random());
+      positions.set([x*r, y*r, z*r], i*3);
+      randoms.set([Math.random(), Math.random(), Math.random(), Math.random()], i*4);
+      colors.set(hexRgb(COLORS[Math.floor(Math.random() * COLORS.length)]), i*3);
+    }
+
+    const geo = new Geometry(gl, {
+      position: { size: 3, data: positions },
+      random:   { size: 4, data: randoms },
+      color:    { size: 3, data: colors }
+    });
+    const prog = new Program(gl, {
+      vertex: vert, fragment: frag,
+      uniforms: {
+        uTime:           { value: 0 },
+        uSpread:         { value: SPREAD },
+        uBaseSize:       { value: 72 * DPR },
+        uSizeRandomness: { value: 1 },
+        uAlphaParticles: { value: 1 }
+      },
+      transparent: true, depthTest: false
+    });
+    const mesh = new Mesh(gl, { mode: gl.POINTS, geometry: geo, program: prog });
+
+    let prev = performance.now(), elapsed = 0;
+    (function loop(now) {
+      requestAnimationFrame(loop);
+      elapsed += (now - prev) * SPEED; prev = now;
+      prog.uniforms.uTime.value = elapsed * 0.001;
+      mesh.position.x = -mouse.x * 0.6;
+      mesh.position.y = -mouse.y * 0.6;
+      mesh.rotation.x = Math.sin(elapsed * 0.0002) * 0.1;
+      mesh.rotation.y = Math.cos(elapsed * 0.0005) * 0.15;
+      mesh.rotation.z += 0.01 * SPEED;
+      renderer.render({ scene: mesh, camera });
+    })(performance.now());
+
+  } catch (e) { console.warn('Particles:', e); } }
   </script>
 </body>
 </html>

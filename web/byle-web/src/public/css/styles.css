@@ -504,6 +504,15 @@ button{font-family:inherit}
 .max-w-sm{max-width:480px}
 
 /* ══════════════════════════════════════
+   HERO PARTICLES
+   ══════════════════════════════════════ */
+#heroParticles{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#heroParticles canvas{display:block!important}
+.hero-logo,.hero-title,.hero-sub,.hero-actions,.hero-stats,.hero-gym-panel{position:relative;z-index:1}
+/* Ocultar fotos laterales solo en inicio */
+.page-landing .side-photo{display:none!important}
+
+/* ══════════════════════════════════════
    SIDE PHOTOS — decoración lateral
    ══════════════════════════════════════ */
 .side-photo{position:fixed;top:0;width:180px;height:100vh;z-index:-1;pointer-events:none;overflow:hidden;display:none}
