@@ -430,7 +430,8 @@ button{font-family:inherit}
 @media(max-width:700px){.why-grid{grid-template-columns:1fr}}
 .why-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.25rem;text-align:center;transition:border-color .2s}
 .why-card:hover{border-color:var(--accent)}
-.why-icon{font-size:2rem;margin-bottom:.5rem}
+.why-icon{display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:var(--accent-muted);border-radius:var(--radius-md);margin:0 auto .75rem}
+.why-icon svg{width:24px;height:24px;stroke:var(--accent)}
 .why-title{font-size:.85rem;font-weight:700;color:var(--text-primary);margin-bottom:.3rem}
 .why-desc{font-size:.75rem;color:var(--text-secondary);line-height:1.55}
 
@@ -502,6 +503,23 @@ button{font-family:inherit}
 .w-full{width:100%}.hidden{display:none!important}
 .mx-auto{margin-left:auto;margin-right:auto}
 .max-w-sm{max-width:480px}
+
+/* ══════════════════════════════════════
+   ICON HELPERS
+   ══════════════════════════════════════ */
+.area-card-banner-label svg{width:15px;height:15px;stroke:currentColor;flex-shrink:0}
+.equip-item svg{width:13px;height:13px;stroke:var(--accent);flex-shrink:0}
+.list-icon svg{width:20px;height:20px;stroke:var(--accent)}
+.info-plan-dur svg{width:12px;height:12px;stroke:currentColor;flex-shrink:0}
+.mobile-menu a{display:flex!important;align-items:center;gap:.6rem}
+.mobile-menu a svg{width:16px;height:16px;stroke:currentColor;flex-shrink:0}
+
+/* ══════════════════════════════════════
+   BACK TO HOME BUTTON
+   ══════════════════════════════════════ */
+.back-home-btn{align-items:center;gap:.4rem;position:fixed;top:4.5rem;left:1rem;z-index:99;background:var(--bg-card);border:1px solid var(--border);border-radius:100px;padding:.38rem .9rem .38rem .65rem;font-size:.75rem;font-weight:600;color:var(--text-secondary);text-decoration:none;box-shadow:var(--shadow-md);transition:var(--transition);white-space:nowrap}
+.back-home-btn:hover{border-color:var(--accent);color:var(--accent)}
+.back-home-btn svg{width:13px;height:13px;stroke:currentColor;flex-shrink:0}
 
 /* ══════════════════════════════════════
    HERO PARTICLES
