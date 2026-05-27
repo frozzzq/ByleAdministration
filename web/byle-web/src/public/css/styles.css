@@ -502,3 +502,16 @@ button{font-family:inherit}
 .w-full{width:100%}.hidden{display:none!important}
 .mx-auto{margin-left:auto;margin-right:auto}
 .max-w-sm{max-width:480px}
+
+/* ══════════════════════════════════════
+   SIDE PHOTOS — decoración lateral
+   ══════════════════════════════════════ */
+.side-photo{position:fixed;top:0;width:180px;height:100vh;z-index:-1;pointer-events:none;overflow:hidden;display:none}
+@media(min-width:1380px){.side-photo{display:block}}
+.side-photo img{width:100%;height:100%;object-fit:cover;opacity:.2;transition:opacity .3s}
+[data-theme="dark"] .side-photo img{opacity:.3}
+.side-photo-fade{position:absolute;inset:0}
+.side-photo-left{left:0}
+.side-photo-left .side-photo-fade{background:linear-gradient(to right,var(--bg-primary) 15%,transparent 80%),linear-gradient(to bottom,var(--bg-primary) 0%,transparent 18%,transparent 82%,var(--bg-primary) 100%)}
+.side-photo-right{right:0}
+.side-photo-right .side-photo-fade{background:linear-gradient(to left,var(--bg-primary) 15%,transparent 80%),linear-gradient(to bottom,var(--bg-primary) 0%,transparent 18%,transparent 82%,var(--bg-primary) 100%)}
