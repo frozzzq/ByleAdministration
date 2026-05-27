@@ -231,21 +231,14 @@
 
   // ── Plans accordion ────────────────────────────────────
   (function () {
-    gsap.set(document.querySelectorAll('.plan-row-body'), { height: 0 });
     var openRow = null;
     window.togglePlan = function (row) {
-      var body = row.querySelector('.plan-row-body');
       if (row.classList.contains('open')) {
         row.classList.remove('open');
-        gsap.to(body, { height: 0, duration: 0.32, ease: 'power3.inOut' });
         openRow = null;
       } else {
-        if (openRow && openRow !== row) {
-          openRow.classList.remove('open');
-          gsap.to(openRow.querySelector('.plan-row-body'), { height: 0, duration: 0.28, ease: 'power3.inOut' });
-        }
+        if (openRow && openRow !== row) openRow.classList.remove('open');
         row.classList.add('open');
-        gsap.to(body, { height: 'auto', duration: 0.36, ease: 'power3.out' });
         openRow = row;
       }
     };

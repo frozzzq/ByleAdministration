@@ -384,8 +384,10 @@ button{font-family:inherit}
 .plan-row-period{font-size:.7rem;color:var(--text-muted);display:block}
 .plan-row-chevron{width:16px!important;height:16px!important;min-width:16px;min-height:16px;stroke:var(--text-muted);flex-shrink:0;display:block;transition:transform .35s cubic-bezier(.4,0,.2,1)}
 .plan-row.open .plan-row-chevron{transform:rotate(180deg)}
-.plan-row-body{height:0;overflow:hidden}
-.plan-row-body-inner{padding:.75rem 1.25rem 1.25rem;border-top:1px solid var(--border)}
+.plan-row-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.4,0,.2,1)}
+.plan-row-body-inner{overflow:hidden;padding:0 1.25rem}
+.plan-row.open .plan-row-body{grid-template-rows:1fr}
+.plan-row.open .plan-row-body-inner{padding:.75rem 1.25rem 1.25rem;border-top:1px solid var(--border)}
 .plan-row-duration{font-size:.78rem;color:var(--text-muted);margin-bottom:.65rem}
 .plan-features{list-style:none;margin-bottom:1rem}
 .plan-features li{font-size:.825rem;color:var(--text-secondary);padding:.32rem 0;border-bottom:1px solid var(--border)}
