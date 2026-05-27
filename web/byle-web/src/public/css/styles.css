@@ -382,7 +382,7 @@ button{font-family:inherit}
 .plan-row-price-wrap{text-align:right}
 .plan-row-price{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;color:var(--accent);line-height:1;display:block}
 .plan-row-period{font-size:.7rem;color:var(--text-muted);display:block}
-.plan-row-chevron{width:17px;height:17px;stroke:var(--text-muted);flex-shrink:0;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.plan-row-chevron{width:16px!important;height:16px!important;min-width:16px;min-height:16px;stroke:var(--text-muted);flex-shrink:0;display:block;transition:transform .35s cubic-bezier(.4,0,.2,1)}
 .plan-row.open .plan-row-chevron{transform:rotate(180deg)}
 .plan-row-body{height:0;overflow:hidden}
 .plan-row-body-inner{padding:.75rem 1.25rem 1.25rem;border-top:1px solid var(--border)}
