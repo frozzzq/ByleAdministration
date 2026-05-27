@@ -5,16 +5,16 @@
   <%- include('../partials/navbar') %>
   <div class="container">
 
-    <!-- Tabs de sección -->
+    <!-- Tabs -->
     <div class="page-section" style="padding-bottom:0">
       <div class="ranking-tabs">
-        <a href="/info?s=general" class="ranking-tab <%= seccion === 'general' ? 'active' : '' %>">General</a>
-        <a href="/info?s=planes" class="ranking-tab <%= seccion === 'planes' ? 'active' : '' %>">Planes</a>
+        <a href="/info?s=general"  class="ranking-tab <%= seccion === 'general'  ? 'active' : '' %>">General</a>
+        <a href="/info?s=planes"   class="ranking-tab <%= seccion === 'planes'   ? 'active' : '' %>">Planes</a>
         <a href="/info?s=horarios" class="ranking-tab <%= seccion === 'horarios' ? 'active' : '' %>">Horarios</a>
-        <a href="/info?s=instalaciones" class="ranking-tab <%= seccion === 'instalaciones' ? 'active' : '' %>">Instalaciones</a>
       </div>
     </div>
 
+    <!-- ══ GENERAL (incluye instalaciones) ══════════════════════════════════ -->
     <% if (seccion === 'general') { %>
     <section class="page-section">
 
@@ -22,7 +22,7 @@
       <div class="section-header">
         <div class="section-label">Sobre nosotros</div>
         <h1 class="text-h1">Byle Gym</h1>
-        <p class="section-desc">Tu centro deportivo en Los Mochis, Sinaloa — más de 1,200 m² para que logres tus metas.</p>
+        <p class="section-desc">Tu centro deportivo en Los Mochis, Sinaloa — más de 1,200 m² para que alcances tus metas.</p>
       </div>
 
       <!-- Stats -->
@@ -33,7 +33,7 @@
         <div class="info-stat"><span class="info-stat-val">5</span><span class="info-stat-unit">am</span><span class="info-stat-label">Abrimos</span></div>
       </div>
 
-      <!-- Por qué elegirnos -->
+      <!-- ¿Por qué elegirnos? -->
       <div class="section-label mt-xl">¿Por qué Byle Gym?</div>
       <div class="why-grid mt-sm">
         <div class="why-card">
@@ -54,7 +54,7 @@
         <div class="why-card">
           <div class="why-icon">📊</div>
           <div class="why-title">Seguimiento de progreso</div>
-          <p class="why-desc">Portal web y app para ver tus asistencias, records personales y estado de membresía en tiempo real.</p>
+          <p class="why-desc">Portal web para ver asistencias, records personales y estado de membresía en tiempo real.</p>
         </div>
         <div class="why-card">
           <div class="why-icon">🏆</div>
@@ -68,173 +68,8 @@
         </div>
       </div>
 
-      <!-- Contacto -->
-      <div class="section-label mt-xl">Contacto y ubicación</div>
-      <div class="card mt-sm">
-        <div class="list-item">
-          <div class="list-icon">📍</div>
-          <div class="list-content"><div class="list-title">Los Mochis, Sinaloa</div><div class="list-subtitle">Col. Centro — visítanos para conocer la dirección exacta</div></div>
-        </div>
-        <div class="list-item">
-          <div class="list-icon">🕐</div>
-          <div class="list-content"><div class="list-title">Lun–Vie: 5am – 10pm &nbsp;·&nbsp; Sáb: 5am – 2pm</div><div class="list-subtitle">Domingo cerrado</div></div>
-        </div>
-        <div class="list-item">
-          <div class="list-icon">📱</div>
-          <div class="list-content"><div class="list-title">Redes sociales</div></div>
-          <div class="list-right" style="display:flex;gap:.5rem;flex-wrap:wrap">
-            <a href="#" class="btn btn-secondary btn-sm">Instagram</a>
-            <a href="#" class="btn btn-secondary btn-sm">Facebook</a>
-            <a href="#" class="btn btn-secondary btn-sm">TikTok</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- CTA -->
-      <div class="info-cta mt-xl">
-        <div class="section-label">¿Listo para empezar?</div>
-        <h2 class="text-h2 mb-sm">Únete a Byle Gym hoy</h2>
-        <p class="text-body mb-lg" style="color:var(--text-secondary)">Pre-regístrate online y ve a pagar a la sucursal. Sin filas, sin esperas.</p>
-        <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
-          <a href="/hazte-socio" class="btn btn-primary btn-lg">Hazte socio</a>
-          <a href="/info?s=instalaciones" class="btn btn-secondary btn-lg">Ver instalaciones</a>
-        </div>
-      </div>
-
-    </section>
-    <% } %>
-
-    <% if (seccion === 'planes') { %>
-    <section class="page-section">
-
-      <div class="section-header">
-        <div class="section-label">Membresías</div>
-        <h1 class="text-h1">Planes y membresías</h1>
-        <p class="section-desc">Todos los planes incluyen acceso completo a las instalaciones. Elige el que mejor se adapte a ti.</p>
-      </div>
-
-      <% if (membresias && membresias.length > 0) { %>
-
-      <!-- Stats rápidos -->
-      <div class="info-stats-row" style="margin-bottom:2rem">
-        <div class="info-stat"><span class="info-stat-val"><%= membresias.length %></span><span class="info-stat-label">planes disponibles</span></div>
-        <div class="info-stat"><span class="info-stat-val">5</span><span class="info-stat-unit">am</span><span class="info-stat-label">abrimos</span></div>
-        <div class="info-stat"><span class="info-stat-val">350</span><span class="info-stat-unit">+</span><span class="info-stat-label">socios activos</span></div>
-        <div class="info-stat"><span class="info-stat-val">10</span><span class="info-stat-unit">+</span><span class="info-stat-label">clases grupales</span></div>
-      </div>
-
-      <!-- Grid de planes -->
-      <div class="info-plan-grid">
-        <% const midIdx = Math.floor(membresias.length / 2); %>
-        <% membresias.forEach(function(plan, i) {
-             const meses = plan.duracion_dias >= 60 ? Math.round(plan.duracion_dias / 30) : null;
-             const periodoLabel = meses ? '/' + meses + ' meses' : '/mes';
-             const durLabel = meses ? plan.duracion_dias + ' días · ' + meses + ' meses' : plan.duracion_dias + ' días';
-             const isFeatured = (membresias.length > 1 && i === midIdx);
-             const isOferta = plan.estado === 'oferta';
-             const isTemporada = plan.estado === 'temporada';
-        %>
-        <div class="info-plan-card<%= isFeatured ? ' featured' : '' %>">
-
-          <!-- Badges -->
-          <div class="info-plan-badges">
-            <% if (isFeatured) { %><span class="info-plan-badge badge-featured">Recomendado</span><% } %>
-            <% if (isOferta) { %><span class="info-plan-badge badge-oferta">Oferta</span><% } %>
-            <% if (isTemporada) { %><span class="info-plan-badge badge-temporada">Temporada</span><% } %>
-          </div>
-
-          <!-- Nombre y precio -->
-          <div class="info-plan-name"><%= plan.nombre_membresia %></div>
-          <div class="info-plan-price-row">
-            <span class="info-plan-price">$<%= Number(plan.precio).toLocaleString('es-MX') %></span>
-            <span class="info-plan-period"><%= periodoLabel %></span>
-          </div>
-          <span class="info-plan-dur">⏱ <%= durLabel %></span>
-
-          <div class="info-plan-divider"></div>
-
-          <!-- Descripción de la BD -->
-          <% if (plan.descripcion) { %>
-          <p class="info-plan-desc"><%= plan.descripcion %></p>
-          <% } else { %>
-          <p class="info-plan-desc-empty">Acceso completo a todas las instalaciones del gimnasio.</p>
-          <% } %>
-
-          <!-- Features base -->
-          <div class="info-plan-features">
-            <div class="info-plan-feat">Acceso a pesas y zona cardio</div>
-            <div class="info-plan-feat">Horario completo (5am–10pm)</div>
-            <div class="info-plan-feat">Portal web y seguimiento de asistencias</div>
-            <% if (isFeatured || plan.duracion_dias >= 60) { %>
-            <div class="info-plan-feat">Clases grupales incluidas</div>
-            <% } %>
-            <% if (plan.duracion_dias >= 60) { %>
-            <div class="info-plan-feat">Descuento por pago adelantado</div>
-            <% } %>
-          </div>
-
-          <a href="/hazte-socio" class="btn <%= isFeatured ? 'btn-primary' : 'btn-secondary' %> btn-block" style="margin-top:auto">
-            Elegir este plan
-          </a>
-
-        </div>
-        <% }); %>
-      </div>
-
-      <!-- Nota al pie -->
-      <p class="text-caption mt-xl text-center" style="color:var(--text-muted)">
-        Los precios pueden variar. Consulta en sucursal para promociones vigentes. · <a href="/hazte-socio">Pre-regístrate aquí</a>
-      </p>
-
-      <% } else { %>
-      <div class="card" style="text-align:center;padding:3rem">
-        <p class="text-body" style="color:var(--text-muted)">No hay planes disponibles en este momento. <a href="/hazte-socio">Contáctanos</a> para más información.</p>
-      </div>
-      <% } %>
-
-    </section>
-    <% } %>
-
-    <% if (seccion === 'horarios') { %>
-    <section class="page-section">
-      <div class="section-header"><h1 class="text-h1">Horarios</h1></div>
-      <div class="card mb-lg">
-        <h3 class="text-h3 mb-md">Horario del gimnasio</h3>
-        <div class="list-item"><div class="list-content"><div class="list-title">Lunes a Viernes</div></div><div class="list-right"><strong>6:00 AM – 10:00 PM</strong></div></div>
-        <div class="list-item"><div class="list-content"><div class="list-title">Sábado</div></div><div class="list-right"><strong>7:00 AM – 2:00 PM</strong></div></div>
-        <div class="list-item"><div class="list-content"><div class="list-title">Domingo</div></div><div class="list-right"><span class="badge badge-error">Cerrado</span></div></div>
-      </div>
-      <h3 class="text-h2 mb-md">Clases grupales</h3>
-      <!-- TODO: SELECT * FROM clases -->
-      <div class="card">
-        <div class="schedule-item"><div class="schedule-time"><div class="hour">7:00</div><div class="period">AM</div></div><div class="schedule-info"><div class="schedule-name">Crossfit</div><div class="schedule-meta">Coach Roberto · 45 min · Lun/Mié/Vie</div></div></div>
-        <div class="schedule-item"><div class="schedule-time"><div class="hour">9:00</div><div class="period">AM</div></div><div class="schedule-info"><div class="schedule-name">Yoga</div><div class="schedule-meta">Coach Laura · 60 min · Mar/Jue</div></div></div>
-        <div class="schedule-item"><div class="schedule-time"><div class="hour">6:00</div><div class="period">PM</div></div><div class="schedule-info"><div class="schedule-name">Spinning</div><div class="schedule-meta">Coach Diana · 50 min · Lun/Mié/Vie</div></div></div>
-        <div class="schedule-item"><div class="schedule-time"><div class="hour">7:30</div><div class="period">PM</div></div><div class="schedule-info"><div class="schedule-name">Box</div><div class="schedule-meta">Coach Martín · 60 min · Mar/Jue/Sáb</div></div></div>
-      </div>
-    </section>
-    <% } %>
-
-    <% if (seccion === 'instalaciones') { %>
-    <section class="page-section">
-
-      <!-- Header -->
-      <div class="section-header">
-        <div class="section-label">Instalaciones</div>
-        <h1 class="text-h1">Conoce Byle Gym</h1>
-        <p class="section-desc">Más de 1,200 m² en Los Mochis, Sinaloa — todo el equipo que necesitas para alcanzar tus metas.</p>
-      </div>
-
-      <!-- Stats rápidos -->
-      <div class="info-stats-row">
-        <div class="info-stat"><span class="info-stat-val">1,200</span><span class="info-stat-unit"> m²</span><span class="info-stat-label">de espacio total</span></div>
-        <div class="info-stat"><span class="info-stat-val">4</span><span class="info-stat-unit">+</span><span class="info-stat-label">zonas dedicadas</span></div>
-        <div class="info-stat"><span class="info-stat-val">50</span><span class="info-stat-unit">+</span><span class="info-stat-label">equipos</span></div>
-        <div class="info-stat"><span class="info-stat-val">5</span><span class="info-stat-unit">am</span><span class="info-stat-label">abrimos</span></div>
-      </div>
-
-      <!-- Zonas -->
-      <div class="section-label mt-xl">Zonas del gimnasio</div>
+      <!-- Zonas del gimnasio -->
+      <div class="section-label mt-xl">Nuestras instalaciones</div>
       <div class="area-grid mt-sm">
         <div class="area-card">
           <div class="area-card-banner" style="background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=700&q=75')">
@@ -242,13 +77,12 @@
           </div>
           <div class="area-card-body">
             <div class="area-card-name">Área de Pesas Libre</div>
-            <p class="area-card-desc">Zona equipada para entrenamiento de fuerza e hipertrofia con mancuernas, barras olímpicas, jaulas de sentadilla y múltiples estaciones. Ideal para todos los niveles.</p>
+            <p class="area-card-desc">Zona de fuerza e hipertrofia con mancuernas, barras olímpicas, jaulas de sentadilla y múltiples estaciones. Ideal para todos los niveles.</p>
             <div class="area-card-tags">
               <span class="area-tag">Mancuernas 2.5–50 kg</span>
               <span class="area-tag">Barras olímpicas</span>
               <span class="area-tag">Jaulas de squat</span>
               <span class="area-tag">Press banca</span>
-              <span class="area-tag">Peso muerto</span>
             </div>
           </div>
         </div>
@@ -258,9 +92,9 @@
           </div>
           <div class="area-card-body">
             <div class="area-card-name">Zona Cardiovascular</div>
-            <p class="area-card-desc">Amplia área de cardio con cintas caminadoras, bicicletas estáticas, elípticas y escaladoras. Pantallas integradas para monitorear tu rendimiento en tiempo real.</p>
+            <p class="area-card-desc">Amplia área de cardio con cintas, bicicletas estáticas, elípticas y escaladoras. Pantallas integradas para monitorear tu rendimiento.</p>
             <div class="area-card-tags">
-              <span class="area-tag">10+ Cintas caminadoras</span>
+              <span class="area-tag">10+ Cintas</span>
               <span class="area-tag">Bicicletas estáticas</span>
               <span class="area-tag">Elípticas</span>
               <span class="area-tag">Escaladoras</span>
@@ -273,13 +107,12 @@
           </div>
           <div class="area-card-body">
             <div class="area-card-name">Salón de Clases Grupales</div>
-            <p class="area-card-desc">Espacio amplio y ventilado para crossfit, yoga, box y spinning. Equipado con todo lo necesario para cada disciplina. Cupos limitados para mayor atención personalizada.</p>
+            <p class="area-card-desc">Espacio amplio para crossfit, yoga, box y spinning. Cupos limitados para mayor atención personalizada con coaches certificados.</p>
             <div class="area-card-tags">
               <span class="area-tag">Crossfit</span>
               <span class="area-tag">Yoga</span>
               <span class="area-tag">Box</span>
               <span class="area-tag">Spinning</span>
-              <span class="area-tag">Pesas rusas</span>
             </div>
           </div>
         </div>
@@ -289,11 +122,11 @@
           </div>
           <div class="area-card-body">
             <div class="area-card-name">Vestidores y Recepción</div>
-            <p class="area-card-desc">Vestidores amplios con casilleros asignados por membresía, regaderas y área de descanso. Recepción atendida por personal capacitado para orientarte en tu primer día.</p>
+            <p class="area-card-desc">Vestidores con casilleros asignados por membresía, regaderas y área de descanso. Personal en recepción para orientarte desde el primer día.</p>
             <div class="area-card-tags">
               <span class="area-tag">Casilleros seguros</span>
               <span class="area-tag">Regaderas</span>
-              <span class="area-tag">Área de descanso</span>
+              <span class="area-tag">Descanso</span>
               <span class="area-tag">CCTV 24/7</span>
             </div>
           </div>
@@ -333,7 +166,7 @@
           <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=600&h=450&q=75" alt="Clases grupales" loading="lazy">
         </div>
         <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&h=450&q=75" alt="Instalaciones generales" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&h=450&q=75" alt="Instalaciones" loading="lazy">
         </div>
         <div class="gallery-item">
           <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=600&h=450&q=75" alt="Área de musculación" loading="lazy">
@@ -341,17 +174,132 @@
       </div>
       <p class="text-caption mt-sm" style="color:var(--text-muted);text-align:center">Fotos ilustrativas · Próximamente fotos reales del gimnasio</p>
 
+      <!-- Contacto -->
+      <div class="section-label mt-xl">Contacto y ubicación</div>
+      <div class="card mt-sm">
+        <div class="list-item">
+          <div class="list-icon">📍</div>
+          <div class="list-content"><div class="list-title">Los Mochis, Sinaloa</div><div class="list-subtitle">Col. Centro — visítanos para conocer la dirección exacta</div></div>
+        </div>
+        <div class="list-item">
+          <div class="list-icon">🕐</div>
+          <div class="list-content"><div class="list-title">Lun–Vie: 5am – 10pm &nbsp;·&nbsp; Sáb: 5am – 2pm</div><div class="list-subtitle">Domingo cerrado</div></div>
+        </div>
+        <div class="list-item">
+          <div class="list-icon">📱</div>
+          <div class="list-content"><div class="list-title">Redes sociales</div></div>
+          <div class="list-right" style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <a href="#" class="btn btn-secondary btn-sm">Instagram</a>
+            <a href="#" class="btn btn-secondary btn-sm">Facebook</a>
+            <a href="#" class="btn btn-secondary btn-sm">TikTok</a>
+          </div>
+        </div>
+      </div>
+
       <!-- CTA -->
       <div class="info-cta mt-xl">
-        <div class="section-label">¿Te convenciste?</div>
-        <h2 class="text-h2 mb-sm">Ven a conocernos en persona</h2>
-        <p class="text-body mb-lg" style="color:var(--text-secondary);max-width:460px;margin:0 auto 1.5rem">Visítanos en Los Mochis y recibe orientación gratuita con nuestros entrenadores.</p>
+        <div class="section-label">¿Listo para empezar?</div>
+        <h2 class="text-h2 mb-sm">Únete a Byle Gym hoy</h2>
+        <p class="text-body mb-lg" style="color:var(--text-secondary)">Pre-regístrate online y ve a pagar a la sucursal. Sin filas, sin esperas.</p>
         <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
           <a href="/hazte-socio" class="btn btn-primary btn-lg">Hazte socio</a>
           <a href="/info?s=horarios" class="btn btn-secondary btn-lg">Ver horarios</a>
         </div>
       </div>
 
+    </section>
+    <% } %>
+
+    <!-- ══ PLANES ══════════════════════════════════════════════════════════ -->
+    <% if (seccion === 'planes') { %>
+    <section class="page-section">
+
+      <div class="section-header">
+        <div class="section-label">Membresías</div>
+        <h1 class="text-h1">Planes y membresías</h1>
+        <p class="section-desc">Todos incluyen acceso completo a las instalaciones. Elige el que mejor se adapte a ti.</p>
+      </div>
+
+      <% if (membresias && membresias.length > 0) { %>
+      <div class="info-stats-row" style="margin-bottom:2rem">
+        <div class="info-stat"><span class="info-stat-val"><%= membresias.length %></span><span class="info-stat-label">planes disponibles</span></div>
+        <div class="info-stat"><span class="info-stat-val">5</span><span class="info-stat-unit">am</span><span class="info-stat-label">abrimos</span></div>
+        <div class="info-stat"><span class="info-stat-val">350</span><span class="info-stat-unit">+</span><span class="info-stat-label">socios activos</span></div>
+        <div class="info-stat"><span class="info-stat-val">10</span><span class="info-stat-unit">+</span><span class="info-stat-label">clases grupales</span></div>
+      </div>
+
+      <div class="info-plan-grid">
+        <% const midIdx = Math.floor(membresias.length / 2); %>
+        <% membresias.forEach(function(plan, i) {
+             const meses = plan.duracion_dias >= 60 ? Math.round(plan.duracion_dias / 30) : null;
+             const periodoLabel = meses ? '/' + meses + ' meses' : '/mes';
+             const durLabel = meses ? plan.duracion_dias + ' días · ' + meses + ' meses' : plan.duracion_dias + ' días';
+             const isFeatured = (membresias.length > 1 && i === midIdx);
+             const isOferta = plan.estado === 'oferta';
+             const isTemporada = plan.estado === 'temporada';
+        %>
+        <div class="info-plan-card<%= isFeatured ? ' featured' : '' %>">
+          <div class="info-plan-badges">
+            <% if (isFeatured) { %><span class="info-plan-badge badge-featured">Recomendado</span><% } %>
+            <% if (isOferta) { %><span class="info-plan-badge badge-oferta">Oferta</span><% } %>
+            <% if (isTemporada) { %><span class="info-plan-badge badge-temporada">Temporada</span><% } %>
+          </div>
+          <div class="info-plan-name"><%= plan.nombre_membresia %></div>
+          <div class="info-plan-price-row">
+            <span class="info-plan-price">$<%= Number(plan.precio).toLocaleString('es-MX') %></span>
+            <span class="info-plan-period"><%= periodoLabel %></span>
+          </div>
+          <span class="info-plan-dur">⏱ <%= durLabel %></span>
+          <div class="info-plan-divider"></div>
+          <% if (plan.descripcion) { %>
+          <p class="info-plan-desc"><%= plan.descripcion %></p>
+          <% } else { %>
+          <p class="info-plan-desc-empty">Acceso completo a todas las instalaciones del gimnasio.</p>
+          <% } %>
+          <div class="info-plan-features">
+            <div class="info-plan-feat">Acceso a pesas y zona cardio</div>
+            <div class="info-plan-feat">Horario completo (5am–10pm)</div>
+            <div class="info-plan-feat">Portal web y seguimiento de asistencias</div>
+            <% if (isFeatured || plan.duracion_dias >= 60) { %>
+            <div class="info-plan-feat">Clases grupales incluidas</div>
+            <% } %>
+            <% if (plan.duracion_dias >= 60) { %>
+            <div class="info-plan-feat">Descuento por pago adelantado</div>
+            <% } %>
+          </div>
+          <a href="/hazte-socio" class="btn <%= isFeatured ? 'btn-primary' : 'btn-secondary' %> btn-block" style="margin-top:auto">Elegir este plan</a>
+        </div>
+        <% }); %>
+      </div>
+      <p class="text-caption mt-xl text-center" style="color:var(--text-muted)">
+        Los precios pueden variar. Consulta en sucursal para promociones vigentes. · <a href="/hazte-socio">Pre-regístrate aquí</a>
+      </p>
+      <% } else { %>
+      <div class="card" style="text-align:center;padding:3rem">
+        <p class="text-body" style="color:var(--text-muted)">No hay planes disponibles en este momento. <a href="/hazte-socio">Contáctanos</a>.</p>
+      </div>
+      <% } %>
+
+    </section>
+    <% } %>
+
+    <!-- ══ HORARIOS ═════════════════════════════════════════════════════════ -->
+    <% if (seccion === 'horarios') { %>
+    <section class="page-section">
+      <div class="section-header"><h1 class="text-h1">Horarios</h1></div>
+      <div class="card mb-lg">
+        <h3 class="text-h3 mb-md">Horario del gimnasio</h3>
+        <div class="list-item"><div class="list-content"><div class="list-title">Lunes a Viernes</div></div><div class="list-right"><strong>5:00 AM – 10:00 PM</strong></div></div>
+        <div class="list-item"><div class="list-content"><div class="list-title">Sábado</div></div><div class="list-right"><strong>5:00 AM – 2:00 PM</strong></div></div>
+        <div class="list-item"><div class="list-content"><div class="list-title">Domingo</div></div><div class="list-right"><span class="badge badge-error">Cerrado</span></div></div>
+      </div>
+      <h3 class="text-h2 mb-md">Clases grupales</h3>
+      <div class="card">
+        <div class="schedule-item"><div class="schedule-time"><div class="hour">7:00</div><div class="period">AM</div></div><div class="schedule-info"><div class="schedule-name">Crossfit</div><div class="schedule-meta">Coach Roberto · 45 min · Lun/Mié/Vie</div></div></div>
+        <div class="schedule-item"><div class="schedule-time"><div class="hour">9:00</div><div class="period">AM</div></div><div class="schedule-info"><div class="schedule-name">Yoga</div><div class="schedule-meta">Coach Laura · 60 min · Mar/Jue</div></div></div>
+        <div class="schedule-item"><div class="schedule-time"><div class="hour">6:00</div><div class="period">PM</div></div><div class="schedule-info"><div class="schedule-name">Spinning</div><div class="schedule-meta">Coach Diana · 50 min · Lun/Mié/Vie</div></div></div>
+        <div class="schedule-item"><div class="schedule-time"><div class="hour">7:30</div><div class="period">PM</div></div><div class="schedule-info"><div class="schedule-name">Box</div><div class="schedule-meta">Coach Martín · 60 min · Mar/Jue/Sáb</div></div></div>
+      </div>
     </section>
     <% } %>
 

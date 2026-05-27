@@ -165,7 +165,8 @@ app.get('/registro', (req, res) => {
 });
 
 app.get('/info', async (req, res) => {
-  const seccion = req.query.s || 'general';
+  let seccion = req.query.s || 'general';
+  if (seccion === 'instalaciones') seccion = 'general'; // merged into general
   let membresias = [];
   if (seccion === 'planes') {
     try {
