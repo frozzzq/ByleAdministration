@@ -371,27 +371,27 @@ button{font-family:inherit}
 @media(min-width:600px){.gallery-grid{grid-template-columns:repeat(3,1fr)}}
 
 /* ── Plans widget ─────────────────────────────── */
-.plans-widget{max-width:580px;margin:0 auto}
-.plans-chips{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.875rem}
-.plans-chip{display:flex;flex-direction:column;align-items:flex-start;gap:.06rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.4rem .65rem;cursor:pointer;transition:border-color .18s,box-shadow .18s;text-align:left;line-height:1}
+.plans-widget{width:100%}
+.plans-chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+.plans-chip{display:flex;flex-direction:column;align-items:flex-start;gap:.08rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.55rem .85rem;cursor:pointer;transition:border-color .18s,box-shadow .18s;text-align:left;line-height:1}
 .plans-chip:hover{border-color:var(--accent)}
 .plans-chip.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
-.plans-chip-name{font-size:.67rem;font-weight:600;color:var(--text-primary);white-space:nowrap}
-.plans-chip-price{font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--accent);line-height:1.1}
-.plans-detail{display:none;background:var(--bg-card);border:1px solid var(--accent);border-radius:var(--radius-lg);padding:1.25rem;gap:1.1rem}
-.plans-detail.visible{display:grid;grid-template-columns:100px 1fr}
-.plans-detail-left{display:flex;flex-direction:column;gap:.15rem;padding-right:.75rem;border-right:1px solid var(--border)}
-.plans-detail-lname{font-size:.65rem;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
-.plans-detail-price{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1;margin:.1rem 0}
-.plans-detail-period{font-size:.62rem;color:var(--text-muted)}
-.plans-detail-dur{display:inline-block;margin-top:.45rem;font-size:.65rem;color:var(--text-secondary);background:var(--bg-secondary);border-radius:100px;padding:.16rem .5rem;border:1px solid var(--border)}
-.plans-detail-popular{display:inline-block;margin-bottom:.25rem;font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:var(--accent);color:#fff;padding:.12rem .48rem;border-radius:100px}
-.plans-detail-right{display:flex;flex-direction:column;justify-content:space-between;gap:.6rem;min-width:0}
-.plan-features{list-style:none;margin:0;padding:0}
-.plan-features li{font-size:.78rem;color:var(--text-secondary);padding:.25rem 0;border-bottom:1px solid var(--border)}
+.plans-chip-name{font-size:.72rem;font-weight:600;color:var(--text-primary);white-space:nowrap}
+.plans-chip-price{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--accent);line-height:1.1}
+.plans-detail{display:none;background:var(--bg-card);border:1px solid var(--accent);border-radius:var(--radius-lg);padding:1.75rem;gap:0}
+.plans-detail.visible{display:grid;grid-template-columns:180px 1fr}
+.plans-detail-left{display:flex;flex-direction:column;gap:.2rem;padding-right:1.5rem;border-right:1px solid var(--border)}
+.plans-detail-lname{font-size:.68rem;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
+.plans-detail-price{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--accent);line-height:1;margin:.15rem 0}
+.plans-detail-period{font-size:.68rem;color:var(--text-muted)}
+.plans-detail-dur{display:inline-block;margin-top:.6rem;font-size:.68rem;color:var(--text-secondary);background:var(--bg-secondary);border-radius:100px;padding:.2rem .65rem;border:1px solid var(--border)}
+.plans-detail-popular{display:inline-block;margin-bottom:.35rem;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:var(--accent);color:#fff;padding:.14rem .52rem;border-radius:100px}
+.plans-detail-right{display:flex;flex-direction:column;justify-content:space-between;gap:.75rem;padding-left:1.5rem}
+.plan-features{list-style:none;margin:0;padding:0;columns:2;column-gap:1.5rem}
+.plan-features li{font-size:.82rem;color:var(--text-secondary);padding:.3rem 0;border-bottom:1px solid var(--border);break-inside:avoid}
 .plan-features li:last-child{border-bottom:none}
 .plan-features li::before{content:'✓ ';color:var(--accent);font-weight:700}
-@media(max-width:460px){.plans-detail.visible{grid-template-columns:1fr}.plans-detail-left{padding-right:0;border-right:none;border-bottom:1px solid var(--border);padding-bottom:.75rem}}
+@media(max-width:700px){.plan-features{columns:1}.plans-detail.visible{grid-template-columns:1fr}.plans-detail-left{padding-right:0;border-right:none;border-bottom:1px solid var(--border);padding-bottom:1rem;margin-bottom:1rem}.plans-detail-right{padding-left:0}}
 
 /* ══════════════════════════════════════
    WHATSAPP FLOAT
