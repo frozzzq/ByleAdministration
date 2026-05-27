@@ -35,7 +35,7 @@
             </Border>
 
             <!-- Formulario -->
-            <StackPanel Padding="24,4,24,24">
+            <StackPanel Margin="24,4,24,24">
 
                 <!-- Nombre -->
                 <TextBlock Text="Nombre del plan" FontSize="12" FontWeight="Medium"
