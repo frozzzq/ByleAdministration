@@ -164,8 +164,23 @@ app.get('/registro', (req, res) => {
   res.render('paginas/registro');
 });
 
-app.get('/info', (req, res) => {
-  res.render('paginas/info', { seccion: req.query.s || 'general' });
+app.get('/info', async (req, res) => {
+  const seccion = req.query.s || 'general';
+  let membresias = [];
+  if (seccion === 'planes') {
+    try {
+      const [rows] = await db.query(
+        `SELECT id_membresia, nombre_membresia, precio, duracion_dias, descripcion, estado
+         FROM membresias
+         WHERE estado IN ('activa','oferta','temporada')
+         ORDER BY precio ASC`
+      );
+      membresias = rows;
+    } catch (err) {
+      console.error('Info/planes error:', err);
+    }
+  }
+  res.render('paginas/info', { seccion, membresias });
 });
 
 app.get('/tienda', (req, res) => {

@@ -106,13 +106,92 @@
 
     <% if (seccion === 'planes') { %>
     <section class="page-section">
-      <div class="section-header"><h1 class="text-h1">Planes y membresías</h1><p class="section-desc">Elige el que mejor se adapte a ti</p></div>
-      <!-- TODO: SELECT * FROM membresias WHERE estado = 'activa' -->
-      <div class="plans-grid">
-        <div class="plan-card"><div class="plan-name">Básico</div><div class="plan-price">$499 <span>/mes</span></div><div class="plan-duration">30 días</div><ul class="plan-features"><li>Área de pesas y cardio</li><li>Horario completo</li><li>Casillero asignado</li></ul><a href="/hazte-socio" class="btn btn-secondary btn-block">Elegir plan</a></div>
-        <div class="plan-card popular"><div class="plan-name">Premium Plus</div><div class="plan-price">$899 <span>/mes</span></div><div class="plan-duration">30 días</div><ul class="plan-features"><li>Todo lo del Básico</li><li>Clases grupales incluidas</li><li>Seguimiento de progreso</li><li>Competencias</li></ul><a href="/hazte-socio" class="btn btn-primary btn-block">Elegir plan</a></div>
-        <div class="plan-card"><div class="plan-name">Trimestral</div><div class="plan-price">$2,299 <span>/3 meses</span></div><div class="plan-duration">90 días</div><ul class="plan-features"><li>Todo lo del Premium Plus</li><li>Ahorra $398</li><li>Medición mensual</li></ul><a href="/hazte-socio" class="btn btn-secondary btn-block">Elegir plan</a></div>
+
+      <div class="section-header">
+        <div class="section-label">Membresías</div>
+        <h1 class="text-h1">Planes y membresías</h1>
+        <p class="section-desc">Todos los planes incluyen acceso completo a las instalaciones. Elige el que mejor se adapte a ti.</p>
       </div>
+
+      <% if (membresias && membresias.length > 0) { %>
+
+      <!-- Stats rápidos -->
+      <div class="info-stats-row" style="margin-bottom:2rem">
+        <div class="info-stat"><span class="info-stat-val"><%= membresias.length %></span><span class="info-stat-label">planes disponibles</span></div>
+        <div class="info-stat"><span class="info-stat-val">5</span><span class="info-stat-unit">am</span><span class="info-stat-label">abrimos</span></div>
+        <div class="info-stat"><span class="info-stat-val">350</span><span class="info-stat-unit">+</span><span class="info-stat-label">socios activos</span></div>
+        <div class="info-stat"><span class="info-stat-val">10</span><span class="info-stat-unit">+</span><span class="info-stat-label">clases grupales</span></div>
+      </div>
+
+      <!-- Grid de planes -->
+      <div class="info-plan-grid">
+        <% const midIdx = Math.floor(membresias.length / 2); %>
+        <% membresias.forEach(function(plan, i) {
+             const meses = plan.duracion_dias >= 60 ? Math.round(plan.duracion_dias / 30) : null;
+             const periodoLabel = meses ? '/' + meses + ' meses' : '/mes';
+             const durLabel = meses ? plan.duracion_dias + ' días · ' + meses + ' meses' : plan.duracion_dias + ' días';
+             const isFeatured = (membresias.length > 1 && i === midIdx);
+             const isOferta = plan.estado === 'oferta';
+             const isTemporada = plan.estado === 'temporada';
+        %>
+        <div class="info-plan-card<%= isFeatured ? ' featured' : '' %>">
+
+          <!-- Badges -->
+          <div class="info-plan-badges">
+            <% if (isFeatured) { %><span class="info-plan-badge badge-featured">Recomendado</span><% } %>
+            <% if (isOferta) { %><span class="info-plan-badge badge-oferta">Oferta</span><% } %>
+            <% if (isTemporada) { %><span class="info-plan-badge badge-temporada">Temporada</span><% } %>
+          </div>
+
+          <!-- Nombre y precio -->
+          <div class="info-plan-name"><%= plan.nombre_membresia %></div>
+          <div class="info-plan-price-row">
+            <span class="info-plan-price">$<%= Number(plan.precio).toLocaleString('es-MX') %></span>
+            <span class="info-plan-period"><%= periodoLabel %></span>
+          </div>
+          <span class="info-plan-dur">⏱ <%= durLabel %></span>
+
+          <div class="info-plan-divider"></div>
+
+          <!-- Descripción de la BD -->
+          <% if (plan.descripcion) { %>
+          <p class="info-plan-desc"><%= plan.descripcion %></p>
+          <% } else { %>
+          <p class="info-plan-desc-empty">Acceso completo a todas las instalaciones del gimnasio.</p>
+          <% } %>
+
+          <!-- Features base -->
+          <div class="info-plan-features">
+            <div class="info-plan-feat">Acceso a pesas y zona cardio</div>
+            <div class="info-plan-feat">Horario completo (5am–10pm)</div>
+            <div class="info-plan-feat">Portal web y seguimiento de asistencias</div>
+            <% if (isFeatured || plan.duracion_dias >= 60) { %>
+            <div class="info-plan-feat">Clases grupales incluidas</div>
+            <% } %>
+            <% if (plan.duracion_dias >= 60) { %>
+            <div class="info-plan-feat">Descuento por pago adelantado</div>
+            <% } %>
+          </div>
+
+          <a href="/hazte-socio" class="btn <%= isFeatured ? 'btn-primary' : 'btn-secondary' %> btn-block" style="margin-top:auto">
+            Elegir este plan
+          </a>
+
+        </div>
+        <% }); %>
+      </div>
+
+      <!-- Nota al pie -->
+      <p class="text-caption mt-xl text-center" style="color:var(--text-muted)">
+        Los precios pueden variar. Consulta en sucursal para promociones vigentes. · <a href="/hazte-socio">Pre-regístrate aquí</a>
+      </p>
+
+      <% } else { %>
+      <div class="card" style="text-align:center;padding:3rem">
+        <p class="text-body" style="color:var(--text-muted)">No hay planes disponibles en este momento. <a href="/hazte-socio">Contáctanos</a> para más información.</p>
+      </div>
+      <% } %>
+
     </section>
     <% } %>
 

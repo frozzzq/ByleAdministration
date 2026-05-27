@@ -401,6 +401,28 @@ button{font-family:inherit}
 
 .info-cta{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem 2rem;text-align:center}
 
+/* ── Info plans cards ──────────────────────────── */
+.info-plan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.1rem}
+.info-plan-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;display:flex;flex-direction:column;gap:0;transition:border-color .2s,box-shadow .2s;position:relative}
+.info-plan-card:hover{border-color:var(--accent);box-shadow:var(--shadow-md)}
+.info-plan-card.featured{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.info-plan-badges{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.6rem;min-height:1.4rem}
+.info-plan-badge{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.15rem .55rem;border-radius:100px}
+.badge-featured{background:var(--accent);color:#fff}
+.badge-oferta{background:#2ecc71;color:#fff}
+.badge-temporada{background:#3498db;color:#fff}
+.info-plan-name{font-size:1.05rem;font-weight:700;color:var(--text-primary);margin-bottom:.5rem;line-height:1.2}
+.info-plan-price-row{display:flex;align-items:baseline;gap:.3rem;margin-bottom:.2rem}
+.info-plan-price{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--accent);line-height:1}
+.info-plan-period{font-size:.78rem;color:var(--text-muted)}
+.info-plan-dur{display:inline-flex;align-items:center;gap:.3rem;font-size:.7rem;color:var(--text-muted);background:var(--bg-secondary);border:1px solid var(--border);border-radius:100px;padding:.18rem .6rem;margin-top:.35rem}
+.info-plan-divider{height:1px;background:var(--border);margin:1rem 0}
+.info-plan-desc{font-size:.8rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.85rem;flex:1}
+.info-plan-desc-empty{font-size:.78rem;color:var(--text-muted);font-style:italic;margin-bottom:.85rem;flex:1}
+.info-plan-features{display:flex;flex-direction:column;gap:.2rem;margin-bottom:1.1rem}
+.info-plan-feat{font-size:.77rem;color:var(--text-secondary);display:flex;align-items:center;gap:.4rem}
+.info-plan-feat::before{content:'✓';color:var(--accent);font-weight:700;flex-shrink:0}
+
 .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
 @media(max-width:700px){.why-grid{grid-template-columns:1fr}}
 .why-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.25rem;text-align:center;transition:border-color .2s}
