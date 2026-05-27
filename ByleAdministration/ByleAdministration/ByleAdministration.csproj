@@ -144,6 +144,7 @@
     <Compile Include="ModelosVistas\NuevoEmpleadoVM.cs" />
     <Compile Include="Modelos\Clientes.cs" />
     <Compile Include="Modelos\Membresia.cs" />
+    <Compile Include="Modelos\PreRegistro.cs" />
     <Compile Include="Modelos\RegistroAcceso.cs" />
     <Compile Include="Modelos\Roles.cs" />
     <Compile Include="Repositorios\RepositorioAcceso.cs" />
@@ -151,6 +152,8 @@
     <Compile Include="Repositorios\RepositorioCliente.cs" />
     <Compile Include="Repositorios\RepositorioEmpleado.cs" />
     <Compile Include="Repositorios\Repositoriomembresia.cs" />
+    <Compile Include="Repositorios\RepositorioPreRegistro.cs" />
+    <Compile Include="Repositorios\RepositorioReportes.cs" />
     <Compile Include="Repositorios\RepositorioRol.cs" />
     <Compile Include="Servicios\ServicioAcceso.cs" />
     <Compile Include="Servicios\Serviciobiometria.cs" />
