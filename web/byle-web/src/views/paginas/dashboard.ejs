@@ -46,7 +46,9 @@
             <% } %>
           </div>
         </div>
-        <a href="/auth/logout" class="btn btn-secondary btn-sm" style="flex-shrink:0">Cerrar sesión</a>
+        <form method="POST" action="/auth/logout" style="margin:0;flex-shrink:0">
+          <button type="submit" class="btn btn-secondary btn-sm">Cerrar sesión</button>
+        </form>
       </div>
 
       <!-- ── Tarjeta membresía ──────────────────────── -->

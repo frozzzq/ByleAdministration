@@ -1,10 +1,21 @@
 const db = require('../../config/database');
 
 const UsuarioRepository = {
+  // Columnas explícitas — evita exponer datos sensibles de u.*
   async getPerfilCompleto(correo) {
     const [[row]] = await db.query(`
       SELECT
-        u.*,
+        u.id_usuario,
+        u.nombre_completo,
+        u.correo,
+        u.edad,
+        u.ciudad,
+        u.telefono,
+        u.estado,
+        u.id_clase,
+        u.id_membresia,
+        u.fecha_inscripcion,
+        u.fecha_renovacion,
         m.nombre_membresia,
         m.precio                                                              AS membresia_precio,
         m.duracion_dias,
@@ -39,7 +50,7 @@ const UsuarioRepository = {
 
   async getClase(idClase) {
     const [[row]] = await db.query(
-      'SELECT * FROM clases WHERE id_clase = ? LIMIT 1',
+      'SELECT id_clase, nombre_clase, duracion_dias, cupos FROM clases WHERE id_clase = ? LIMIT 1',
       [idClase]
     );
     return row || null;
@@ -47,7 +58,7 @@ const UsuarioRepository = {
 
   async getRecords(idUsuario) {
     const [rows] = await db.query(
-      'SELECT * FROM records_personales WHERE id_usuario = ? ORDER BY id_pr',
+      'SELECT id_pr, ejercicio, peso_kg FROM records_personales WHERE id_usuario = ? ORDER BY id_pr',
       [idUsuario]
     );
     return rows;
@@ -55,7 +66,7 @@ const UsuarioRepository = {
 
   async findByCorreo(correo) {
     const [[row]] = await db.query(
-      'SELECT * FROM usuarios WHERE correo = ? LIMIT 1',
+      'SELECT id_usuario, nombre_completo, correo, telefono, estado, id_usuario_web FROM usuarios WHERE correo = ? LIMIT 1',
       [correo]
     );
     return row || null;
@@ -63,7 +74,7 @@ const UsuarioRepository = {
 
   async findWebByCorreo(correo) {
     const [[row]] = await db.query(
-      'SELECT * FROM usuario_web WHERE correo_web = ? LIMIT 1',
+      'SELECT id_usuario_web FROM usuario_web WHERE correo_web = ? LIMIT 1',
       [correo]
     );
     return row || null;

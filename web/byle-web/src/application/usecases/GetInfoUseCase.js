@@ -1,8 +1,13 @@
 const MembresiaRepository = require('../../infrastructure/repositories/MembresiaRepository');
 const ClaseRepository     = require('../../infrastructure/repositories/ClaseRepository');
 
+const SECCIONES_VALIDAS = new Set(['general', 'planes', 'horarios']);
+
 async function execute(seccion) {
-  const normalized = (seccion === 'instalaciones' ? 'general' : seccion) || 'general';
+  // Normalizar y validar contra whitelist — previene valores arbitrarios en la vista
+  const raw        = seccion === 'instalaciones' ? 'general' : (seccion || 'general');
+  const normalized = SECCIONES_VALIDAS.has(raw) ? raw : 'general';
+
   let membresias = [];
   let clases     = [];
 
